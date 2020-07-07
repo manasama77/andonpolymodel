@@ -1,5 +1,4 @@
-<!-- <div class="d-flex toggled" id="wrapper"> -->
-<div class="d-flex" id="wrapper">
+<div class="d-flex toggled" id="wrapper">
 	<div class="bg-dark border-right" id="sidebar-wrapper">
 		<div class="sidebar-heading">Andon APP</div>
 		<div class="list-group list-group-flush">
@@ -264,7 +263,6 @@
 														<div class="input-group-prepend">
 															<span class="input-group-text">Month / Year</span>
 														</div>
-														<!-- <input type="text" class="form-control datepickerexport" maxlength="8"> -->
 														<input type="month" class="form-control" id="my" name="my">
 													</div>
 												</div>

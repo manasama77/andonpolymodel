@@ -88,12 +88,12 @@
 	
 	$(document).ready(function(){
 		dateDynamic = moment();
-		month = dateDynamic.format('MMM');
-		year = dateDynamic.format('YYYY');
+		month       = dateDynamic.format('MMM');
+		year        = dateDynamic.format('YYYY');
 
 		dateDynamicCal = moment();
-		monthcal = dateDynamicCal.format('MMM');
-		yearcal = dateDynamicCal.format('YYYY');
+		monthcal       = dateDynamicCal.format('MMM');
+		yearcal        = dateDynamicCal.format('YYYY');
 
 
 		clockUpdate();
