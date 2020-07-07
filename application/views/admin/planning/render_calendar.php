@@ -3,7 +3,7 @@
 	div#calendar{
 		margin:0px auto;
 		padding:0px;
-		width: 602px;
+		width: 535px;
 		font-family:Helvetica, "Times New Roman", Times, serif;
 	}
 
@@ -22,7 +22,7 @@
 		position:absolute;
 		left:11px;
 		top:0px;
-		width:582px;
+		width:510px;
 		height:40px;   
 		text-align:center;
 	}
@@ -39,7 +39,7 @@
 
 	div#calendar div.header span.title{
 		color:#FFF;
-		font-size:18px;
+		font-size:15px;
 	}
 
 
@@ -76,12 +76,12 @@
 		margin-right:5px;  
 		float:left;
 		list-style-type:none;
-		width:80px;
-		height:40px;
+		width:70px;
+		height:20px;
 		line-height:22px;
 		vertical-align:middle;
 		text-align:center;
-		color:#000;
+		color:#fff;
 		font-size: 15px;
 		background-color: transparent;
 	}
@@ -105,9 +105,9 @@
 		vertical-align:middle;
 		float:left;
 		list-style-type:none;
-		width:80px;
-		height:80px;
-		font-size:25px;
+		width:70px;
+		height:70px;
+		font-size:15px;
 		background-color: #DDD;
 		color:#000;
 		text-align:center; 
@@ -119,9 +119,9 @@
 
 	.fdate{
 		text-align: center;
-		width: 72px;
-		height: 40px;
-		font-size: 16px;
+		width: 70px;
+		height: 39px;
+		font-size: 14px;
 	}
 </style>
 <?php
@@ -153,9 +153,3 @@ echo $calendar;
 <script src="<?=base_url();?>public/js/fullcalendar.min.js"></script>
 <script src="<?=base_url();?>public/js/bootbox.js"></script> -->
 <!-- end debug only -->
-
-<script>
-	$(document).ready(function(){
-		
-	});
-</script>

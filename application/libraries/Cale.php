@@ -123,7 +123,7 @@ class Cale
   	($cellContent==null?'mask':'').'">'.$cellContent.'<br><input type="text" class="input-mini fdate" placeholder="HH:MM" id="'.$this->currentDate.'" name="'.$this->currentDate.'" value="'.$valueDate.'" '.$disabled.'></li>';
   	}else{
   		$render_date = '<li id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).
-  	($cellContent==null?'mask':'').'">'.$cellContent.'<br><input type="text" class="input-mini fdate" id="'.$this->currentDate.'" name="'.$this->currentDate.'" disabled></li>';
+  	($cellContent==null?'mask':'').'">'.$cellContent.'<br><input type="text" class="input-mini fdate" disabled></li>';
   	}
 
   	return $render_date;
@@ -145,7 +145,7 @@ class Cale
   	return
   	'<div class="header">'.
   	'<a class="prev"><i class="fa fa-backward"></i> Prev</a>'.
-  	'<input type="text" class="input-sm text-center" id="datepicker" name="active_date" value="'.date('M Y',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'" style="width:100px; font-weight: bold; height: 40px;" readonly>'.
+  	'<input type="text" class="input-sm text-center" id="datepickercal" name="active_date" value="'.date('M Y',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'" style="width:100px; font-weight: bold; height: 38px;" readonly>'.
   	'<a class="next">Next <i class="fa fa-forward"></i></a>'.
   	'</div>';
   }

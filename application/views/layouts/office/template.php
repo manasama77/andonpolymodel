@@ -23,6 +23,8 @@
 	<script src="<?=base_url();?>vendor/datepickerjs/js/bootstrap-datepicker.js"></script>
 	<script src="<?=base_url();?>vendor/jtimer/jquery.timer.js"></script>
 	<script src="<?=base_url();?>vendor/canvasjs/canvasjs.min.js"></script>
+	<script src="<?=base_url();?>vendor/validate/jquery.validate.min.js"></script>
+	<script src="<?=base_url();?>vendor/validate/additional-methods.min.js"></script>
 	<?php $this->load->view('office/'.$vitamin); ?>
 </body>
 </html>

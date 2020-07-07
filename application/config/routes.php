@@ -18,7 +18,9 @@ $route['planning']               = 'PlanningController/index';
 $route['planning/update']        = 'PlanningController/update';
 $route['planning/init_calendar'] = 'PlanningController/init_calendar';
 
-$route['export'] = 'ExportController/index';
+$route['export']                     = 'ExportController/index';
+$route['export/daily/(:any)/(:any)'] = 'ExportController/export_daily/$1/$2';
+$route['export/monthly/(:any)']      = 'ExportController/export_monthly/$1';
 
 $route['json/m1/(:any)']      = 'OfficeController/json_m1/$1';
 $route['json/m2/(:any)']      = 'OfficeController/json_m2/$1';

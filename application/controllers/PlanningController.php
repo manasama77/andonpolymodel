@@ -22,8 +22,7 @@ class PlanningController extends CI_Controller {
 
 	public function update()
 	{
-		echo '<pre>'.print_r($this->input->post(), 1).'</pre>';
-
+		$exec = TRUE;
 		foreach ($this->input->post() as $key => $val) {
 			if($key != 'active_date'){
 				if(strlen($val) == 5){
@@ -37,7 +36,7 @@ class PlanningController extends CI_Controller {
 							'date' => $key,
 							'time' => $val,
 						];
-						$this->mcore->store($this->table, $data);
+						$exec = $this->mcore->store($this->table, $data);
 					}else{
 						$data = [
 							'time' => $val,
@@ -45,7 +44,7 @@ class PlanningController extends CI_Controller {
 						$where = [
 							'date' => $key,
 						];
-						$this->mcore->update($this->table, $data, $where);
+						$exec = $this->mcore->update($this->table, $data, $where);
 					}
 
 
@@ -53,7 +52,13 @@ class PlanningController extends CI_Controller {
 			}
 		}
 
-		redirect('planning');
+		if($exec){
+			$return = ['code' => 200];
+		}else{
+			$return = ['code' => 500];
+		}
+
+		echo json_encode($return);
 	}
 
 	public function init_calendar()

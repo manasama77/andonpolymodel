@@ -55,6 +55,10 @@
 	let dataPoints22Kikukawa = [];
 	let dataPoints22NCB3     = [];
 	let dataPoints22NCB6     = [];
+
+	let monthcal;
+	let yearcal;
+	let dateDynamicCal;
 	
 
 	let renderSlide = $.timer(function(){
@@ -86,6 +90,11 @@
 		dateDynamic = moment();
 		month = dateDynamic.format('MMM');
 		year = dateDynamic.format('YYYY');
+
+		dateDynamicCal = moment();
+		monthcal = dateDynamicCal.format('MMM');
+		yearcal = dateDynamicCal.format('YYYY');
+
 
 		clockUpdate();
 		setInterval(clockUpdate, 1000);
@@ -143,9 +152,131 @@
 		});
 
 		$("#menu-toggle").click(function(e) {
-	      e.preventDefault();
-	      $("#wrapper").toggleClass("toggled");
-	    });
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+
+		$('#tPlan').on('click', function(){
+			$('#modal-planning').modal('show');
+		});
+
+		initCalendar();
+
+		$('#form_calendar').validate({
+			debug: true,
+			errorClass: 'help-inline text-danger',
+			submitHandler: function( form ) {
+				console.log(form);
+				$.ajax({
+					url         : '<?=site_url();?>planning/update',
+					method      : 'POST',
+					data        : $('#form_calendar').serialize(),
+					dataType    : 'JSON',
+					beforeSend  : function(){
+						$.blockUI({ message: '<i class="fa fa-spinner fa-spin"></i> Silahkan Tunggu...' });
+					},
+					statusCode  : {
+						200: function() {
+							$.unblockUI();
+						},
+						400: function() {
+							$.unblockUI();
+							alert('Error 400');
+						},
+						404: function() {
+							$.unblockUI();
+							alert('Error 404 - Halaman Tidak Ditemukan');
+						},
+						500: function() {
+							$.unblockUI();
+							alert('Error 500 - Gagal Terhubung Dengan Database');
+						},
+						503: function() {
+							$.unblockUI();
+							alert('Error 503 - Terputus Dengan Database');
+						}
+					}
+				})
+				.done(function(result){
+					console.log(result);
+
+					if(result.code == 200)
+					{
+						// Swal.fire({
+						// 	position: 'center',
+						// 	icon: 'success',
+						// 	title: 'Tambah Admin Berhasil',
+						// 	showConfirmButton: false,
+						// 	timer: 1500
+						// }).then(function(){
+						// 	window.location.reload();
+						// });
+						alert('Update Planning Hour Berhasil');
+					}else{
+						// Swal.fire({
+						// 	position: 'center',
+						// 	icon: 'error',
+						// 	title: 'Gagal Terhubung Dengan Database',
+						// 	showConfirmButton: false,
+						// 	timer: 1500
+						// }).then(function(){
+						// 	$.unblockUI();
+						// });
+						alert('Update Planning Hour Gagal');
+					}
+					$.unblockUI();
+				});
+			}
+		});
+
+		$('#tExport').on('click', function(){
+			$('#modal-export').modal('show');
+		});
+
+		$(".datepickerexport").datepicker({
+			autoclose: true,
+			format: "M yyyy",
+			viewMode: "months", 
+			minViewMode: "months"
+		});
+
+		$('#daily_export').validate({
+			debug: true,
+			rules:{
+				export_start:{
+					required:true,
+				},
+				export_end:{
+					required:true,
+				}
+			},
+			errorClass: 'help-block text-danger',
+			errorPlacement: function(error, element) {
+				error.insertAfter($(element).parent());
+			},
+			submitHandler: function( form ) {
+				let from = $('#export_start').val();
+				let to   = $('#export_end').val();
+				window.open(`<?=site_url();?>export/daily/${from}/${to}`, '_blank');
+			}
+		});
+
+		$('#monthly_export').validate({
+			debug: true,
+			rules:{
+				my:{
+					required:true,
+				}
+			},
+			errorClass: 'help-block text-danger',
+			errorPlacement: function(error, element) {
+				error.insertAfter($(element).parent());
+			},
+			submitHandler: function( form ) {
+				let my = $('#my').val();
+				window.open(`<?=site_url();?>export/monthly/${my}`, '_blank');
+			}
+		});
 
 		
 	});
@@ -743,8 +874,8 @@
 			dataPoints2.splice(0, dataPoints2.length);
 			dataStandar2.splice(0, dataStandar2.length);
 
-			dataPoints3.splice(0, dataPoints2.length);
-			dataStandar3.splice(0, dataStandar2.length);
+			dataPoints3.splice(0, dataPoints3.length);
+			dataStandar3.splice(0, dataStandar3.length);
 
 			$.getJSON(`<?=site_url();?>json/m1/${datepicker.val()}`, function(data) {
 				$.each(data, function(key, value){
@@ -941,5 +1072,72 @@
 
 			chart22.render();
 		}
+	}
+
+	function initCalendar()
+	{
+		$.ajax({
+			url: `<?=site_url();?>planning/init_calendar`,
+			type: 'get',
+			data: {
+				month: monthcal,
+				year: yearcal,
+			},
+			beforeSend: function(){
+				$('#submit').attr('disabled', true);
+				$.blockUI();
+			},
+			statusCode: {
+				404: function(){
+					$.unblockUI();
+					alert('Page not Found');
+				},
+				500: function(){
+					$.unblockUI();
+					alert('Cannot connect to database');
+				},
+				503: function(){
+					$.unblockUI();
+					alert('Connection timeout');
+				}
+			}
+		}).done(function(res){
+			$('#vcalendar').html(res);
+			$('#submit').attr('disabled', false);
+			$.unblockUI();
+
+			$('.fdate').inputmask('99:99');
+			$("#datepickercal").datepicker({
+				autoclose: true,
+				format: "M yyyy",
+				viewMode: "months", 
+				minViewMode: "months"
+			});
+			$(".triggerDP").click(function(){ $("#datepickercal").datepicker("show"); });
+
+			$('#datepickercal').on('change', function(){
+				let xdate = $(this).val();
+				let dateExplode = xdate.split(' ');
+				monthcal = dateExplode[0];
+				yearcal = dateExplode[1];
+				dateDynamicCal = moment(`${monthcal} ${yearcal}`, 'MMM YYYY');
+				initCalendar();
+			});
+
+			$('.prev').on('click', function(){
+				dateDynamicCal.subtract(1, 'months');
+				monthcal = dateDynamicCal.format('MMM');
+				yearcal = dateDynamicCal.format('YYYY');
+				$('#datepickercal').val(`${monthcal} ${yearcal}`).trigger('change');
+			});
+
+			$('.next').on('click', function(){
+				dateDynamicCal.add(1, 'months');
+				monthcal = dateDynamicCal.format('MMM');
+				yearcal = dateDynamicCal.format('YYYY');
+				$('#datepickercal').val(`${monthcal} ${yearcal}`).trigger('change');
+			});
+
+		});
 	}
 </script>

@@ -1,9 +1,10 @@
-<div class="d-flex toggled" id="wrapper">
+<!-- <div class="d-flex toggled" id="wrapper"> -->
+<div class="d-flex" id="wrapper">
 	<div class="bg-dark border-right" id="sidebar-wrapper">
 		<div class="sidebar-heading">Andon APP</div>
 		<div class="list-group list-group-flush">
-			<a href="<?=site_url();?>planning" target="_blank" class="list-group-item list-group-item-action bg-dark text-white">Production Hour Planning</a>
-			<a href="<?=site_url();?>export" target="_blank" class="list-group-item list-group-item-action bg-dark text-white">Export Excel</a>
+			<button type="button" id="tPlan" class="list-group-item list-group-item-action bg-dark text-white">Production Hour Planning</button>
+			<button type="button" id="tExport" class="list-group-item list-group-item-action bg-dark text-white">Export Excel</button>
 			<a href="<?=site_url();?>logout" class="list-group-item list-group-item-action bg-dark text-white">Logout</a>
 		</div>
 	</div>
@@ -13,9 +14,6 @@
 			<button type="button" id="menu-toggle" class="btn btn-danger">
 				<i class="fa fa-bars"></i>
 			</button>
-			<!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button> -->
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
@@ -120,17 +118,17 @@
 							<div class="col-auto">
 								<span class="badge badge-dark kikukawa2Label triggerChart1">&nbsp;</span>
 							</div>
-							<div class="col-auto mt-2 triggerChart1">Kikukawa</div>
+							<div class="col-auto mt-2">Kikukawa</div>
 
 							<div class="col-auto">
 								<span class="badge badge-dark ncb32Label triggerChart2">&nbsp;</span>
 							</div>
-							<div class="col-auto mt-2 triggerChart2">NCB3</div>
+							<div class="col-auto mt-2">NCB3</div>
 
 							<div class="col-auto">
 								<span class="badge badge-dark ncb62Label triggerChart3">&nbsp;</span>
 							</div>
-							<div class="col-auto mt-2 triggerChart3">NCB6</div>
+							<div class="col-auto mt-2">NCB6</div>
 
 						</div>
 					</div>
@@ -163,6 +161,126 @@
 					</div>
 				</div>
 			</section>
+		</div>
+	</div>
+</div>
+
+<div id="modal-planning" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content bg-dark">
+			<div class="modal-header">
+				<h6 class="modal-title">Production Hour Planning</h6>
+				<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true"><i class="fa fa-times"></i></span>
+				</button>
+			</div>
+			<div class="modal-body" id="vPlan">
+				<div class="main-wrapper">
+					<div class="section col-xs-12">
+						<form id="form_calendar">
+							<div class="row justify-content-center">
+								<div class="col-xs-12 text-center">
+									<div id="vcalendar"></div>
+								</div>
+							</div>
+							<div class="row justify-content-center">
+								<div class="col-xs-12 text-center mt-2">
+									<button type="submit" id="submit" class="btn btn-success btn-sm" disabled>Confirm</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="modal-export" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content bg-dark">
+			<div class="modal-header">
+				<h6 class="modal-title">Export Excel</h6>
+				<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true"><i class="fa fa-times"></i></span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="main-wrapper">
+					<div class="section col-xs-12">
+						
+						<form id="daily_export">
+							<table class="table bg-light">
+								<thead>
+									<tr>
+										<th>Daily</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<div class="form-row align-items-center">
+												<div class="col-sm-5">
+													<div class="input-group form-row">
+														<div class="input-group-prepend">
+															<span class="input-group-text">From</span>
+														</div>
+														<input type="date" class="form-control col-8" id="export_start" name="export_start">
+													</div>
+													<div class="help-block"></div>
+												</div>
+												<div class="col-sm-5">
+													<div class="input-group form-row">
+														<div class="input-group-append">
+															<span class="input-group-text">To</span>
+														</div>
+														<input type="date" class="form-control col-8" id="export_end" name="export_end">
+													</div>
+													<div class="help-block"></div>
+												</div>
+												<div class="col-sm-2">
+													<button type="submit" class="btn btn-success">Export</button>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+
+						<form id="monthly_export">
+							<table class="table bg-light">
+								<thead>
+									<tr>
+										<th>Monthly</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<div class="form-row align-items-center">
+												<div class="col-sm-5">
+													<div class="input-group form-row">
+														<div class="input-group-prepend">
+															<span class="input-group-text">Month / Year</span>
+														</div>
+														<!-- <input type="text" class="form-control datepickerexport" maxlength="8"> -->
+														<input type="month" class="form-control" id="my" name="my">
+													</div>
+												</div>
+												<div class="col-sm-2">
+													<button type="submit" class="btn btn-primary">Export</button>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
