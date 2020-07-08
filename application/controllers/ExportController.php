@@ -91,17 +91,21 @@ class ExportController extends CI_Controller {
 		$e->getActiveSheet()->mergeCells('B2:B3');
 		$e->getActiveSheet()->setCellValue('B2', 'DATE');
 
-		$e->getActiveSheet()->getStyle('C2:H2')->applyFromArray($style);
-		$e->getActiveSheet()->mergeCells('C2:H2');
-		$e->getActiveSheet()->setCellValue('C2', 'KIKUKAWA');
+		$e->getActiveSheet()->getStyle('C2:C3')->applyFromArray($style);
+		$e->getActiveSheet()->mergeCells('C2:C3');
+		$e->getActiveSheet()->setCellValue('C2', 'PLAN');
 
-		$e->getActiveSheet()->getStyle('I2:N2')->applyFromArray($style);
-		$e->getActiveSheet()->mergeCells('I2:N2');
-		$e->getActiveSheet()->setCellValue('I2', 'NCB3');
+		$e->getActiveSheet()->getStyle('D2:I2')->applyFromArray($style);
+		$e->getActiveSheet()->mergeCells('D2:I2');
+		$e->getActiveSheet()->setCellValue('D2', 'KIKUKAWA');
 
-		$e->getActiveSheet()->getStyle('O2:T2')->applyFromArray($style);
-		$e->getActiveSheet()->mergeCells('O2:T2');
-		$e->getActiveSheet()->setCellValue('O2', 'NCB6');
+		$e->getActiveSheet()->getStyle('J2:O2')->applyFromArray($style);
+		$e->getActiveSheet()->mergeCells('J2:O2');
+		$e->getActiveSheet()->setCellValue('J2', 'NCB3');
+
+		$e->getActiveSheet()->getStyle('P2:U2')->applyFromArray($style);
+		$e->getActiveSheet()->mergeCells('P2:U2');
+		$e->getActiveSheet()->setCellValue('P2', 'NCB6');
 
 		$style = [
 			'alignment' => [
@@ -120,44 +124,44 @@ class ExportController extends CI_Controller {
 			]
 		];
 
-		$e->getActiveSheet()->getStyle('C3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('C3', 'Cutting');
 		$e->getActiveSheet()->getStyle('D3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('D3', 'Dandori');
+		$e->getActiveSheet()->setCellValue('D3', 'Cutting');
 		$e->getActiveSheet()->getStyle('E3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('E3', 'Man Activity');
+		$e->getActiveSheet()->setCellValue('E3', 'Dandori');
 		$e->getActiveSheet()->getStyle('F3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('F3', 'Idle');
+		$e->getActiveSheet()->setCellValue('F3', 'Man Activity');
 		$e->getActiveSheet()->getStyle('G3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('G3', 'Alarm');
+		$e->getActiveSheet()->setCellValue('G3', 'Idle');
 		$e->getActiveSheet()->getStyle('H3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('H3', 'Efficiency');
-
+		$e->getActiveSheet()->setCellValue('H3', 'Alarm');
 		$e->getActiveSheet()->getStyle('I3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('I3', 'Cutting');
-		$e->getActiveSheet()->getStyle('J3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('J3', 'Dandori');
-		$e->getActiveSheet()->getStyle('K3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('K3', 'Man Activity');
-		$e->getActiveSheet()->getStyle('L3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('L3', 'Idle');
-		$e->getActiveSheet()->getStyle('M3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('M3', 'Alarm');
-		$e->getActiveSheet()->getStyle('N3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('N3', 'Efficiency');
+		$e->getActiveSheet()->setCellValue('I3', 'Efficiency');
 
+		$e->getActiveSheet()->getStyle('J3')->applyFromArray($style);
+		$e->getActiveSheet()->setCellValue('J3', 'Cutting');
+		$e->getActiveSheet()->getStyle('K3')->applyFromArray($style);
+		$e->getActiveSheet()->setCellValue('K3', 'Dandori');
+		$e->getActiveSheet()->getStyle('L3')->applyFromArray($style);
+		$e->getActiveSheet()->setCellValue('L3', 'Man Activity');
+		$e->getActiveSheet()->getStyle('M3')->applyFromArray($style);
+		$e->getActiveSheet()->setCellValue('M3', 'Idle');
+		$e->getActiveSheet()->getStyle('N3')->applyFromArray($style);
+		$e->getActiveSheet()->setCellValue('N3', 'Alarm');
 		$e->getActiveSheet()->getStyle('O3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('O3', 'Cutting');
+		$e->getActiveSheet()->setCellValue('O3', 'Efficiency');
+
 		$e->getActiveSheet()->getStyle('P3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('P3', 'Dandori');
+		$e->getActiveSheet()->setCellValue('P3', 'Cutting');
 		$e->getActiveSheet()->getStyle('Q3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('Q3', 'Man Activity');
+		$e->getActiveSheet()->setCellValue('Q3', 'Dandori');
 		$e->getActiveSheet()->getStyle('R3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('R3', 'Idle');
+		$e->getActiveSheet()->setCellValue('R3', 'Man Activity');
 		$e->getActiveSheet()->getStyle('S3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('S3', 'Alarm');
+		$e->getActiveSheet()->setCellValue('S3', 'Idle');
 		$e->getActiveSheet()->getStyle('T3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('T3', 'Efficiency');
+		$e->getActiveSheet()->setCellValue('T3', 'Alarm');
+		$e->getActiveSheet()->getStyle('U3')->applyFromArray($style);
+		$e->getActiveSheet()->setCellValue('U3', 'Efficiency');
 
 		$style = [
 			'alignment' => [
@@ -182,11 +186,24 @@ class ExportController extends CI_Controller {
 		$period   = new DatePeriod($fromObj, $interval, $toObj);
 		foreach ($period as $dt) {
 			$where = ['date' => $dt->format('Y-m-d')];
-			$arr_m1 = $this->mcore->get('kikukawa', '*', $where, 'date', 'ASC');
 
 			$e->getActiveSheet()->getStyle("B".$row)->applyFromArray($style);
 			$e->getActiveSheet()->setCellValue('B'.$row, $dt->format('Y-m-d'));
 
+			$arr_plan = $this->mcore->get('planning', '*', $where, 'date', 'ASC');
+			if($arr_plan->num_rows() == 1){
+				foreach ($arr_plan->result() as $key) {
+					$time = $key->time;
+
+					$e->getActiveSheet()->getStyle("C".$row)->applyFromArray($style);
+					$e->getActiveSheet()->setCellValue('C'.$row, $time);
+				}
+			}else{
+				$e->getActiveSheet()->getStyle("C".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('C'.$row, '');
+			}
+
+			$arr_m1 = $this->mcore->get('kikukawa', '*', $where, 'date', 'ASC');
 			if($arr_m1->num_rows() == 1){
 				foreach ($arr_m1->result() as $key) {
 					$date    = $key->date;
@@ -197,42 +214,42 @@ class ExportController extends CI_Controller {
 					$alarm   = $this->toHHMM($key->alarm);
 					$eff     = number_format($key->eff, 2);
 
-					$e->getActiveSheet()->getStyle("C".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('C'.$row, $cutting);
-
 					$e->getActiveSheet()->getStyle("D".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('D'.$row, $dandori);
+					$e->getActiveSheet()->setCellValue('D'.$row, $cutting);
 
 					$e->getActiveSheet()->getStyle("E".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('E'.$row, $man);
+					$e->getActiveSheet()->setCellValue('E'.$row, $dandori);
 
 					$e->getActiveSheet()->getStyle("F".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('F'.$row, $idle);
+					$e->getActiveSheet()->setCellValue('F'.$row, $man);
 
 					$e->getActiveSheet()->getStyle("G".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('G'.$row, $alarm);
+					$e->getActiveSheet()->setCellValue('G'.$row, $idle);
 
 					$e->getActiveSheet()->getStyle("H".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('H'.$row, $eff);
+					$e->getActiveSheet()->setCellValue('H'.$row, $alarm);
+
+					$e->getActiveSheet()->getStyle("I".$row)->applyFromArray($style);
+					$e->getActiveSheet()->setCellValue('I'.$row, $eff);
 				}
 			}else{
-				$e->getActiveSheet()->getStyle("C".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('C'.$row, '');
+				$e->getActiveSheet()->getStyle("D".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('D'.$row, '');
 
-					$e->getActiveSheet()->getStyle("D".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('D'.$row, '');
+				$e->getActiveSheet()->getStyle("E".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('E'.$row, '');
 
-					$e->getActiveSheet()->getStyle("E".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('E'.$row, '');
+				$e->getActiveSheet()->getStyle("F".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('F'.$row, '');
 
-					$e->getActiveSheet()->getStyle("F".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('F'.$row, '');
+				$e->getActiveSheet()->getStyle("G".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('G'.$row, '');
 
-					$e->getActiveSheet()->getStyle("G".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('G'.$row, '');
+				$e->getActiveSheet()->getStyle("H".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('H'.$row, '');
 
-					$e->getActiveSheet()->getStyle("H".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('H'.$row, '');
+				$e->getActiveSheet()->getStyle("I".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('I'.$row, '');
 			}
 
 			$arr_m2 = $this->mcore->get('ncb3', '*', $where, 'date', 'ASC');
@@ -246,28 +263,25 @@ class ExportController extends CI_Controller {
 					$alarm   = $this->toHHMM($key->alarm);
 					$eff     = number_format($key->eff, 2);
 
-					$e->getActiveSheet()->getStyle("I".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('I'.$row, $cutting);
-
 					$e->getActiveSheet()->getStyle("J".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('J'.$row, $dandori);
+					$e->getActiveSheet()->setCellValue('J'.$row, $cutting);
 
 					$e->getActiveSheet()->getStyle("K".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('K'.$row, $man);
+					$e->getActiveSheet()->setCellValue('K'.$row, $dandori);
 
 					$e->getActiveSheet()->getStyle("L".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('L'.$row, $idle);
+					$e->getActiveSheet()->setCellValue('L'.$row, $man);
 
 					$e->getActiveSheet()->getStyle("M".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('M'.$row, $alarm);
+					$e->getActiveSheet()->setCellValue('M'.$row, $idle);
 
 					$e->getActiveSheet()->getStyle("N".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('N'.$row, $eff);
+					$e->getActiveSheet()->setCellValue('N'.$row, $alarm);
+
+					$e->getActiveSheet()->getStyle("O".$row)->applyFromArray($style);
+					$e->getActiveSheet()->setCellValue('O'.$row, $eff);
 				}
 			}else{
-				$e->getActiveSheet()->getStyle("I".$row)->applyFromArray($style);
-				$e->getActiveSheet()->setCellValue('I'.$row, '');
-
 				$e->getActiveSheet()->getStyle("J".$row)->applyFromArray($style);
 				$e->getActiveSheet()->setCellValue('J'.$row, '');
 
@@ -282,6 +296,9 @@ class ExportController extends CI_Controller {
 
 				$e->getActiveSheet()->getStyle("N".$row)->applyFromArray($style);
 				$e->getActiveSheet()->setCellValue('N'.$row, '');
+
+				$e->getActiveSheet()->getStyle("O".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('O'.$row, '');
 			}
 
 			$arr_m3 = $this->mcore->get('ncb6', '*', $where, 'date', 'ASC');
@@ -295,28 +312,25 @@ class ExportController extends CI_Controller {
 					$alarm   = $this->toHHMM($key->alarm);
 					$eff     = number_format($key->eff, 2);
 
-					$e->getActiveSheet()->getStyle("O".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('O'.$row, $cutting);
-
 					$e->getActiveSheet()->getStyle("P".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('P'.$row, $dandori);
+					$e->getActiveSheet()->setCellValue('P'.$row, $cutting);
 
 					$e->getActiveSheet()->getStyle("Q".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('Q'.$row, $man);
+					$e->getActiveSheet()->setCellValue('Q'.$row, $dandori);
 
 					$e->getActiveSheet()->getStyle("R".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('R'.$row, $idle);
+					$e->getActiveSheet()->setCellValue('R'.$row, $man);
 
 					$e->getActiveSheet()->getStyle("S".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('S'.$row, $alarm);
+					$e->getActiveSheet()->setCellValue('S'.$row, $idle);
 
 					$e->getActiveSheet()->getStyle("T".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('T'.$row, $eff);
+					$e->getActiveSheet()->setCellValue('T'.$row, $alarm);
+
+					$e->getActiveSheet()->getStyle("U".$row)->applyFromArray($style);
+					$e->getActiveSheet()->setCellValue('U'.$row, $eff);
 				}	
 			}else{
-				$e->getActiveSheet()->getStyle("O".$row)->applyFromArray($style);
-				$e->getActiveSheet()->setCellValue('O'.$row, '');
-
 				$e->getActiveSheet()->getStyle("P".$row)->applyFromArray($style);
 				$e->getActiveSheet()->setCellValue('P'.$row, '');
 
@@ -331,6 +345,9 @@ class ExportController extends CI_Controller {
 
 				$e->getActiveSheet()->getStyle("T".$row)->applyFromArray($style);
 				$e->getActiveSheet()->setCellValue('T'.$row, '');
+
+				$e->getActiveSheet()->getStyle("U".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('U'.$row, '');
 			}
 
 			$row++;
@@ -357,11 +374,6 @@ class ExportController extends CI_Controller {
 		$m1 = [];
 		$m2 = [];
 		$m3 = [];
-
-		$e             = new PHPExcel();
-		$cacheMethod   = PHPExcel_CachedObjectStorageFactory::cache_to_discISAM;
-		$cacheSettings = array('dir' => base_url());
-		PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings);
 
 		$e             = new PHPExcel();
 		$cacheMethod   = PHPExcel_CachedObjectStorageFactory::cache_to_discISAM;
@@ -425,17 +437,21 @@ class ExportController extends CI_Controller {
 		$e->getActiveSheet()->mergeCells('B2:B3');
 		$e->getActiveSheet()->setCellValue('B2', 'DATE');
 
-		$e->getActiveSheet()->getStyle('C2:H2')->applyFromArray($style);
-		$e->getActiveSheet()->mergeCells('C2:H2');
-		$e->getActiveSheet()->setCellValue('C2', 'KIKUKAWA');
+		$e->getActiveSheet()->getStyle('C2:C3')->applyFromArray($style);
+		$e->getActiveSheet()->mergeCells('C2:C3');
+		$e->getActiveSheet()->setCellValue('C2', 'PLAN');
 
-		$e->getActiveSheet()->getStyle('I2:N2')->applyFromArray($style);
-		$e->getActiveSheet()->mergeCells('I2:N2');
-		$e->getActiveSheet()->setCellValue('I2', 'NCB3');
+		$e->getActiveSheet()->getStyle('D2:I2')->applyFromArray($style);
+		$e->getActiveSheet()->mergeCells('D2:I2');
+		$e->getActiveSheet()->setCellValue('D2', 'KIKUKAWA');
 
-		$e->getActiveSheet()->getStyle('O2:T2')->applyFromArray($style);
-		$e->getActiveSheet()->mergeCells('O2:T2');
-		$e->getActiveSheet()->setCellValue('O2', 'NCB6');
+		$e->getActiveSheet()->getStyle('J2:O2')->applyFromArray($style);
+		$e->getActiveSheet()->mergeCells('J2:O2');
+		$e->getActiveSheet()->setCellValue('J2', 'NCB3');
+
+		$e->getActiveSheet()->getStyle('P2:U2')->applyFromArray($style);
+		$e->getActiveSheet()->mergeCells('P2:U2');
+		$e->getActiveSheet()->setCellValue('P2', 'NCB6');
 
 		$style = [
 			'alignment' => [
@@ -454,44 +470,44 @@ class ExportController extends CI_Controller {
 			]
 		];
 
-		$e->getActiveSheet()->getStyle('C3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('C3', 'Cutting');
 		$e->getActiveSheet()->getStyle('D3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('D3', 'Dandori');
+		$e->getActiveSheet()->setCellValue('D3', 'Cutting');
 		$e->getActiveSheet()->getStyle('E3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('E3', 'Man Activity');
+		$e->getActiveSheet()->setCellValue('E3', 'Dandori');
 		$e->getActiveSheet()->getStyle('F3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('F3', 'Idle');
+		$e->getActiveSheet()->setCellValue('F3', 'Man Activity');
 		$e->getActiveSheet()->getStyle('G3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('G3', 'Alarm');
+		$e->getActiveSheet()->setCellValue('G3', 'Idle');
 		$e->getActiveSheet()->getStyle('H3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('H3', 'Efficiency');
-
+		$e->getActiveSheet()->setCellValue('H3', 'Alarm');
 		$e->getActiveSheet()->getStyle('I3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('I3', 'Cutting');
-		$e->getActiveSheet()->getStyle('J3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('J3', 'Dandori');
-		$e->getActiveSheet()->getStyle('K3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('K3', 'Man Activity');
-		$e->getActiveSheet()->getStyle('L3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('L3', 'Idle');
-		$e->getActiveSheet()->getStyle('M3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('M3', 'Alarm');
-		$e->getActiveSheet()->getStyle('N3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('N3', 'Efficiency');
+		$e->getActiveSheet()->setCellValue('I3', 'Efficiency');
 
+		$e->getActiveSheet()->getStyle('J3')->applyFromArray($style);
+		$e->getActiveSheet()->setCellValue('J3', 'Cutting');
+		$e->getActiveSheet()->getStyle('K3')->applyFromArray($style);
+		$e->getActiveSheet()->setCellValue('K3', 'Dandori');
+		$e->getActiveSheet()->getStyle('L3')->applyFromArray($style);
+		$e->getActiveSheet()->setCellValue('L3', 'Man Activity');
+		$e->getActiveSheet()->getStyle('M3')->applyFromArray($style);
+		$e->getActiveSheet()->setCellValue('M3', 'Idle');
+		$e->getActiveSheet()->getStyle('N3')->applyFromArray($style);
+		$e->getActiveSheet()->setCellValue('N3', 'Alarm');
 		$e->getActiveSheet()->getStyle('O3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('O3', 'Cutting');
+		$e->getActiveSheet()->setCellValue('O3', 'Efficiency');
+
 		$e->getActiveSheet()->getStyle('P3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('P3', 'Dandori');
+		$e->getActiveSheet()->setCellValue('P3', 'Cutting');
 		$e->getActiveSheet()->getStyle('Q3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('Q3', 'Man Activity');
+		$e->getActiveSheet()->setCellValue('Q3', 'Dandori');
 		$e->getActiveSheet()->getStyle('R3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('R3', 'Idle');
+		$e->getActiveSheet()->setCellValue('R3', 'Man Activity');
 		$e->getActiveSheet()->getStyle('S3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('S3', 'Alarm');
+		$e->getActiveSheet()->setCellValue('S3', 'Idle');
 		$e->getActiveSheet()->getStyle('T3')->applyFromArray($style);
-		$e->getActiveSheet()->setCellValue('T3', 'Efficiency');
+		$e->getActiveSheet()->setCellValue('T3', 'Alarm');
+		$e->getActiveSheet()->getStyle('U3')->applyFromArray($style);
+		$e->getActiveSheet()->setCellValue('U3', 'Efficiency');
 
 		$style = [
 			'alignment' => [
@@ -516,11 +532,24 @@ class ExportController extends CI_Controller {
 		$period   = new DatePeriod($fromObj, $interval, $toObj);
 		foreach ($period as $dt) {
 			$where = ['date' => $dt->format('Y-m-d')];
-			$arr_m1 = $this->mcore->get('kikukawa', '*', $where, 'date', 'ASC');
 
 			$e->getActiveSheet()->getStyle("B".$row)->applyFromArray($style);
 			$e->getActiveSheet()->setCellValue('B'.$row, $dt->format('Y-m-d'));
 
+			$arr_plan = $this->mcore->get('planning', '*', $where, 'date', 'ASC');
+			if($arr_plan->num_rows() == 1){
+				foreach ($arr_plan->result() as $key) {
+					$time = $key->time;
+
+					$e->getActiveSheet()->getStyle("C".$row)->applyFromArray($style);
+					$e->getActiveSheet()->setCellValue('C'.$row, $time);
+				}
+			}else{
+				$e->getActiveSheet()->getStyle("C".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('C'.$row, '');
+			}
+
+			$arr_m1 = $this->mcore->get('kikukawa', '*', $where, 'date', 'ASC');
 			if($arr_m1->num_rows() == 1){
 				foreach ($arr_m1->result() as $key) {
 					$date    = $key->date;
@@ -531,42 +560,42 @@ class ExportController extends CI_Controller {
 					$alarm   = $this->toHHMM($key->alarm);
 					$eff     = number_format($key->eff, 2);
 
-					$e->getActiveSheet()->getStyle("C".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('C'.$row, $cutting);
-
 					$e->getActiveSheet()->getStyle("D".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('D'.$row, $dandori);
+					$e->getActiveSheet()->setCellValue('D'.$row, $cutting);
 
 					$e->getActiveSheet()->getStyle("E".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('E'.$row, $man);
+					$e->getActiveSheet()->setCellValue('E'.$row, $dandori);
 
 					$e->getActiveSheet()->getStyle("F".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('F'.$row, $idle);
+					$e->getActiveSheet()->setCellValue('F'.$row, $man);
 
 					$e->getActiveSheet()->getStyle("G".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('G'.$row, $alarm);
+					$e->getActiveSheet()->setCellValue('G'.$row, $idle);
 
 					$e->getActiveSheet()->getStyle("H".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('H'.$row, $eff);
+					$e->getActiveSheet()->setCellValue('H'.$row, $alarm);
+
+					$e->getActiveSheet()->getStyle("I".$row)->applyFromArray($style);
+					$e->getActiveSheet()->setCellValue('I'.$row, $eff);
 				}
 			}else{
-				$e->getActiveSheet()->getStyle("C".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('C'.$row, '');
+				$e->getActiveSheet()->getStyle("D".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('D'.$row, '');
 
-					$e->getActiveSheet()->getStyle("D".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('D'.$row, '');
+				$e->getActiveSheet()->getStyle("E".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('E'.$row, '');
 
-					$e->getActiveSheet()->getStyle("E".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('E'.$row, '');
+				$e->getActiveSheet()->getStyle("F".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('F'.$row, '');
 
-					$e->getActiveSheet()->getStyle("F".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('F'.$row, '');
+				$e->getActiveSheet()->getStyle("G".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('G'.$row, '');
 
-					$e->getActiveSheet()->getStyle("G".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('G'.$row, '');
+				$e->getActiveSheet()->getStyle("H".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('H'.$row, '');
 
-					$e->getActiveSheet()->getStyle("H".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('H'.$row, '');
+				$e->getActiveSheet()->getStyle("I".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('I'.$row, '');
 			}
 
 			$arr_m2 = $this->mcore->get('ncb3', '*', $where, 'date', 'ASC');
@@ -580,28 +609,25 @@ class ExportController extends CI_Controller {
 					$alarm   = $this->toHHMM($key->alarm);
 					$eff     = number_format($key->eff, 2);
 
-					$e->getActiveSheet()->getStyle("I".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('I'.$row, $cutting);
-
 					$e->getActiveSheet()->getStyle("J".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('J'.$row, $dandori);
+					$e->getActiveSheet()->setCellValue('J'.$row, $cutting);
 
 					$e->getActiveSheet()->getStyle("K".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('K'.$row, $man);
+					$e->getActiveSheet()->setCellValue('K'.$row, $dandori);
 
 					$e->getActiveSheet()->getStyle("L".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('L'.$row, $idle);
+					$e->getActiveSheet()->setCellValue('L'.$row, $man);
 
 					$e->getActiveSheet()->getStyle("M".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('M'.$row, $alarm);
+					$e->getActiveSheet()->setCellValue('M'.$row, $idle);
 
 					$e->getActiveSheet()->getStyle("N".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('N'.$row, $eff);
+					$e->getActiveSheet()->setCellValue('N'.$row, $alarm);
+
+					$e->getActiveSheet()->getStyle("O".$row)->applyFromArray($style);
+					$e->getActiveSheet()->setCellValue('O'.$row, $eff);
 				}
 			}else{
-				$e->getActiveSheet()->getStyle("I".$row)->applyFromArray($style);
-				$e->getActiveSheet()->setCellValue('I'.$row, '');
-
 				$e->getActiveSheet()->getStyle("J".$row)->applyFromArray($style);
 				$e->getActiveSheet()->setCellValue('J'.$row, '');
 
@@ -616,6 +642,9 @@ class ExportController extends CI_Controller {
 
 				$e->getActiveSheet()->getStyle("N".$row)->applyFromArray($style);
 				$e->getActiveSheet()->setCellValue('N'.$row, '');
+
+				$e->getActiveSheet()->getStyle("O".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('O'.$row, '');
 			}
 
 			$arr_m3 = $this->mcore->get('ncb6', '*', $where, 'date', 'ASC');
@@ -629,28 +658,25 @@ class ExportController extends CI_Controller {
 					$alarm   = $this->toHHMM($key->alarm);
 					$eff     = number_format($key->eff, 2);
 
-					$e->getActiveSheet()->getStyle("O".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('O'.$row, $cutting);
-
 					$e->getActiveSheet()->getStyle("P".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('P'.$row, $dandori);
+					$e->getActiveSheet()->setCellValue('P'.$row, $cutting);
 
 					$e->getActiveSheet()->getStyle("Q".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('Q'.$row, $man);
+					$e->getActiveSheet()->setCellValue('Q'.$row, $dandori);
 
 					$e->getActiveSheet()->getStyle("R".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('R'.$row, $idle);
+					$e->getActiveSheet()->setCellValue('R'.$row, $man);
 
 					$e->getActiveSheet()->getStyle("S".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('S'.$row, $alarm);
+					$e->getActiveSheet()->setCellValue('S'.$row, $idle);
 
 					$e->getActiveSheet()->getStyle("T".$row)->applyFromArray($style);
-					$e->getActiveSheet()->setCellValue('T'.$row, $eff);
+					$e->getActiveSheet()->setCellValue('T'.$row, $alarm);
+
+					$e->getActiveSheet()->getStyle("U".$row)->applyFromArray($style);
+					$e->getActiveSheet()->setCellValue('U'.$row, $eff);
 				}	
 			}else{
-				$e->getActiveSheet()->getStyle("O".$row)->applyFromArray($style);
-				$e->getActiveSheet()->setCellValue('O'.$row, '');
-
 				$e->getActiveSheet()->getStyle("P".$row)->applyFromArray($style);
 				$e->getActiveSheet()->setCellValue('P'.$row, '');
 
@@ -665,6 +691,9 @@ class ExportController extends CI_Controller {
 
 				$e->getActiveSheet()->getStyle("T".$row)->applyFromArray($style);
 				$e->getActiveSheet()->setCellValue('T'.$row, '');
+
+				$e->getActiveSheet()->getStyle("U".$row)->applyFromArray($style);
+				$e->getActiveSheet()->setCellValue('U'.$row, '');
 			}
 
 			$row++;
