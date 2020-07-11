@@ -1,4 +1,7 @@
 <style>
+	input { font-weight: bold; }
+	input:disabled { background: grey; color: white; font-weight: bold; }
+
 	.cuttingLabel{ background-color: #92d050 !important; padding: 10px 20px 10px 20px; }
 	.dandoriLabel{ background-color: #ffffff !important; padding: 10px 20px 10px 20px; }
 	.manLabel{ background-color: #2e75b5 !important; padding: 10px 20px 10px 20px; }
@@ -23,10 +26,10 @@
 
 	#t1 { margin-top: 100px; }
 	#t1 > tbody > tr > td { color: #ffc107; font-size: 30px; padding: 20px; }
-
 	#t1 > thead > tr > th { font-size: 30px; }
-	input { font-weight: bold; }
-	input:disabled { background: grey; color: white; font-weight: bold; }
+	#datepicker { background: #333; color: #ffc107; }
+	#yearpicker { background: #333; color: #ffc107; }
+
 </style>
 
 <script>
