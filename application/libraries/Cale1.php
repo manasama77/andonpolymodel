@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cale
+class Cale1
 {
 
 	protected $ci;
@@ -43,7 +43,7 @@ class Cale
 		$this->currentMonth = $month;
 		$this->daysInMonth  = $this->_daysInMonth($month, $year);  
 
-		$content = '<div id="calendar">'.
+		$content = '<div id="calendar1">'.
 		'<div class="box">'.
 		$this->_createNavi().
 		'</div>'.
@@ -54,7 +54,7 @@ class Cale
 
 		$weeksInMonth = $this->_weeksInMonth($month,$year); // Create weeks in a month
 		// echo $weeksInMonth;
-		for( $i=0; $i<$weeksInMonth; $i++ ){ 
+		for( $i=0; $i<$weeksInMonth; $i++ ){
 			//Create days in a week
 			for($j=1;$j<=7;$j++){
 				// echo $i."<br>".$j."<hr>";
@@ -111,7 +111,7 @@ class Cale
   		}
 
   		$where = ['date' => $this->currentDate];
-  		$valueDate = $this->ci->mcore->get('planning', 'time', $where, NULL, 'ASC');
+  		$valueDate = $this->ci->mcore->get('planning_kikukawa', 'time', $where, NULL, 'ASC');
 
   		if($valueDate->num_rows() > 0){
   			$valueDate = $valueDate->row()->time;
@@ -135,17 +135,14 @@ class Cale
   private function _createNavi(){
 
   	$nextMonth = $this->currentMonth==12?1:intval($this->currentMonth)+1;
-
   	$nextYear = $this->currentMonth==12?intval($this->currentYear)+1:$this->currentYear;
-
   	$preMonth = $this->currentMonth==1?12:intval($this->currentMonth)-1;
-
   	$preYear = $this->currentMonth==1?intval($this->currentYear)-1:$this->currentYear;
 
   	return
   	'<div class="header">'.
   	'<a class="prev"><i class="fa fa-backward"></i> Prev</a>'.
-  	'<input type="text" class="input-sm text-center" id="datepickercal" name="active_date" value="'.date('M Y',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'" style="width:100px; font-weight: bold; height: 38px;" readonly>'.
+  	'<input type="text" class="input-sm text-center" id="datepickercal1" name="active_date1" value="'.date('M Y',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'" style="width:100px; font-weight: bold; height: 38px;" readonly>'.
   	'<a class="next">Next <i class="fa fa-forward"></i></a>'.
   	'</div>';
   }

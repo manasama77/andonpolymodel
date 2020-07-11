@@ -10,7 +10,7 @@
 	<title><?=$title;?></title>
 </style>
 </head>
-<body class="text-center">
+<body class="text-center" style="width: 1920px: height: 1080px;">
 	<?php $this->load->view('office/'.$content); ?>
 
 	<script src="<?=base_url();?>vendor/jquery/jquery-3.5.1.min.js"></script>
@@ -25,6 +25,7 @@
 	<script src="<?=base_url();?>vendor/canvasjs/canvasjs.min.js"></script>
 	<script src="<?=base_url();?>vendor/validate/jquery.validate.min.js"></script>
 	<script src="<?=base_url();?>vendor/validate/additional-methods.min.js"></script>
+	<script src="<?=base_url();?>vendor/jscookies/js.cookie.min.js"></script>
 	<?php $this->load->view('office/'.$vitamin); ?>
 </body>
 </html>

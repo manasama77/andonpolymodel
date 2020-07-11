@@ -190,7 +190,7 @@ class ExportController extends CI_Controller {
 			$e->getActiveSheet()->getStyle("B".$row)->applyFromArray($style);
 			$e->getActiveSheet()->setCellValue('B'.$row, $dt->format('Y-m-d'));
 
-			$arr_plan = $this->mcore->get('planning', '*', $where, 'date', 'ASC');
+			$arr_plan = $this->mcore->get('planning1', '*', $where, 'date', 'ASC');
 			if($arr_plan->num_rows() == 1){
 				foreach ($arr_plan->result() as $key) {
 					$time = $key->time;

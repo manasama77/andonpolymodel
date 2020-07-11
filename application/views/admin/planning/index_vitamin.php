@@ -1,18 +1,35 @@
 <script>
 	let realclock = $('#realclock');
-	let dateDynamic;
-	let month;
-	let monthNameNow;
-	let year;
+
+	let dateDynamic1;
+	let month1;
+	let year1;
+
+	let dateDynamic2;
+	let month2;
+	let year2;
+
+	let dateDynamic3;
+	let month3;
+	let year3;
 
 	$(document).ready(function(){
-		dateDynamic = moment();
-		month = dateDynamic.format('MMM');
-		year = dateDynamic.format('YYYY');
-
 		clockUpdate();
 		setInterval(clockUpdate, 1000);
-		initCalendar();
+
+		dateDynamic1 = moment();
+		month1       = dateDynamic1.format('MMM');
+		year1        = dateDynamic1.format('YYYY');
+
+		dateDynamic2 = moment();
+		month2       = dateDynamic2.format('MMM');
+		year2        = dateDynamic2.format('YYYY');
+
+		dateDynamic3 = moment();
+		month3       = dateDynamic3.format('MMM');
+		year3        = dateDynamic3.format('YYYY');
+
+		initCalendar1();
 	});
 </script>
 <script>
@@ -22,14 +39,14 @@
 		realclock.text(now.format(`ddd, DD MMM YYYY hh:mm:ss A`));
 	}
 
-	function initCalendar()
+	function initCalendar1()
 	{
 		$.ajax({
-			url: `<?=site_url();?>planning/init_calendar`,
+			url: `<?=site_url();?>planning/init_calendar1`,
 			type: 'get',
 			data: {
-				month: month,
-				year: year,
+				month: month1,
+				year: year1,
 			},
 			beforeSend: function(){
 				$('#submit').attr('disabled', true);
@@ -50,40 +67,40 @@
 				}
 			}
 		}).done(function(res){
-			$('#vcalendar').html(res);
-			$('#submit').attr('disabled', false);
+			$('#vcalendar1').html(res);
+			$('#submit1').attr('disabled', false);
 			$.unblockUI();
 
 			$('.fdate').inputmask('99:99');
-			$("#datepicker").datepicker({
+			$("#datepicker1").datepicker({
 				autoclose: true,
 				format: "M yyyy",
 				viewMode: "months", 
 				minViewMode: "months"
 			});
-			$(".triggerDP").click(function(){ $("#datepicker").datepicker("show"); });
+			$(".triggerDP1").click(function(){ $("#datepicker1").datepicker("show"); });
 
-			$('#datepicker').on('change', function(){
+			$('#datepicker1').on('change', function(){
 				let xdate = $(this).val();
 				dateExplode = xdate.split(' ');
-				month = dateExplode[0];
-				year = dateExplode[1];
-				dateDynamic = moment(`${month} ${year}`, 'MMM YYYY');
-				initCalendar();
+				month1 = dateExplode[0];
+				year1 = dateExplode[1];
+				dateDynamic1 = moment(`${month1} ${year1}`, 'MMM YYYY');
+				initCalendar1();
 			});
 
 			$('.prev').on('click', function(){
-				dateDynamic.subtract(1, 'months');
-				month = dateDynamic.format('MMM');
-				year = dateDynamic.format('YYYY');
-				$('#datepicker').val(`${month} ${year}`).trigger('change');
+				dateDynamic1.subtract(1, 'months');
+				month1 = dateDynamic1.format('MMM');
+				year1 = dateDynamic1.format('YYYY');
+				$('#datepicker1').val(`${month1} ${year1}`).trigger('change');
 			});
 
 			$('.next').on('click', function(){
-				dateDynamic.add(1, 'months');
-				month = dateDynamic.format('MMM');
-				year = dateDynamic.format('YYYY');
-				$('#datepicker').val(`${month} ${year}`).trigger('change');
+				dateDynamic1.add(1, 'months');
+				month1 = dateDynamic1.format('MMM');
+				year1 = dateDynamic1.format('YYYY');
+				$('#datepicker1').val(`${month1} ${year1}`).trigger('change');
 			});
 
 		});

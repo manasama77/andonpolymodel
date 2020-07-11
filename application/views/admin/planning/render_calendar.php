@@ -1,13 +1,13 @@
 <style>
 	/*******************************Calendar Top Navigation*********************************/
-	div#calendar{
+	div#calendar1{
 		margin:0px auto;
 		padding:0px;
 		width: 535px;
 		font-family:Helvetica, "Times New Roman", Times, serif;
 	}
 
-	div#calendar div.box{
+	div#calendar1 div.box{
 		position:relative;
 		top:0px;
 		left:0px;
@@ -16,7 +16,7 @@
 		background-color:   #787878 ;      
 	}
 
-	div#calendar div.header{
+	div#calendar1 div.header{
 		line-height:40px;  
 		vertical-align:middle;
 		position:absolute;
@@ -27,7 +27,7 @@
 		text-align:center;
 	}
 
-	div#calendar div.header a.prev,div#calendar div.header a.next{ 
+	div#calendar1 div.header a.prev, div#calendar1 div.header a.next{ 
 		position:absolute;
 		top:0px;   
 		height: 17px;
@@ -37,17 +37,17 @@
 		color:#FFF;
 	}
 
-	div#calendar div.header span.title{
+	div#calendar1 div.header span.title{
 		color:#FFF;
 		font-size:15px;
 	}
 
 
-	div#calendar div.header a.prev{
+	div#calendar1 div.header a.prev{
 		left:0px;
 	}
 
-	div#calendar div.header a.next{
+	div#calendar1 div.header a.next{
 		right:0px;
 	}
 
@@ -55,14 +55,14 @@
 
 
 	/*******************************Calendar Content Cells*********************************/
-	div#calendar div.box-content{
+	div#calendar1 div.box-content{
 		border:1px solid #787878 ;
 		border-top:none;
 	}
 
 
 
-	div#calendar ul.label{
+	div#calendar1 ul.label{
 		float:left;
 		margin: 0px;
 		padding: 0px;
@@ -70,7 +70,7 @@
 		margin-left: 5px;
 	}
 
-	div#calendar ul.label li{
+	div#calendar1 ul.label li{
 		margin:0px;
 		padding:0px;
 		margin-right:5px;  
@@ -87,7 +87,7 @@
 	}
 
 
-	div#calendar ul.dates{
+	div#calendar1 ul.dates{
 		float:left;
 		margin: 0px;
 		padding: 0px;
@@ -96,7 +96,7 @@
 	}
 
 	/** overall width = width+padding-right**/
-	div#calendar ul.dates li{
+	div#calendar1 ul.dates li{
 		margin:0px;
 		padding:0px;
 		margin-right:5px;
@@ -124,9 +124,7 @@
 		font-size: 14px;
 	}
 </style>
-<?php
-echo $calendar;
-?>
+<?php echo $calendar; ?>
 <!-- debug only -->
 <!-- <link rel="stylesheet" href="<?=base_url();?>public/css/bootstrap.min.css" />
 <link rel="stylesheet" href="<?=base_url();?>public/font-awesome/4.5.0/css/font-awesome.min.css" />

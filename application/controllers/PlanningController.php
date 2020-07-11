@@ -3,13 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class PlanningController extends CI_Controller {
 
-	public $table = 'planning';
+	public $table1 = 'planning_kikukawa';
+	public $table2 = 'planning_ncb3';
+	public $table3 = 'planning_ncb6';
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->library('TemplateAdmin', null, 'template');
-		$this->load->library('Cale', NULL, 'cale');
+		$this->load->library('Cale1', NULL, 'cale1');
 	}
 
 	public function index()
@@ -20,7 +22,7 @@ class PlanningController extends CI_Controller {
 		$this->template->template($data);
 	}
 
-	public function update()
+	public function update1()
 	{
 		$exec = TRUE;
 		foreach ($this->input->post() as $key => $val) {
@@ -29,14 +31,14 @@ class PlanningController extends CI_Controller {
 					$where_c = [
 						'date' => $key,
 					];
-					$c = $this->mcore->count($this->table, $where_c);
+					$c = $this->mcore->count($this->table1, $where_c);
 
 					if($c == 0){
 						$data = [
 							'date' => $key,
 							'time' => $val,
 						];
-						$exec = $this->mcore->store($this->table, $data);
+						$exec = $this->mcore->store($this->table1, $data);
 					}else{
 						$data = [
 							'time' => $val,
@@ -44,7 +46,7 @@ class PlanningController extends CI_Controller {
 						$where = [
 							'date' => $key,
 						];
-						$exec = $this->mcore->update($this->table, $data, $where);
+						$exec = $this->mcore->update($this->table1, $data, $where);
 					}
 
 
@@ -61,12 +63,124 @@ class PlanningController extends CI_Controller {
 		echo json_encode($return);
 	}
 
-	public function init_calendar()
+	public function update2()
+	{
+		$exec = TRUE;
+		foreach ($this->input->post() as $key => $val) {
+			if($key != 'active_date'){
+				if(strlen($val) == 5){
+					$where_c = [
+						'date' => $key,
+					];
+					$c = $this->mcore->count($this->table2, $where_c);
+
+					if($c == 0){
+						$data = [
+							'date' => $key,
+							'time' => $val,
+						];
+						$exec = $this->mcore->store($this->table2, $data);
+					}else{
+						$data = [
+							'time' => $val,
+						];
+						$where = [
+							'date' => $key,
+						];
+						$exec = $this->mcore->update($this->table2, $data, $where);
+					}
+
+
+				}
+			}
+		}
+
+		if($exec){
+			$return = ['code' => 200];
+		}else{
+			$return = ['code' => 500];
+		}
+
+		echo json_encode($return);
+	}
+
+	public function update3()
+	{
+		$exec = TRUE;
+		foreach ($this->input->post() as $key => $val) {
+			if($key != 'active_date'){
+				if(strlen($val) == 5){
+					$where_c = [
+						'date' => $key,
+					];
+					$c = $this->mcore->count($this->table3, $where_c);
+
+					if($c == 0){
+						$data = [
+							'date' => $key,
+							'time' => $val,
+						];
+						$exec = $this->mcore->store($this->table3, $data);
+					}else{
+						$data = [
+							'time' => $val,
+						];
+						$where = [
+							'date' => $key,
+						];
+						$exec = $this->mcore->update($this->table3, $data, $where);
+					}
+
+
+				}
+			}
+		}
+
+		if($exec){
+			$return = ['code' => 200];
+		}else{
+			$return = ['code' => 500];
+		}
+
+		echo json_encode($return);
+	}
+
+	public function init_calendar1()
 	{
 		$bulan = $this->input->get('bulan');
 		$tahun = $this->input->get('tahun');
 		
-		$data['calendar'] = $this->cale->show();
+		$data['calendar'] = $this->cale1->show();
+		
+		# DEBUG ONLY
+		// $this->load->view('admin/planning/render_calendar', $data, FALSE);
+		# DEBUG ONLY
+		
+		$render = $this->load->view('admin/planning/render_calendar', $data, TRUE);
+		echo $render;
+	}
+
+	public function init_calendar2()
+	{
+		$bulan = $this->input->get('bulan');
+		$tahun = $this->input->get('tahun');
+		
+		$data['calendar'] = $this->cale1->show();
+		
+		# DEBUG ONLY
+		// $this->load->view('admin/planning/render_calendar', $data, FALSE);
+		# DEBUG ONLY
+		
+		$render = $this->load->view('admin/planning/render_calendar', $data, TRUE);
+		echo $render;
+	}
+
+	public function init_calendar3()
+	{
+		$bulan = $this->input->get('bulan');
+		$tahun = $this->input->get('tahun');
+		
+		$data['calendar'] = $this->cale1->show();
 		
 		# DEBUG ONLY
 		// $this->load->view('admin/planning/render_calendar', $data, FALSE);

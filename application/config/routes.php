@@ -15,8 +15,12 @@ $route['office/dashboard'] = 'OfficeController/index';
 $route['machine/dashboard/(:any)'] = 'MachineController/index/$1';
 
 $route['planning']               = 'PlanningController/index';
-$route['planning/update']        = 'PlanningController/update';
-$route['planning/init_calendar'] = 'PlanningController/init_calendar';
+$route['planning/update1']        = 'PlanningController/update1';
+$route['planning/update2']        = 'PlanningController/update2';
+$route['planning/update3']        = 'PlanningController/update3';
+$route['planning/init_calendar1'] = 'PlanningController/init_calendar1';
+$route['planning/init_calendar2'] = 'PlanningController/init_calendar2';
+$route['planning/init_calendar3'] = 'PlanningController/init_calendar3';
 
 $route['export']                     = 'ExportController/index';
 $route['export/daily/(:any)/(:any)'] = 'ExportController/export_daily/$1/$2';
