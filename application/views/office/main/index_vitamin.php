@@ -348,6 +348,16 @@
 		
 	});
 
+	document.onkeydown = function(event) {
+		if(event.keyCode == 39){
+			$('#next_slide').trigger('click');
+		}
+
+		if(event.keyCode == 80){
+			$('#pause_play').trigger('click');
+		}
+    };
+
 
 </script>
 
@@ -644,7 +654,6 @@
 				interval: 1,
 				intervalType: 'day',
 				labelFormatter: function (e) {
-					console.log(e)
 					return CanvasJS.formatDate( e.value, "D");
 				}
 			},
@@ -713,7 +722,6 @@
 				interval: 1,
 				intervalType: 'day',
 				labelFormatter: function (e) {
-					console.log(e)
 					return CanvasJS.formatDate( e.value, "D");
 				}
 			},
@@ -782,7 +790,6 @@
 				interval: 1,
 				intervalType: 'day',
 				labelFormatter: function (e) {
-					console.log(e)
 					return CanvasJS.formatDate( e.value, "D");
 				}
 			},
@@ -915,7 +922,6 @@
 		}
 		
 		function changeSlide(slide){
-			console.log(slide)
 			if(slide == '0'){
 				slide1.show();
 				slide2.hide();
