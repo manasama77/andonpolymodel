@@ -297,7 +297,12 @@
 
 		$(".datepickerexport").datepicker({
 			autoclose: true,
-			format: "M yyyy",
+			format: "dd/mm/yyyy"
+		});
+
+		$(".yearpickerexport").datepicker({
+			autoclose: true,
+			format: "mm/yyyy",
 			viewMode: "months", 
 			minViewMode: "months"
 		});
@@ -317,9 +322,9 @@
 				error.insertAfter($(element).parent());
 			},
 			submitHandler: function( form ) {
-				let from = $('#export_start').val();
-				let to   = $('#export_end').val();
-				window.open(`<?=site_url();?>export/daily/${from}/${to}`, '_blank');
+				let from = moment($('#export_start').val(), 'DD/MM/YYYY');
+				let to   = moment($('#export_end').val(), 'DD/MM/YYYY');
+				window.open(`<?=site_url();?>export/daily/${from.format('YYYY-MM-DD')}/${to.format('YYYY-MM-DD')}`, '_blank');
 			}
 		});
 
@@ -335,8 +340,8 @@
 				error.insertAfter($(element).parent());
 			},
 			submitHandler: function( form ) {
-				let my = $('#my').val();
-				window.open(`<?=site_url();?>export/monthly/${my}`, '_blank');
+				let my = moment($('#my').val(), 'MM/YYYY');
+				window.open(`<?=site_url();?>export/monthly/${my.format('YYYY-MM')}`, '_blank');
 			}
 		});
 
