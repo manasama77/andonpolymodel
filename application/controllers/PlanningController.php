@@ -12,6 +12,8 @@ class PlanningController extends CI_Controller {
 		parent::__construct();
 		$this->load->library('TemplateAdmin', null, 'template');
 		$this->load->library('Cale1', NULL, 'cale1');
+		$this->load->library('Cale2', NULL, 'cale2');
+		$this->load->library('Cale3', NULL, 'cale3');
 	}
 
 	public function index()
@@ -147,8 +149,8 @@ class PlanningController extends CI_Controller {
 
 	public function init_calendar1()
 	{
-		$bulan = $this->input->get('bulan');
-		$tahun = $this->input->get('tahun');
+		$bulan = $this->input->get('monthcal1');
+		$tahun = $this->input->get('yearcal1');
 		
 		$data['calendar'] = $this->cale1->show();
 		
@@ -156,37 +158,37 @@ class PlanningController extends CI_Controller {
 		// $this->load->view('admin/planning/render_calendar', $data, FALSE);
 		# DEBUG ONLY
 		
-		$render = $this->load->view('admin/planning/render_calendar', $data, TRUE);
+		$render = $this->load->view('admin/planning/render_calendar1', $data, TRUE);
 		echo $render;
 	}
 
 	public function init_calendar2()
 	{
-		$bulan = $this->input->get('bulan');
-		$tahun = $this->input->get('tahun');
+		$bulan = $this->input->get('monthcal2');
+		$tahun = $this->input->get('yearcal2');
 		
-		$data['calendar'] = $this->cale1->show();
+		$data['calendar'] = $this->cale2->show();
 		
 		# DEBUG ONLY
 		// $this->load->view('admin/planning/render_calendar', $data, FALSE);
 		# DEBUG ONLY
 		
-		$render = $this->load->view('admin/planning/render_calendar', $data, TRUE);
+		$render = $this->load->view('admin/planning/render_calendar2', $data, TRUE);
 		echo $render;
 	}
 
 	public function init_calendar3()
 	{
-		$bulan = $this->input->get('bulan');
-		$tahun = $this->input->get('tahun');
+		$bulan = $this->input->get('monthcal3');
+		$tahun = $this->input->get('yearcal3');
 		
-		$data['calendar'] = $this->cale1->show();
+		$data['calendar'] = $this->cale3->show();
 		
 		# DEBUG ONLY
 		// $this->load->view('admin/planning/render_calendar', $data, FALSE);
 		# DEBUG ONLY
 		
-		$render = $this->load->view('admin/planning/render_calendar', $data, TRUE);
+		$render = $this->load->view('admin/planning/render_calendar3', $data, TRUE);
 		echo $render;
 	}
 

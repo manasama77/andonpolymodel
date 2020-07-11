@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cale1
+class Cale2
 {
 
 	protected $ci;
@@ -27,14 +27,14 @@ class Cale1
 		$year  = null;
 		$month = null;
 
-		if(null==$year&&isset($_GET['yearcal1'])){
-			$year = $_GET['yearcal1'];
+		if(null==$year&&isset($_GET['yearcal2'])){
+			$year = $_GET['yearcal2'];
 		}elseif(null==$year){
 			$year = date("Y",time());
 		}          
 
-		if(null==$month&&isset($_GET['monthcal1'])){
-			$month = $_GET['monthcal1'];
+		if(null==$month&&isset($_GET['monthcal2'])){
+			$month = $_GET['monthcal2'];
 		}else if(null==$month){
 			$month = date("m",time());
 		}                  
@@ -43,7 +43,7 @@ class Cale1
 		$this->currentMonth = $month;
 		$this->daysInMonth  = $this->_daysInMonth($month, $year);  
 
-		$content = '<div id="calendar1">'.
+		$content = '<div id="calendar2">'.
 		'<div class="box">'.
 		$this->_createNavi().
 		'</div>'.
@@ -111,7 +111,7 @@ class Cale1
   		}
 
   		$where = ['date' => $this->currentDate];
-  		$valueDate = $this->ci->mcore->get('planning_kikukawa', 'time', $where, NULL, 'ASC');
+  		$valueDate = $this->ci->mcore->get('planning_ncb3', 'time', $where, NULL, 'ASC');
 
   		if($valueDate->num_rows() > 0){
   			$valueDate = $valueDate->row()->time;
@@ -142,7 +142,7 @@ class Cale1
   	return
   	'<div class="header">'.
   	'<a class="prev"><i class="fa fa-backward"></i> Prev</a>'.
-  	'<input type="text" class="input-sm text-center" id="datepickercal1" name="active_date1" value="'.date('M Y',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'" style="width:100px; font-weight: bold; height: 38px;" readonly>'.
+  	'<input type="text" class="input-sm text-center" id="datepickercal2" name="active_date1" value="'.date('M Y',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'" style="width:100px; font-weight: bold; height: 38px;" readonly>'.
   	'<a class="next">Next <i class="fa fa-forward"></i></a>'.
   	'</div>';
   }

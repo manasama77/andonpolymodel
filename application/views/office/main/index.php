@@ -181,14 +181,14 @@
 
 						<nav>
 							<div class="nav nav-tabs" id="nav-tab" role="tablist">
-								<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Kikukawa</a>
-								<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">NCB3</a>
-								<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">NCB6</a>
+								<a class="nav-item nav-link active" data-toggle="tab" href="#nav-kikukawa" role="tab" aria-controls="nav-kikukawa" aria-selected="true">Kikukawa</a>
+								<a class="nav-item nav-link" data-toggle="tab" href="#nav-ncb3" role="tab" aria-controls="nav-ncb3" aria-selected="false">NCB3</a>
+								<a class="nav-item nav-link" data-toggle="tab" href="#nav-ncb6" role="tab" aria-controls="nav-ncb6" aria-selected="false">NCB6</a>
 							</div>
 						</nav>
 
 						<div class="tab-content" id="nav-tabContent">
-							<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+							<div class="tab-pane fade show active" id="nav-kikukawa" role="tabpanel" aria-labelledby="nav-kikukawa-tab">
 
 								<form id="form_calendar1">
 									<div class="row justify-content-center">
@@ -205,7 +205,7 @@
 
 							</div>
 
-							<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+							<div class="tab-pane fade" id="nav-ncb3" role="tabpanel" aria-labelledby="nav-ncb3-tab">
 								<form id="form_calendar2">
 									<div class="row justify-content-center">
 										<div class="col-xs-12 text-center">
@@ -220,7 +220,7 @@
 								</form>
 							</div>
 
-							<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+							<div class="tab-pane fade" id="nav-ncb6" role="tabpanel" aria-labelledby="nav-ncb6-tab">
 								<form id="form_calendar3">
 									<div class="row justify-content-center">
 										<div class="col-xs-12 text-center">
