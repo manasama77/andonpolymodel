@@ -361,7 +361,7 @@
 		}else if(count2 == 2){
 			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '400px');
 		}else{
-			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '230px');
+			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '260px');
 		}
 		chart1.render();
 		chart2.render();
@@ -558,11 +558,9 @@
 	$.getJSON(`<?=site_url();?>json/m1/${datepicker.val()}`, function(data) {  
 		$.each(data, function(key, value){
 			dataPoints.push({  
-				y: parseFloat(value.eff),
-				label: value.tanggal,
-			});
-			dataStandar.push({ 
-				label: value.tanggal,
+				label: `${value.tanggal}`,
+				x: new Date(value.y, value.m, value.d),
+				y: value.eff,
 			});
 		});
 	});
@@ -570,23 +568,19 @@
 	$.getJSON(`<?=site_url();?>json/m2/${datepicker.val()}`, function(data) {  
 		$.each(data, function(key, value){
 			dataPoints2.push({  
-				y: parseFloat(value.eff),
-				label: value.tanggal,
-			});
-			dataStandar2.push({ 
-				label: value.tanggal,
+				label: `${value.tanggal}`,
+				x: new Date(value.y, value.m, value.d),
+				y: value.eff,
 			});
 		});
 	});
 
 	$.getJSON(`<?=site_url();?>json/m3/${datepicker.val()}`, function(data) {  
 		$.each(data, function(key, value){
-			dataPoints3.push({  
+			dataPoints3.push({
+				label: `${value.tanggal}`,
+				x: new Date(value.y, value.m, value.d),
 				y: parseFloat(value.eff),
-				label: value.tanggal,
-			});
-			dataStandar3.push({ 
-				label: value.tanggal,
 			});
 		});
 	});
@@ -634,21 +628,45 @@
 				fontColor: "#ffc107"
 			},
 			axisX: {
+				margin: 1,
+				labelMaxWidth: 31,
+				labelWrap: true,
+				labelAutoFit: false,
+				labelAngle: 180,
 				labelFontFamily: "Calibri",
-				labelFontSize: 12,
-				interval: 32,
-				labelAngle: 90,
 				labelFontColor: "#ffc107",
+				labelFontSize: 15,
+				labelFontweight: 'lighter',
+				crosshair: { 
+					enabled: true,
+					snapToDataPoint: true,
+				},
+				interval: 1,
+				intervalType: 'day',
+				labelFormatter: function (e) {
+					console.log(e)
+					return CanvasJS.formatDate( e.value, "D");
+				}
 			},
 			axisY: {
+				valueFormatString: "#.##",
 				title: "Efficiency (%)",
 				titleFontColor: "#ffc107",
 				suffix: "%",
 				titleFontSize: 16,
 				includeZero: true,
 				gridThickness: 0.5,
-				maximum: 100,
+				maximum: 120,
 				labelFontColor: "#ffc107",
+				labelWrap: true,
+				crosshair: { 
+					enabled: true,
+					snapToDataPoint: true,
+					labelFormatter: function (e) {
+						return "Eff: " + CanvasJS.formatNumber(e.value, "#.##");
+					}
+				},
+				interval: 20,
 			},
 			toolTip: {
 				shared: true
@@ -660,28 +678,14 @@
 				color: "#f7caac",
 				showInLegend: false,
 				name: "Eff",
-				fillOpacity: 1,
+				fillOpacity: .5,
 				dataPoints: dataPoints,
-				xValueFormatString: "YYYY-MM-DD",
 				indexLabel: '{y}%',
 				indexLabelOrientation: 'vertical',
 				indexLabelPlacement: 'outside',
-				indexLabelFontColor: "#ffc107",
+				indexLabelFontColor: "#fff",
 				indexLabelFontWeight: "bold",
 			},
-			{ 
-				type: "column",
-				color: "#ffc107",
-				xValueType: "dateTime",
-				xValueFormatString: "YYYY-MM-DD",
-				yValueFormatString: "#####.##",
-				showInLegend: null,
-				toolTipContent: null,
-				markerType: null,
-				name: "standard",
-				fillOpacity: 0,
-				dataPoints: dataStandar
-			}
 			]
 		});
 
@@ -693,21 +697,45 @@
 				fontColor: "#ffc107"
 			},
 			axisX: {
+				margin: 1,
+				labelMaxWidth: 31,
+				labelWrap: true,
+				labelAutoFit: false,
+				labelAngle: 180,
 				labelFontFamily: "Calibri",
-				labelFontSize: 12,
-				interval: 32,
-				labelAngle: 90,
 				labelFontColor: "#ffc107",
+				labelFontSize: 15,
+				labelFontweight: 'lighter',
+				crosshair: { 
+					enabled: true,
+					snapToDataPoint: true,
+				},
+				interval: 1,
+				intervalType: 'day',
+				labelFormatter: function (e) {
+					console.log(e)
+					return CanvasJS.formatDate( e.value, "D");
+				}
 			},
 			axisY: {
+				valueFormatString: "#.##",
 				title: "Efficiency (%)",
 				titleFontColor: "#ffc107",
 				suffix: "%",
 				titleFontSize: 16,
 				includeZero: true,
 				gridThickness: 0.5,
-				maximum: 100,
+				maximum: 120,
 				labelFontColor: "#ffc107",
+				labelWrap: true,
+				crosshair: { 
+					enabled: true,
+					snapToDataPoint: true,
+					labelFormatter: function (e) {
+						return "Eff: " + CanvasJS.formatNumber(e.value, "#.##");
+					}
+				},
+				interval: 20,
 			},
 			toolTip: {
 				shared: true
@@ -719,28 +747,14 @@
 				color: "#2e75b5",
 				showInLegend: false,
 				name: "Eff",
-				fillOpacity: 1,
+				fillOpacity: .5,
 				dataPoints: dataPoints2,
-				xValueFormatString: "YYYY-MM-DD",
 				indexLabel: '{y}%',
 				indexLabelOrientation: 'vertical',
 				indexLabelPlacement: 'outside',
-				indexLabelFontColor: "#ffc107",
+				indexLabelFontColor: "#fff",
 				indexLabelFontWeight: "bold",
 			},
-			{ 
-				type: "column",
-				color: "#999",
-				xValueType: "dateTime",
-				xValueFormatString: "YYYY-MM-DD",
-				yValueFormatString: "#####.##",
-				showInLegend: null,
-				toolTipContent: null,
-				markerType: null,
-				name: "standard",
-				fillOpacity: 0,
-				dataPoints: dataStandar2
-			}
 			]
 		});
 
@@ -752,21 +766,45 @@
 				fontColor: "#ffc107"
 			},
 			axisX: {
+				margin: 1,
+				labelMaxWidth: 31,
+				labelWrap: true,
+				labelAutoFit: false,
+				labelAngle: 180,
 				labelFontFamily: "Calibri",
-				labelFontSize: 12,
-				interval: 32,
-				labelAngle: 90,
 				labelFontColor: "#ffc107",
+				labelFontSize: 15,
+				labelFontweight: 'lighter',
+				crosshair: { 
+					enabled: true,
+					snapToDataPoint: true,
+				},
+				interval: 1,
+				intervalType: 'day',
+				labelFormatter: function (e) {
+					console.log(e)
+					return CanvasJS.formatDate( e.value, "D");
+				}
 			},
 			axisY: {
+				valueFormatString: "#.##",
 				title: "Efficiency (%)",
 				titleFontColor: "#ffc107",
 				suffix: "%",
 				titleFontSize: 16,
 				includeZero: true,
 				gridThickness: 0.5,
-				maximum: 100,
+				maximum: 120,
 				labelFontColor: "#ffc107",
+				labelWrap: true,
+				crosshair: { 
+					enabled: true,
+					snapToDataPoint: true,
+					labelFormatter: function (e) {
+						return "Eff: " + CanvasJS.formatNumber(e.value, "#.##");
+					}
+				},
+				interval: 20,
 			},
 			toolTip: {
 				shared: true
@@ -778,28 +816,14 @@
 				color: "#92d050",
 				showInLegend: false,
 				name: "Eff",
-				fillOpacity: 1,
+				fillOpacity: .5,
 				dataPoints: dataPoints3,
-				xValueFormatString: "YYYY-MM-DD",
 				indexLabel: '{y}%',
 				indexLabelOrientation: 'vertical',
 				indexLabelPlacement: 'outside',
-				indexLabelFontColor: "#ffc107",
+				indexLabelFontColor: "#fff",
 				indexLabelFontWeight: "bold",
 			},
-			{ 
-				type: "column",
-				color: "#999",
-				xValueType: "dateTime",
-				xValueFormatString: "YYYY-MM-DD",
-				yValueFormatString: "#####.##",
-				showInLegend: null,
-				toolTipContent: null,
-				markerType: null,
-				name: "standard",
-				fillOpacity: 0,
-				dataPoints: dataStandar3
-			}
 			]
 		});
 
@@ -835,12 +859,12 @@
 				legendText: "Kikukawa",
 				showInLegend: true,
 				color: "#f7caac",
-				fillOpacity: 1,
+				fillOpacity: .5,
 				dataPoints: dataPoints22Kikukawa,
 				indexLabel: '{y}%',
 				indexLabelOrientation: 'vertical',
 				indexLabelPlacement: 'outside',
-				indexLabelFontColor: "#ffc107",
+				indexLabelFontColor: "#fff",
 				indexLabelFontWeight: "bold",
 			},
 			{ 
@@ -849,12 +873,12 @@
 				legendText: "NCB3",
 				showInLegend: true,
 				color: "#2e75b5",
-				fillOpacity: 1,
+				fillOpacity: .5,
 				dataPoints: dataPoints22NCB3,
 				indexLabel: '{y}%',
 				indexLabelOrientation: 'vertical',
 				indexLabelPlacement: 'outside',
-				indexLabelFontColor: "#ffc107",
+				indexLabelFontColor: "#fff",
 				indexLabelFontWeight: "bold",
 			},
 			{ 
@@ -863,12 +887,12 @@
 				legendText: "NCB6",
 				showInLegend: true,
 				color: "#92d050",
-				fillOpacity: 1,
+				fillOpacity: .5,
 				dataPoints: dataPoints22NCB6,
 				indexLabel: '{y}%',
 				indexLabelOrientation: 'vertical',
 				indexLabelPlacement: 'outside',
-				indexLabelFontColor: "#ffc107",
+				indexLabelFontColor: "#fff",
 				indexLabelFontWeight: "bold",
 			}
 			]

@@ -136,13 +136,13 @@
 				</div>
 				<div class="row">
 					<div class="col-6 p-1" id="kikukawaParent">
-						<div id="kikukawa" class="chartShow" style="width: 100%; height: 230px;"></div>
+						<div id="kikukawa" class="chartShow" style="width: 100%; height: 260px;"></div>
 					</div>
 					<div class="col-6 p-1" id="ncb3Parent">
-						<div id="ncb3" class="chartShow" style="width: 100%; height: 230px;"></div>
+						<div id="ncb3" class="chartShow" style="width: 100%; height: 260px;"></div>
 					</div>
 					<div class="col-6 p-1" id="ncb6Parent">
-						<div id="ncb6" class="chartShow" style="width: 100%; height: 230px;"></div>
+						<div id="ncb6" class="chartShow" style="width: 100%; height: 260px;"></div>
 					</div>
 				</div>
 			</div>
@@ -158,7 +158,7 @@
 				</div>
 				<div class="row">
 					<div class="col-12 p-1">
-						<div id="monthly" style="width: 100% !important; height: 450px;"></div>
+						<div id="monthly" style="width: 100% !important; height: 550px;"></div>
 					</div>
 				</div>
 			</div>
