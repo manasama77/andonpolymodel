@@ -78,9 +78,9 @@
 	let dateDynamicCal3;
 
 	$(document).ready(function(){
-		dateDynamic1 = moment();
-		monthcal1       = dateDynamic1.format('MMM');
-		yearcal1        = dateDynamic1.format('YYYY');
+		dateDynamicCal1 = moment();
+		monthcal1       = dateDynamicCal1.format('MMM');
+		yearcal1        = dateDynamicCal1.format('YYYY');
 
 		dateDynamicCal2 = moment();
 		monthcal2       = dateDynamicCal2.format('MMM');

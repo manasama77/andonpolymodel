@@ -1,4 +1,7 @@
 <style>
+	input { font-weight: bold; }
+	input:disabled { background: grey; color: white; font-weight: bold; }
+
 	.cuttingLabel{ background-color: #92d050 !important; padding: 10px 20px 10px 20px; }
 	.dandoriLabel{ background-color: #ffffff !important; padding: 10px 20px 10px 20px; }
 	.manLabel{ background-color: #2e75b5 !important; padding: 10px 20px 10px 20px; }
@@ -15,11 +18,18 @@
 
 	.cuttingBG{ background-color: #92d050 !important; }
 	.dandoriBG{ background-color: #ffffff !important; }
-	.manBG{ background-color: #2e75b5 !important; }s
+	.manBG{ background-color: #2e75b5 !important; }
 	.idleBG{ background-color: #ffff99 !important; }
 	.alarmBG{ background-color: #f7caac !important; }
 
 	.chartShow{ display: block; }
+
+	#t1 { margin-top: 100px; }
+	#t1 > tbody > tr > td { color: #ffc107; font-size: 30px; padding: 20px; }
+	#t1 > thead > tr > th { font-size: 30px; }
+	#datepicker { background: #333; color: #ffc107; }
+	#yearpicker { background: #333; color: #ffc107; }
+
 </style>
 
 <script>
@@ -35,9 +45,8 @@
 	let slide1        = $('#section1');
 	let slide2        = $('#section2');
 	let slide3        = $('#section3');
-	let statusSlide   = 'play';
-	let activeSlide   = 'slide2';
-	let intervalSlide = 10000; // 10 detik
+	let intervalSlide = 2000;
+	let kue           = Cookies.get('aktifslide');
 
 	let chart1;
 	let dataPoints  = [];
@@ -55,53 +64,39 @@
 	let dataPoints22Kikukawa = [];
 	let dataPoints22NCB3     = [];
 	let dataPoints22NCB6     = [];
-	
 
-	let renderSlide = $.timer(function(){
-		if(activeSlide == "slide1"){
-			slide1.show();
-			slide2.hide();
-			slide3.hide();
-			activeSlide = "slide2";
-		}else if(activeSlide == "slide2"){
-			slide1.hide();
-			slide2.show();
-			slide3.hide();
-			activeSlide = "slide3";
-		}else if(activeSlide == "slide3"){
-			slide1.hide();
-			slide2.hide();
-			slide3.show();
-			activeSlide = "slide1";
-		}
+	let monthcal1;
+	let yearcal1;
+	let dateDynamicCal1;
 
-		// chart1.render();
-		chart2.render();
-		// chart3.render();
-		// chart22.render();
-	});
-	
-	
+	let monthcal2;
+	let yearcal2;
+	let dateDynamicCal2;
+
+	let monthcal3;
+	let yearcal3;
+	let dateDynamicCal3;
+
 	$(document).ready(function(){
-		dateDynamic = moment();
-		month = dateDynamic.format('MMM');
-		year = dateDynamic.format('YYYY');
+		dateDynamicCal1 = moment();
+		monthcal1       = dateDynamicCal1.format('MMM');
+		yearcal1        = dateDynamicCal1.format('YYYY');
+
+		dateDynamicCal2 = moment();
+		monthcal2       = dateDynamicCal2.format('MMM');
+		yearcal2        = dateDynamicCal2.format('YYYY');
+
+		dateDynamicCal3 = moment();
+		monthcal3       = dateDynamicCal3.format('MMM');
+		yearcal3        = dateDynamicCal3.format('YYYY');
+
 
 		clockUpdate();
 		setInterval(clockUpdate, 1000);
+
 		// wsKikukawa();
-		wsNCB3();
+		// wsNCB3();
 		// wsNCB6();
-
-		// renderSlide.set({
-		// 	time: intervalSlide,
-		// 	autostart: true
-		// });
-
-		// renderSlide.play();
-
-		$('#section2').hide();
-		$('#section3').hide();
 
 		$('.triggerChart1').click(function(e){
 			if($('#kikukawa').hasClass('chartShow')){
@@ -143,12 +138,225 @@
 		});
 
 		$("#menu-toggle").click(function(e) {
-	      e.preventDefault();
-	      $("#wrapper").toggleClass("toggled");
-	    });
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+
+		$('#tPlan').on('click', function(){
+			$('#modal-planning').modal('show');
+		});
+
+		// initCalendar1();
+		initCalendar2();
+		// initCalendar3();
+
+		$('#form_calendar1').validate({
+			debug: true,
+			errorClass: 'help-inline text-danger',
+			submitHandler: function( form ) {
+				$.ajax({
+					url         : '<?=site_url();?>planning/update1',
+					method      : 'POST',
+					data        : $('#form_calendar1').serialize(),
+					dataType    : 'JSON',
+					beforeSend  : function(){
+						$.blockUI({ message: '<i class="fa fa-spinner fa-spin"></i> Silahkan Tunggu...' });
+					},
+					statusCode  : {
+						200: function() {
+							$.unblockUI();
+						},
+						400: function() {
+							$.unblockUI();
+							alert('Error 400');
+						},
+						404: function() {
+							$.unblockUI();
+							alert('Error 404 - Halaman Tidak Ditemukan');
+						},
+						500: function() {
+							$.unblockUI();
+							alert('Error 500 - Gagal Terhubung Dengan Database');
+						},
+						503: function() {
+							$.unblockUI();
+							alert('Error 503 - Terputus Dengan Database');
+						}
+					}
+				})
+				.done(function(result){
+
+					if(result.code == 200)
+					{
+						alert('Update Planning Hour Berhasil');
+					}else{
+						alert('Update Planning Hour Gagal');
+					}
+					$.unblockUI();
+				});
+			}
+		});
+
+		$('#form_calendar2').validate({
+			debug: true,
+			errorClass: 'help-inline text-danger',
+			submitHandler: function( form ) {
+				$.ajax({
+					url         : '<?=site_url();?>planning/update2',
+					method      : 'POST',
+					data        : $('#form_calendar2').serialize(),
+					dataType    : 'JSON',
+					beforeSend  : function(){
+						$.blockUI({ message: '<i class="fa fa-spinner fa-spin"></i> Silahkan Tunggu...' });
+					},
+					statusCode  : {
+						200: function() {
+							$.unblockUI();
+						},
+						400: function() {
+							$.unblockUI();
+							alert('Error 400');
+						},
+						404: function() {
+							$.unblockUI();
+							alert('Error 404 - Halaman Tidak Ditemukan');
+						},
+						500: function() {
+							$.unblockUI();
+							alert('Error 500 - Gagal Terhubung Dengan Database');
+						},
+						503: function() {
+							$.unblockUI();
+							alert('Error 503 - Terputus Dengan Database');
+						}
+					}
+				})
+				.done(function(result){
+
+					if(result.code == 200)
+					{
+						alert('Update Planning Hour Berhasil');
+					}else{
+						alert('Update Planning Hour Gagal');
+					}
+					$.unblockUI();
+				});
+			}
+		});
+
+		$('#form_calendar3').validate({
+			debug: true,
+			errorClass: 'help-inline text-danger',
+			submitHandler: function( form ) {
+				$.ajax({
+					url         : '<?=site_url();?>planning/update3',
+					method      : 'POST',
+					data        : $('#form_calendar3').serialize(),
+					dataType    : 'JSON',
+					beforeSend  : function(){
+						$.blockUI({ message: '<i class="fa fa-spinner fa-spin"></i> Silahkan Tunggu...' });
+					},
+					statusCode  : {
+						200: function() {
+							$.unblockUI();
+						},
+						400: function() {
+							$.unblockUI();
+							alert('Error 400');
+						},
+						404: function() {
+							$.unblockUI();
+							alert('Error 404 - Halaman Tidak Ditemukan');
+						},
+						500: function() {
+							$.unblockUI();
+							alert('Error 500 - Gagal Terhubung Dengan Database');
+						},
+						503: function() {
+							$.unblockUI();
+							alert('Error 503 - Terputus Dengan Database');
+						}
+					}
+				})
+				.done(function(result){
+
+					if(result.code == 200)
+					{
+						alert('Update Planning Hour Berhasil');
+					}else{
+						alert('Update Planning Hour Gagal');
+					}
+					$.unblockUI();
+				});
+			}
+		});
+
+		$('#tExport').on('click', function(){
+			$('#modal-export').modal('show');
+		});
+
+		$(".datepickerexport").datepicker({
+			autoclose: true,
+			format: "dd/mm/yyyy"
+		});
+
+		$(".yearpickerexport").datepicker({
+			autoclose: true,
+			format: "mm/yyyy",
+			viewMode: "months", 
+			minViewMode: "months"
+		});
+
+		$('#daily_export').validate({
+			debug: true,
+			rules:{
+				export_start:{
+					required:true,
+				},
+				export_end:{
+					required:true,
+				}
+			},
+			errorClass: 'help-block text-danger',
+			errorPlacement: function(error, element) {
+				error.insertAfter($(element).parent());
+			},
+			submitHandler: function( form ) {
+				let from = moment($('#export_start').val(), 'DD/MM/YYYY');
+				let to   = moment($('#export_end').val(), 'DD/MM/YYYY');
+				window.open(`<?=site_url();?>export/daily/${from.format('YYYY-MM-DD')}/${to.format('YYYY-MM-DD')}`, '_blank');
+			}
+		});
+
+		$('#monthly_export').validate({
+			debug: true,
+			rules:{
+				my:{
+					required:true,
+				}
+			},
+			errorClass: 'help-block text-danger',
+			errorPlacement: function(error, element) {
+				error.insertAfter($(element).parent());
+			},
+			submitHandler: function( form ) {
+				let my = moment($('#my').val(), 'MM/YYYY');
+				window.open(`<?=site_url();?>export/monthly/${my.format('YYYY-MM')}`, '_blank');
+			}
+		});
 
 		
 	});
+
+	document.onkeydown = function(event) {
+		if(event.keyCode == 39){
+			$('#next_slide').trigger('click');
+		}
+
+		if(event.keyCode == 80){
+			$('#pause_play').trigger('click');
+		}
+    };
 
 
 </script>
@@ -163,12 +371,12 @@
 		}else if(count2 == 2){
 			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '400px');
 		}else{
-			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '230px');
+			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '260px');
 		}
-		// chart1.render();
+		chart1.render();
 		chart2.render();
-		// chart3.render();
-		// chart22.render();
+		chart3.render();
+		chart22.render();
 	}
 
 	function clockUpdate() {
@@ -179,53 +387,42 @@
 	function wsKikukawa()
 	{
 		wstest = new WebSocket("ws://localhost:1880/ws/trigger/kikukawa");
-		wstest.onerror = (e) => { console.log(e) }
-		wstest.onopen = () => { console.log('connect') }
+		wstest.onerror = (e) => console.log(e)
+		wstest.onopen = () => console.log('connect');
 		wstest.onclose = () => {
 			console.log('disconnect');
-			setTimeout(()=> {
-				wsKikukawa();
-			}, 1000);
+			setTimeout(()=> wsKikukawa(), 1000);
 		}
 		wstest.onmessage = (e) => {
 			data = $.parseJSON(e.data);
-			
 			let trigger = data.trigger;
 			let values = data.values;
-
-			$('#m1cutting').removeClass('cuttingBG');
-			$('#m1dandori').removeClass('dandoriBG');
-			$('#m1man').removeClass('manBG');
-			$('#m1idle').removeClass('idleBG');
-			$('#m1alarm').removeClass('alarmBG');
+			$('#m1cutting').removeClass('cuttingBG').removeClass('text-dark');
+			$('#m1dandori').removeClass('dandoriBG').removeClass('text-dark');
+			$('#m1man').removeClass('manBG').removeClass('text-dark');
+			$('#m1idle').removeClass('idleBG').removeClass('text-dark');
+			$('#m1alarm').removeClass('alarmBG').removeClass('text-dark');
 
 			if(trigger.length > 1){
-
 				$.each(trigger, (i, k) => {
-					if(k == "cutting"){ $('#m1cutting').addClass('cuttingBG'); }
-
-					if(k == "dandori"){ $('#m1dandori').addClass('dandoriBG'); }
-
-					if(k == "man"){ $('#m1man').addClass('manBG'); }
-
-					if(k == "idle"){ $('#m1idle').addClass('idleBG');}
-
-					if(k == "alarm"){ $('#m1alarm').addClass('alarmBG'); }
-
+					if(k == "cutting"){ $('#m1cutting').addClass('cuttingBG text-dark'); }
+					if(k == "dandori"){ $('#m1dandori').addClass('dandoriBG text-dark'); }
+					if(k == "man"){ $('#m1man').addClass('manBG text-dark'); }
+					if(k == "idle"){ $('#m1idle').addClass('idleBG text-dark');}
+					if(k == "alarm"){ $('#m1alarm').addClass('alarmBG text-dark'); }
 				});
-
 			}else{
 				$.each(trigger, (i, k) => {
-					if(k == "cutting"){ 
-						$('#m1cutting').addClass('cuttingBG'); 
+					if(k == "cutting"){
+						$('#m1cutting').addClass('cuttingBG text-dark');
 					}else if(k == "dandori"){
-						$('#m1dandori').addClass('dandoriBG');
-					}else if(k == "man_act"){
-						$('#m1man').addClass('manBG');
-					}else if(k == "iddle"){
-						$('#m1idle').addClass('idleBG');
+						$('#m1dandori').addClass('dandoriBG text-dark');
+					}else if(k == "man"){
+						$('#m1man').addClass('manBG text-dark');
+					}else if(k == "idle"){
+						$('#m1idle').addClass('idleBG text-dark');
 					}else if(k == "alarm"){
-						$('#m1alarm').addClass('alarmBG');
+						$('#m1alarm').addClass('alarmBG text-dark');
 					}
 				});
 			}
@@ -256,39 +453,34 @@
 			let trigger = data.trigger;
 			let values = data.values;
 
-			$('#m2cutting').removeClass('cuttingBG');
-			$('#m2dandori').removeClass('dandoriBG');
-			$('#m2man').removeClass('manBG');
-			$('#m2idle').removeClass('idleBG');
-			$('#m2alarm').removeClass('alarmBG');
+			$('#m2cutting').removeClass('cuttingBG').removeClass('text-dark');
+			$('#m2dandori').removeClass('dandoriBG').removeClass('text-dark');
+			$('#m2man').removeClass('manBG').removeClass('text-dark');
+			$('#m2idle').removeClass('idleBG').removeClass('text-dark');
+			$('#m2alarm').removeClass('alarmBG').removeClass('text-dark');
 
 			if(trigger.length > 1){
 
 				$.each(trigger, (i, k) => {
-					if(k == "cutting"){ $('#m2cutting').addClass('cuttingBG'); }
-
-					if(k == "dandori"){ $('#m2dandori').addClass('dandoriBG'); }
-
-					if(k == "man"){ $('#m2man').addClass('manBG'); }
-
-					if(k == "idle"){ $('#m2idle').addClass('idleBG');}
-
-					if(k == "alarm"){ $('#m2alarm').addClass('alarmBG'); }
-
+					if(k == "cutting"){ $('#m2cutting').addClass('cuttingBG text-dark'); }
+					if(k == "dandori"){ $('#m2dandori').addClass('dandoriBG text-dark'); }
+					if(k == "man"){ $('#m2man').addClass('manBG text-dark'); }
+					if(k == "idle"){ $('#m2idle').addClass('idleBG text-dark');}
+					if(k == "alarm"){ $('#m2alarm').addClass('alarmBG text-dark'); }
 				});
 
 			}else{
 				$.each(trigger, (i, k) => {
 					if(k == "cutting"){ 
-						$('#m2cutting').addClass('cuttingBG'); 
+						$('#m2cutting').addClass('cuttingBG text-dark'); 
 					}else if(k == "dandori"){
-						$('#m2dandori').addClass('dandoriBG');
-					}else if(k == "man_act"){
-						$('#m2man').addClass('manBG');
-					}else if(k == "iddle"){
-						$('#m2idle').addClass('idleBG');
+						$('#m2dandori').addClass('dandoriBG text-dark');
+					}else if(k == "man"){
+						$('#m2man').addClass('manBG text-dark');
+					}else if(k == "idle"){
+						$('#m2idle').addClass('idleBG text-dark');
 					}else if(k == "alarm"){
-						$('#m2alarm').addClass('alarmBG');
+						$('#m2alarm').addClass('alarmBG text-dark');
 					}
 				});
 			}
@@ -319,39 +511,34 @@
 			let trigger = data.trigger;
 			let values = data.values;
 
-			$('#m3cutting').removeClass('cuttingBG');
-			$('#m3dandori').removeClass('dandoriBG');
-			$('#m3man').removeClass('manBG');
-			$('#m3idle').removeClass('idleBG');
-			$('#m3alarm').removeClass('alarmBG');
+			$('#m3cutting').removeClass('cuttingBG text-dark');
+			$('#m3dandori').removeClass('dandoriBG text-dark');
+			$('#m3man').removeClass('manBG text-dark');
+			$('#m3idle').removeClass('idleBG text-dark');
+			$('#m3alarm').removeClass('alarmBG text-dark');
 
 			if(trigger.length > 1){
 
 				$.each(trigger, (i, k) => {
-					if(k == "cutting"){ $('#m3cutting').addClass('cuttingBG'); }
-
-					if(k == "dandori"){ $('#m3dandori').addClass('dandoriBG'); }
-
-					if(k == "man"){ $('#m3man').addClass('manBG'); }
-
-					if(k == "idle"){ $('#m3idle').addClass('idleBG');}
-
-					if(k == "alarm"){ $('#m3alarm').addClass('alarmBG'); }
-
+					if(k == "cutting"){ $('#m3cutting').addClass('cuttingBG text-dark'); }
+					if(k == "dandori"){ $('#m3dandori').addClass('dandoriBG text-dark'); }
+					if(k == "man"){ $('#m3man').addClass('manBG text-dark'); }
+					if(k == "idle"){ $('#m3idle').addClass('idleBG text-dark');}
+					if(k == "alarm"){ $('#m3alarm').addClass('alarmBG text-dark'); }
 				});
 
 			}else{
 				$.each(trigger, (i, k) => {
 					if(k == "cutting"){ 
-						$('#m3cutting').addClass('cuttingBG'); 
+						$('#m3cutting').addClass('cuttingBG text-dark'); 
 					}else if(k == "dandori"){
-						$('#m3dandori').addClass('dandoriBG');
-					}else if(k == "man_act"){
-						$('#m3man').addClass('manBG');
-					}else if(k == "iddle"){
-						$('#m3idle').addClass('idleBG');
+						$('#m3dandori').addClass('dandoriBG text-dark');
+					}else if(k == "man"){
+						$('#m3man').addClass('manBG text-dark');
+					}else if(k == "idle"){
+						$('#m3idle').addClass('idleBG text-dark');
 					}else if(k == "alarm"){
-						$('#m3alarm').addClass('alarmBG');
+						$('#m3alarm').addClass('alarmBG text-dark');
 					}
 				});
 			}
@@ -378,568 +565,204 @@
 		return `${pad(hours)}:${pad(minutes)}`;
 	}
 
-	function pausePlaySlide()
+	function initCalendar1()
 	{
-		console.log(statusSlide);
-		if(statusSlide == 'play'){
-			statusSlide = 'pause';
-			$('#button_pause').show();
-			$('#button_play').hide();
-			renderSlide.pause();
-		}else if(statusSlide == 'pause'){
-			statusSlide = 'play';
-			$('#button_pause').hide();
-			$('#button_play').show();
-			renderSlide.play();
-		}
+		$.ajax({
+			url: `<?=site_url();?>planning/init_calendar1`,
+			type: 'get',
+			data: {
+				monthcal1: monthcal1,
+				yearcal1: yearcal1,
+			},
+			beforeSend: function(){
+				$('#submit1').attr('disabled', true);
+				$.blockUI();
+			},
+			statusCode: {
+				404: function(){
+					$.unblockUI();
+					alert('Page not Found');
+				},
+				500: function(){
+					$.unblockUI();
+					alert('Cannot connect to database');
+				},
+				503: function(){
+					$.unblockUI();
+					alert('Connection timeout');
+				}
+			}
+		}).done(function(res){
+			$('#vcalendar1').html(res);
+			$('#submit1').attr('disabled', false);
+			$.unblockUI();
+
+			$('.fdate').inputmask('99:99');
+			$("#datepickercal1").datepicker({
+				autoclose: true,
+				format: "M yyyy",
+				viewMode: "months", 
+				minViewMode: "months"
+			});
+
+			$('#datepickercal1').on('change', function(){
+				let xdate = $(this).val();
+				let dateExplode = xdate.split(' ');
+				monthcal1 = dateExplode[0];
+				yearcal1 = dateExplode[1];
+				dateDynamicCal1 = moment(`${monthcal1} ${yearcal1}`, 'MMM YYYY');
+				initCalendar1();
+			});
+
+			$('.prev').on('click', function(){
+				console.log(dateDynamicCal1)
+				dateDynamicCal1.subtract(1, 'months');
+				monthcal1 = dateDynamicCal1.format('MMM');
+				yearcal1 = dateDynamicCal1.format('YYYY');
+				$('#datepickercal1').val(`${monthcal1} ${yearcal1}`).trigger('change');
+			});
+
+			$('.next').on('click', function(){
+				dateDynamicCal1.add(1, 'months');
+				monthcal1 = dateDynamicCal1.format('MMM');
+				yearcal1 = dateDynamicCal1.format('YYYY');
+				$('#datepickercal1').val(`${monthcal1} ${yearcal1}`).trigger('change');
+			});
+
+		});
 	}
 
-	function nextSlide()
+	function initCalendar2()
 	{
-		console.log(activeSlide)
-		statusSlide = 'pause';
-		renderSlide.pause();
-		$('#button_pause').show();
-		$('#button_play').hide();
+		$.ajax({
+			url: `<?=site_url();?>planning/init_calendar2`,
+			type: 'get',
+			data: {
+				monthcal2: monthcal2,
+				yearcal2: yearcal2,
+			},
+			beforeSend: function(){
+				$('#submit2').attr('disabled', true);
+				$.blockUI();
+			},
+			statusCode: {
+				404: function(){
+					$.unblockUI();
+					alert('Page not Found');
+				},
+				500: function(){
+					$.unblockUI();
+					alert('Cannot connect to database');
+				},
+				503: function(){
+					$.unblockUI();
+					alert('Connection timeout');
+				}
+			}
+		}).done(function(res){
+			$('#vcalendar2').html(res);
+			$('#submit2').attr('disabled', false);
+			$.unblockUI();
 
-		if(activeSlide == "slide1"){
-			slide1.show();
-			slide2.hide();
-			slide3.hide();
-			activeSlide = "slide2";
-		}else if(activeSlide == "slide2"){
-			slide1.hide();
-			slide2.show();
-			slide3.hide();
-			activeSlide = "slide3";
-		}else if(activeSlide == "slide3"){
-			slide1.hide();
-			slide2.hide();
-			slide3.show();
-			activeSlide = "slide1";
-		}
+			$('.fdate').inputmask('99:99');
+			$("#datepickercal2").datepicker({
+				autoclose: true,
+				format: "M yyyy",
+				viewMode: "months", 
+				minViewMode: "months"
+			});
 
-		// chart1.render();
-		chart2.render();
-		// chart3.render();
-		// chart22.render();
+			// $(".triggerDP1").click(function(){ $("#datepickercal1").datepicker("show"); });
 
+			$('#datepickercal2').on('change', function(){
+				let xdate = $(this).val();
+				let dateExplode = xdate.split(' ');
+				monthcal2 = dateExplode[0];
+				yearcal2 = dateExplode[1];
+				dateDynamicCal2 = moment(`${monthcal2} ${yearcal2}`, 'MMM YYYY');
+				initCalendar2();
+			});
+
+			$('.prev').on('click', function(){
+				dateDynamicCal2.subtract(1, 'months');
+				monthcal2 = dateDynamicCal2.format('MMM');
+				yearcal2 = dateDynamicCal2.format('YYYY');
+				$('#datepickercal2').val(`${monthcal2} ${yearcal2}`).trigger('change');
+			});
+
+			$('.next').on('click', function(){
+				dateDynamicCal2.add(1, 'months');
+				monthcal2 = dateDynamicCal2.format('MMM');
+				yearcal2 = dateDynamicCal2.format('YYYY');
+				$('#datepickercal2').val(`${monthcal2} ${yearcal2}`).trigger('change');
+			});
+
+		});
 	}
 
-	// $.getJSON(`<?=site_url();?>json/m1/${datepicker.val()}`, function(data) {  
-	// 	$.each(data, function(key, value){
-	// 		dataPoints.push({  
-	// 			y: parseFloat(value.eff),
-	// 			label: value.tanggal,
-	// 		});
-	// 		dataStandar.push({ 
-	// 			label: value.tanggal,
-	// 		});
-	// 	});
-	// });
-
-	// $.getJSON(`<?=site_url();?>json/m2/${datepicker.val()}`, function(data) {  
-	// 	$.each(data, function(key, value){
-	// 		dataPoints2.push({  
-	// 			y: parseFloat(value.eff),
-	// 			label: value.tanggal,
-	// 		});
-	// 		dataStandar2.push({ 
-	// 			label: value.tanggal,
-	// 		});
-	// 	});
-	// });
-
-	// $.getJSON(`<?=site_url();?>json/m3/${datepicker.val()}`, function(data) {  
-	// 	$.each(data, function(key, value){
-	// 		dataPoints3.push({  
-	// 			y: parseFloat(value.eff),
-	// 			label: value.tanggal,
-	// 		});
-	// 		dataStandar3.push({ 
-	// 			label: value.tanggal,
-	// 		});
-	// 	});
-	// });
-
-	// $.getJSON(`<?=site_url();?>json/monthly/${yearpicker.val()}`, function(data) {  
-	// 	$.each(data.kikukawa_array, function(key, value){
-	// 		dataPoints22Kikukawa.push({  
-	// 			label: `${value.month} ${value.year}`,
-	// 			y: value.eff,
-	// 		});
-	// 	});
-
-	// 	$.each(data.ncb3_array, function(key, value){
-	// 		dataPoints22NCB3.push({  
-	// 			label: `${value.month} ${value.year}`,
-	// 			y: value.eff,
-	// 		});
-	// 	});
-
-	// 	$.each(data.ncb6_array, function(key, value){
-	// 		dataPoints22NCB6.push({  
-	// 			label: `${value.month} ${value.year}`,
-	// 			y: value.eff,
-	// 		});
-	// 	});
-	// });
-
-	// window.onload = function (){
-	// 	let dateObj = new Date();
-	// 	let MYDate  = dateObj.toLocaleString('default', { month: 'short' }) + " " + dateObj.getFullYear();
-	// 	let newEff;
-		
-	// 	if(datepicker.val() == MYDate){
-	// 		wsKikukawa1();
-	// 		wsNCB31();
-	// 		wsNCB61();
-	// 		wsMonthly();
-	// 	}
-		
-	// 	chart1 = new CanvasJS.Chart('kikukawa', {
-	// 		animationEnabled: true,
-	// 		theme: "light1",
-	// 		title: {
-	// 			text: "Kikukawa"
-	// 		},
-	// 		axisX: {
-	// 			labelFontFamily: "Calibri",
-	// 			labelFontSize: 12,
-	// 			interval: 32,
-	// 			labelAngle: 90
-	// 		},
-	// 		axisY: {
-	// 			title: "Efficiency (%)",
-	// 			suffix: "%",
-	// 			titleFontSize: 16,
-	// 			includeZero: true,
-	// 			gridThickness: 0.5,
-	// 			maximum: 100,
-	// 		},
-	// 		toolTip: {
-	// 			shared: true
-	// 		},
-
-	// 		data: [
-	// 		{
-	// 			type: 'column',
-	// 			color: "#f7caac",
-	// 			showInLegend: false,
-	// 			name: "Eff",
-	// 			fillOpacity: 1,
-	// 			dataPoints: dataPoints,
-	// 			xValueFormatString: "YYYY-MM-DD",
-	// 		},
-	// 		{ 
-	// 			type: "column",
-	// 			color: "#999",
-	// 			xValueType: "dateTime",
-	// 			xValueFormatString: "YYYY-MM-DD",
-	// 			yValueFormatString: "#####.##",
-	// 			showInLegend: null,
-	// 			toolTipContent: null,
-	// 			markerType: null,
-	// 			name: "standard",
-	// 			fillOpacity: 0,
-	// 			dataPoints: dataStandar
-	// 		}
-	// 		]
-	// 	});
-
-	// 	chart2 = new CanvasJS.Chart('ncb3', {
-	// 		animationEnabled: true,
-	// 		theme: "light1",
-	// 		title: {
-	// 			text: "NCB3"
-	// 		},
-	// 		axisX: {
-	// 			labelFontFamily: "Calibri",
-	// 			labelFontSize: 12,
-	// 			interval: 32,
-	// 			labelAngle: 90
-	// 		},
-	// 		axisY: {
-	// 			title: "Efficiency (%)",
-	// 			suffix: "%",
-	// 			titleFontSize: 16,
-	// 			includeZero: true,
-	// 			gridThickness: 0.5,
-	// 			maximum: 100,
-	// 		},
-	// 		toolTip: {
-	// 			shared: true
-	// 		},
-
-	// 		data: [
-	// 		{
-	// 			type: 'column',
-	// 			color: "#2e75b5",
-	// 			showInLegend: false,
-	// 			name: "Eff",
-	// 			fillOpacity: 1,
-	// 			dataPoints: dataPoints2,
-	// 			xValueFormatString: "YYYY-MM-DD",
-	// 		},
-	// 		{ 
-	// 			type: "column",
-	// 			color: "#999",
-	// 			xValueType: "dateTime",
-	// 			xValueFormatString: "YYYY-MM-DD",
-	// 			yValueFormatString: "#####.##",
-	// 			showInLegend: null,
-	// 			toolTipContent: null,
-	// 			markerType: null,
-	// 			name: "standard",
-	// 			fillOpacity: 0,
-	// 			dataPoints: dataStandar2
-	// 		}
-	// 		]
-	// 	});
-
-	// 	chart3 = new CanvasJS.Chart('ncb6', {
-	// 		animationEnabled: true,
-	// 		theme: "light1",
-	// 		title: {
-	// 			text: "NCB6"
-	// 		},
-	// 		axisX: {
-	// 			labelFontFamily: "Calibri",
-	// 			labelFontSize: 12,
-	// 			interval: 32,
-	// 			labelAngle: 90
-	// 		},
-	// 		axisY: {
-	// 			title: "Efficiency (%)",
-	// 			suffix: "%",
-	// 			titleFontSize: 16,
-	// 			includeZero: true,
-	// 			gridThickness: 0.5,
-	// 			maximum: 100,
-	// 		},
-	// 		toolTip: {
-	// 			shared: true
-	// 		},
-
-	// 		data: [
-	// 		{
-	// 			type: 'column',
-	// 			color: "#92d050",
-	// 			showInLegend: false,
-	// 			name: "Eff",
-	// 			fillOpacity: 1,
-	// 			dataPoints: dataPoints3,
-	// 			xValueFormatString: "YYYY-MM-DD",
-	// 		},
-	// 		{ 
-	// 			type: "column",
-	// 			color: "#999",
-	// 			xValueType: "dateTime",
-	// 			xValueFormatString: "YYYY-MM-DD",
-	// 			yValueFormatString: "#####.##",
-	// 			showInLegend: null,
-	// 			toolTipContent: null,
-	// 			markerType: null,
-	// 			name: "standard",
-	// 			fillOpacity: 0,
-	// 			dataPoints: dataStandar3
-	// 		}
-	// 		]
-	// 	});
-
-	// 	chart22 = new CanvasJS.Chart('monthly', {
-	// 		animationEnabled: true,
-	// 		theme: "light1",
-	// 		axisY: {
-	// 			title: "Efficiency (%)",
-	// 			suffix: "%",
-	// 			titleFontSize: 16,
-	// 			includeZero: true,
-	// 			gridThickness: 0.5,
-	// 			maximum: 110,
-	// 		},
-	// 		toolTip: {
-	// 			shared: true
-	// 		},
-	// 		legend: {
-	// 			cursor: "pointer",
-	// 			itemclick: toggleDataSeries22
-	// 		},
-
-	// 		data: [
-	// 		{
-	// 			type: 'column',
-	// 			name: "Kikukawa",
-	// 			legendText: "Kikukawa",
-	// 			showInLegend: true,
-	// 			color: "#f7caac",
-	// 			fillOpacity: 1,
-	// 			dataPoints: dataPoints22Kikukawa
-	// 		},
-	// 		{ 
-	// 			type: 'column',
-	// 			name: "NCB3",
-	// 			legendText: "NCB3",
-	// 			showInLegend: true,
-	// 			color: "#2e75b5",
-	// 			fillOpacity: 1,
-	// 			dataPoints: dataPoints22NCB3
-	// 		},
-	// 		{ 
-	// 			type: 'column',
-	// 			name: "NCB6",
-	// 			legendText: "NCB6",
-	// 			showInLegend: true,
-	// 			color: "#92d050",
-	// 			fillOpacity: 1,
-	// 			dataPoints: dataPoints22NCB6
-	// 		}
-	// 		]
-	// 	});
-
-	// 	chart1.render();
-	// 	chart2.render();
-	// 	chart3.render();
-	// 	chart22.render();
-
-		
-	// 	$("#datepicker").datepicker({
-	// 		autoclose: true,
-	// 		format: "M yyyy",
-	// 		viewMode: "months", 
-	// 		minViewMode: "months"
-	// 	});
-
-	// 	$("#yearpicker").datepicker({
-	// 		autoclose: true,
-	// 		format: "yyyy",
-	// 		viewMode: "years", 
-	// 		minViewMode: "years"
-	// 	});
-
-	// 	$('#datepicker').on('change', function(){			
-	// 		updateChart();
-	// 	});
-
-	// 	$('#yearpicker').on('change', function(){			
-	// 		updateChart2();
-	// 	});
-
-	// 	function toggleDataSeries22(e) {
-	// 		if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-	// 			e.dataSeries.visible = false;
-	// 		}
-	// 		else {
-	// 			e.dataSeries.visible = true;
-	// 		}
-	// 		chart22.render();
-	// 	}
-
-		
-	// 	function updateChart() {
-	// 		dataPoints.splice(0, dataPoints.length);
-	// 		dataStandar.splice(0, dataStandar.length);
-
-	// 		dataPoints2.splice(0, dataPoints2.length);
-	// 		dataStandar2.splice(0, dataStandar2.length);
-
-	// 		dataPoints3.splice(0, dataPoints2.length);
-	// 		dataStandar3.splice(0, dataStandar2.length);
-
-	// 		$.getJSON(`<?=site_url();?>json/m1/${datepicker.val()}`, function(data) {
-	// 			$.each(data, function(key, value){
-	// 				dataPoints.push({  
-	// 					y: parseFloat(value.eff),
-	// 					label: value.tanggal,
-	// 				});
-	// 				dataStandar.push({ 
-	// 					label: value.tanggal,
-	// 				});
-	// 			});
-	// 			chart1.render();
-	// 		});
-
-	// 		$.getJSON(`<?=site_url();?>json/m2/${datepicker.val()}`, function(data) {
-	// 			$.each(data, function(key, value){
-	// 				dataPoints2.push({  
-	// 					y: parseFloat(value.eff),
-	// 					label: value.tanggal,
-	// 				});
-	// 				dataStandar2.push({ 
-	// 					label: value.tanggal,
-	// 				});
-	// 			});
-	// 			chart2.render();
-	// 		});
-
-	// 		$.getJSON(`<?=site_url();?>json/m3/${datepicker.val()}`, function(data) {
-	// 			$.each(data, function(key, value){
-	// 				dataPoints3.push({  
-	// 					y: parseFloat(value.eff),
-	// 					label: value.tanggal,
-	// 				});
-	// 				dataStandar3.push({ 
-	// 					label: value.tanggal,
-	// 				});
-	// 			});
-	// 			chart3.render();
-	// 		});
-	// 	}
-
-	// 	function updateChart2() {
-	// 		dataPoints22Kikukawa.splice(0, dataPoints22Kikukawa.length);
-	// 		dataPoints22NCB3.splice(0, dataPoints22NCB3.length);
-	// 		dataPoints22NCB6.splice(0, dataPoints22NCB6.length);
-
-	// 		$.getJSON(`<?=site_url();?>json/monthly/${yearpicker.val()}`, function(data) {
-	// 			$.each(data.kikukawa_array, function(key, value){
-	// 				dataPoints22Kikukawa.push({  
-	// 					label: `${value.month} ${value.year}`,
-	// 					y: value.eff,
-	// 				});
-	// 			});
-
-	// 			$.each(data.ncb3_array, function(key, value){
-	// 				dataPoints22NCB3.push({  
-	// 					label: `${value.month} ${value.year}`,
-	// 					y: value.eff,
-	// 				});
-	// 			});
-
-	// 			$.each(data.ncb6_array, function(key, value){
-	// 				dataPoints22NCB6.push({  
-	// 					label: `${value.month} ${value.year}`,
-	// 					y: value.eff,
-	// 				});
-	// 			});
-
-	// 			chart22.render();
-	// 		});
-	// 	}
-	// }
-
-	function wsKikukawa1()
+	function initCalendar3()
 	{
-		wstest = new WebSocket("ws://localhost:1880/ws/trigger/kikukawa");
-		wstest.onerror = (e) => { console.log(e) }
-		wstest.onopen = () => { console.log('connect') }
-		wstest.onclose = () => {
-			console.log('disconnect');
-			setTimeout(()=> {
-				wsKikukawa1();
-			}, 1000);
-		}
-		wstest.onmessage = (e) => {
-			data = $.parseJSON(e.data);
-			newEff = data.values.eff;
-
-			for (var z = 0; z < dataPoints.length; z++) {
-				let xlabel = dataPoints[z].label;
-				if(xlabel == dateDynamic.format('YYYY-MM-DD')){
-					dataPoints[z].y = parseFloat(newEff);
-					chart1.render();
+		$.ajax({
+			url: `<?=site_url();?>planning/init_calendar3`,
+			type: 'get',
+			data: {
+				monthcal3: monthcal3,
+				yearcal3: yearcal3,
+			},
+			beforeSend: function(){
+				$('#submit3').attr('disabled', true);
+				$.blockUI();
+			},
+			statusCode: {
+				404: function(){
+					$.unblockUI();
+					alert('Page not Found');
+				},
+				500: function(){
+					$.unblockUI();
+					alert('Cannot connect to database');
+				},
+				503: function(){
+					$.unblockUI();
+					alert('Connection timeout');
 				}
 			}
-		}
-	}
+		}).done(function(res){
+			$('#vcalendar3').html(res);
+			$('#submit3').attr('disabled', false);
+			$.unblockUI();
 
-	function wsNCB31()
-	{
-		wstest2 = new WebSocket("ws://localhost:1880/ws/trigger/ncb3");
-		wstest2.onerror = (e) => { console.log(e) }
-		wstest2.onopen  = () => { console.log('connect') }
-		wstest2.onclose = () => {
-			console.log('disconnect');
-			setTimeout(()=> {
-				wsNCB31();
-			}, 1000);
-		}
-		wstest2.onmessage = (e) => {
-			data = $.parseJSON(e.data);
-			newEff = data.values.eff;
+			$('.fdate').inputmask('99:99');
+			$("#datepickercal3").datepicker({
+				autoclose: true,
+				format: "M yyyy",
+				viewMode: "months", 
+				minViewMode: "months"
+			});
 
-			for (var z = 0; z < dataPoints2.length; z++) {
-				let xlabel = dataPoints2[z].label;
-				if(xlabel == dateDynamic.format('YYYY-MM-DD')){
-					dataPoints2[z].y = parseFloat(newEff);
-					chart2.render();
-				}
-			}
-		}
-	}
+			$('#datepickercal3').on('change', function(){
+				let xdate = $(this).val();
+				let dateExplode = xdate.split(' ');
+				monthcal3 = dateExplode[0];
+				yearcal3 = dateExplode[1];
+				dateDynamicCal3 = moment(`${monthcal3} ${yearcal3}`, 'MMM YYYY');
+				initCalendar3();
+			});
 
-	function wsNCB61()
-	{
-		wstest3 = new WebSocket("ws://localhost:1880/ws/trigger/ncb6");
-		wstest3.onerror = (e) => { console.log(e) }
-		wstest3.onopen  = () => { console.log('connect') }
-		wstest3.onclose = () => {
-			console.log('disconnect');
-			setTimeout(()=> {
-				wsNCB61();
-			}, 1000);
-		}
-		wstest3.onmessage = (e) => {
-			data = $.parseJSON(e.data);
-			newEff = data.values.eff;
+			$('.prev').on('click', function(){
+				dateDynamicCal3.subtract(1, 'months');
+				monthcal3 = dateDynamicCal3.format('MMM');
+				yearcal3 = dateDynamicCal3.format('YYYY');
+				$('#datepickercal3').val(`${monthcal3} ${yearcal3}`).trigger('change');
+			});
 
-			for (var z = 0; z < dataPoints3.length; z++) {
-				let xlabel = dataPoints3[z].label;
-				if(xlabel == dateDynamic.format('YYYY-MM-DD')){
-					dataPoints3[z].y = parseFloat(newEff);
-					chart3.render();
-				}
-			}
-		}
-	}
+			$('.next').on('click', function(){
+				dateDynamicCal3.add(1, 'months');
+				monthcal3 = dateDynamicCal3.format('MMM');
+				yearcal3 = dateDynamicCal3.format('YYYY');
+				$('#datepickercal3').val(`${monthcal3} ${yearcal3}`).trigger('change');
+			});
 
-	function wsMonthly()
-	{
-		wsBulanan = new WebSocket("ws://localhost:1880/ws/monthly");
-		wsBulanan.onerror = (e) => { console.log(e) }
-		wsBulanan.onopen  = () => { console.log('connect') }
-		wsBulanan.onclose = () => {
-			console.log('disconnect');
-			setTimeout(()=> {
-				wsMonthly();
-			}, 1000);
-		}
-		wsBulanan.onmessage = (e) => {
-			let data = $.parseJSON(e.data);
-			console.log(data);
-
-			month    = data.month;
-			kikukawa = data.kikukawa;
-			ncb3     = data.ncb3;
-			ncb6     = data.ncb6;
-
-			for (var z = 0; z < dataPoints22Kikukawa.length; z++) {
-				let xlabel = dataPoints22Kikukawa[z].label;
-				if(xlabel == dateDynamic.format('MMM YYYY')){
-					dataPoints22Kikukawa[z].y = parseFloat(kikukawa.toFixed(2));
-					// chart22.render();
-				}
-			}
-
-			for (var z = 0; z < dataPoints22NCB3.length; z++) {
-				let xlabel = dataPoints22NCB3[z].label;
-				if(xlabel == dateDynamic.format('MMM YYYY')){
-					dataPoints22NCB3[z].y = parseFloat(ncb3.toFixed(2));
-					// chart22.render();
-				}
-			}
-
-			for (var z = 0; z < dataPoints22NCB6.length; z++) {
-				let xlabel = dataPoints22NCB6[z].label;
-				if(xlabel == dateDynamic.format('MMM YYYY')){
-					dataPoints22NCB6[z].y = parseFloat(ncb6.toFixed(2));
-					// chart22.render();
-				}
-			}
-
-			console.log(dataPoints22Kikukawa);
-
-			chart22.render();
-		}
+		});
 	}
 </script>
