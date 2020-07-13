@@ -1114,7 +1114,7 @@
 
 			for (var z = 0; z < dataPoints.length; z++) {
 				let xlabel = dataPoints[z].label;
-				if(xlabel == dateDynamic.format('YYYY-MM-DD')){
+				if(xlabel == dateDynamicCal1.format('YYYY-MM-DD')){
 					dataPoints[z].y = parseFloat(newEff);
 					chart1.render();
 				}
@@ -1139,7 +1139,7 @@
 
 			for (var z = 0; z < dataPoints2.length; z++) {
 				let xlabel = dataPoints2[z].label;
-				if(xlabel == dateDynamic.format('YYYY-MM-DD')){
+				if(xlabel == dateDynamicCal2.format('YYYY-MM-DD')){
 					dataPoints2[z].y = parseFloat(newEff);
 					chart2.render();
 				}
@@ -1164,7 +1164,7 @@
 
 			for (var z = 0; z < dataPoints3.length; z++) {
 				let xlabel = dataPoints3[z].label;
-				if(xlabel == dateDynamic.format('YYYY-MM-DD')){
+				if(xlabel == dateDynamicCal3.format('YYYY-MM-DD')){
 					dataPoints3[z].y = parseFloat(newEff);
 					chart3.render();
 				}
@@ -1191,7 +1191,7 @@
 
 			for (var z = 0; z < dataPoints22Kikukawa.length; z++) {
 				let xlabel = dataPoints22Kikukawa[z].label;
-				if(xlabel == dateDynamic.format('MMM YYYY')){
+				if(xlabel == dateDynamicCal1.format('MMM YYYY')){
 					dataPoints22Kikukawa[z].y = parseFloat(kikukawa.toFixed(2));
 					// chart22.render();
 				}
@@ -1199,7 +1199,7 @@
 
 			for (var z = 0; z < dataPoints22NCB3.length; z++) {
 				let xlabel = dataPoints22NCB3[z].label;
-				if(xlabel == dateDynamic.format('MMM YYYY')){
+				if(xlabel == dateDynamicCal2.format('MMM YYYY')){
 					dataPoints22NCB3[z].y = parseFloat(ncb3.toFixed(2));
 					// chart22.render();
 				}
@@ -1207,7 +1207,7 @@
 
 			for (var z = 0; z < dataPoints22NCB6.length; z++) {
 				let xlabel = dataPoints22NCB6[z].label;
-				if(xlabel == dateDynamic.format('MMM YYYY')){
+				if(xlabel == dateDynamicCal3.format('MMM YYYY')){
 					dataPoints22NCB6[z].y = parseFloat(ncb6.toFixed(2));
 					// chart22.render();
 				}
