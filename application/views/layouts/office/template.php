@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="<?=base_url();?>vendor/datepickerjs/css/bootstrap-datepicker.min.css">
 	<link rel="stylesheet" href="<?=base_url();?>vendor/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="<?=base_url();?>public/css/cover.css">
+	<link rel="stylesheet" href="<?=base_url();?>public/css/style.css">
 	<title><?=$title;?></title>
 </style>
 </head>

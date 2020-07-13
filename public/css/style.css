@@ -1,0 +1,30 @@
+input { font-weight: bold; }
+input:disabled { background: grey; color: white; font-weight: bold; }
+
+.cuttingLabel{ background-color: #92d050 !important; padding: 10px 20px 10px 20px; }
+.dandoriLabel{ background-color: #ffffff !important; padding: 10px 20px 10px 20px; }
+.manLabel{ background-color: #2e75b5 !important; padding: 10px 20px 10px 20px; }
+.idleLabel{ background-color: #ffff99 !important; padding: 10px 20px 10px 20px; }
+.alarmLabel{ background-color: #f7caac !important; padding: 10px 20px 10px 20px; }
+
+.kikukawa2Label{ background-color: #f7caac !important; padding: 0px 20px 7px 0px; }
+.ncb32Label{ background-color: #2e75b5 !important; padding: 0px 20px 7px 0px; }
+.ncb62Label{ background-color: #92d050 !important; padding: 0px 20px 7px 0px; }
+
+.kikukawa2LabelOff{ background-color: #000 !important; padding: 0px 20px 7px 0px; }
+.ncb32LabelOff{ background-color: #000 !important; padding: 0px 20px 7px 0px; }
+.ncb62LabelOff{ background-color: #000 !important; padding: 0px 20px 7px 0px; }
+
+.cuttingBG{ background-color: #92d050 !important; }
+.dandoriBG{ background-color: #ffffff !important; }
+.manBG{ background-color: #2e75b5 !important; }
+.idleBG{ background-color: #ffff99 !important; }
+.alarmBG{ background-color: #f7caac !important; }
+
+.chartShow{ display: block; }
+
+#t1 { margin-top: 100px; }
+#t1 > tbody > tr > td { color: #ffc107; font-size: 30px; padding: 20px; }
+#t1 > thead > tr > th { font-size: 30px; }
+#datepicker { background: #333; color: #ffc107; }
+#yearpicker { background: #333; color: #ffc107; }

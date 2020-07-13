@@ -14,7 +14,7 @@
 				<i class="fa fa-bars"></i>
 			</button>
 
-			<!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
 					<li class="nav-item active">
 						<button type="button" id="next_slide" class="btn btn-primary mr-4">
@@ -28,7 +28,7 @@
 						</button>
 					</li>
 				</ul>
-			</div> -->
+			</div>
 		</nav>
 
 
@@ -107,7 +107,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- <div id="section2" class="slide" style="margin-top: -10px; display: none;">
+			<div id="section2" class="slide" style="margin-top: -10px; display: none;">
 				<div class="row">
 					<div class="col-12">
 						<h2 class="text-warning" style="font-weight: bold;">Daily Efficiency Chart</h2>
@@ -121,7 +121,7 @@
 							</div>
 							<div class="col-auto mt-2 text-warning">Kikukawa</div>
 
-							<div class="col-auto">
+							<!-- <div class="col-auto">
 								<span class="badge badge-dark ncb32Label triggerChart2">&nbsp;</span>
 							</div>
 							<div class="col-auto mt-2 text-warning">NCB3</div>
@@ -129,21 +129,21 @@
 							<div class="col-auto">
 								<span class="badge badge-dark ncb62Label triggerChart3">&nbsp;</span>
 							</div>
-							<div class="col-auto mt-2 text-warning">NCB6</div>
+							<div class="col-auto mt-2 text-warning">NCB6</div> -->
 
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-6 p-1" id="kikukawaParent">
-						<div id="kikukawa" class="chartShow" style="width: 100%; height: 260px;"></div>
+					<div class="col-12 p-1" id="kikukawaParent">
+						<div id="kikukawa" class="chartShow" style="width: 100%; height: 500px;"></div>
 					</div>
-					<div class="col-6 p-1" id="ncb3Parent">
+					<!-- <div class="col-6 p-1" id="ncb3Parent">
 						<div id="ncb3" class="chartShow" style="width: 100%; height: 260px;"></div>
 					</div>
 					<div class="col-6 p-1" id="ncb6Parent">
 						<div id="ncb6" class="chartShow" style="width: 100%; height: 260px;"></div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<div id="section3" class="slide" style="margin-top: -10px; display: none;">
@@ -161,7 +161,7 @@
 						<div id="monthly" style="width: 100% !important; height: 550px;"></div>
 					</div>
 				</div>
-			</div> -->
+			</div>
 		</div>
 	</div>
 </div>
@@ -205,7 +205,7 @@
 
 							</div>
 
-							<div class="tab-pane fade" id="nav-ncb3" role="tabpanel" aria-labelledby="nav-ncb3-tab">
+							<!-- <div class="tab-pane fade" id="nav-ncb3" role="tabpanel" aria-labelledby="nav-ncb3-tab">
 								<form id="form_calendar2">
 									<div class="row justify-content-center">
 										<div class="col-xs-12 text-center">
@@ -233,7 +233,7 @@
 										</div>
 									</div>
 								</form>
-							</div>
+							</div> -->
 						</div>
 
 					</div>

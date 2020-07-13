@@ -89,3 +89,4 @@ define('SESS', 'TYT');
 define('UYAH', 'asin');
 define('GA_KONEK', 'Tidak terhubung dengan database, silahkan coba kembali');
 define('GA_KETEMU', 'File / Data tidak ditemukan, silahkan coba kembali');
+define('ZINTERVAL', '5000');

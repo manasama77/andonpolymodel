@@ -1,37 +1,3 @@
-<style>
-	input { font-weight: bold; }
-	input:disabled { background: grey; color: white; font-weight: bold; }
-
-	.cuttingLabel{ background-color: #92d050 !important; padding: 10px 20px 10px 20px; }
-	.dandoriLabel{ background-color: #ffffff !important; padding: 10px 20px 10px 20px; }
-	.manLabel{ background-color: #2e75b5 !important; padding: 10px 20px 10px 20px; }
-	.idleLabel{ background-color: #ffff99 !important; padding: 10px 20px 10px 20px; }
-	.alarmLabel{ background-color: #f7caac !important; padding: 10px 20px 10px 20px; }
-
-	.kikukawa2Label{ background-color: #f7caac !important; padding: 0px 20px 7px 0px; }
-	.ncb32Label{ background-color: #2e75b5 !important; padding: 0px 20px 7px 0px; }
-	.ncb62Label{ background-color: #92d050 !important; padding: 0px 20px 7px 0px; }
-
-	.kikukawa2LabelOff{ background-color: #000 !important; padding: 0px 20px 7px 0px; }
-	.ncb32LabelOff{ background-color: #000 !important; padding: 0px 20px 7px 0px; }
-	.ncb62LabelOff{ background-color: #000 !important; padding: 0px 20px 7px 0px; }
-
-	.cuttingBG{ background-color: #92d050 !important; }
-	.dandoriBG{ background-color: #ffffff !important; }
-	.manBG{ background-color: #2e75b5 !important; }
-	.idleBG{ background-color: #ffff99 !important; }
-	.alarmBG{ background-color: #f7caac !important; }
-
-	.chartShow{ display: block; }
-
-	#t1 { margin-top: 100px; }
-	#t1 > tbody > tr > td { color: #ffc107; font-size: 30px; padding: 20px; }
-	#t1 > thead > tr > th { font-size: 30px; }
-	#datepicker { background: #333; color: #ffc107; }
-	#yearpicker { background: #333; color: #ffc107; }
-
-</style>
-
 <script>
 
 	let realclock = $('.realclock');
@@ -45,7 +11,7 @@
 	let slide1        = $('#section1');
 	let slide2        = $('#section2');
 	let slide3        = $('#section3');
-	let intervalSlide = 2000;
+	let intervalSlide = <?=ZINTERVAL;?>;
 	let kue           = Cookies.get('aktifslide');
 
 	let chart1;
@@ -367,9 +333,9 @@
 		let count2 = $('.chartShow').length;
 
 		if(count2 == 1){
-			$('.chartShow').parent().removeClass('col-6').addClass('col-12').children().css('height', '400px');
+			$('.chartShow').parent().removeClass('col-6').addClass('col-12').children().css('height', '500px');
 		}else if(count2 == 2){
-			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '400px');
+			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '500px');
 		}else{
 			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '260px');
 		}
@@ -913,12 +879,10 @@
 		var cnt     = 0;
 		var go      = false;
 		function timer() {
-			if(!go){
-				return;
-			}
+			if(!go){ return; }
+
 			changeSlide(cnt);
-			// setTimeout(timer, intervalSlide);
-			setTimeout(timer, 2000);
+			setTimeout(timer, intervalSlide);
 		}
 		
 		function changeSlide(slide){
@@ -940,9 +904,7 @@
 			chart3.render();
 			chart22.render();
 			cnt++;
-			if(cnt >= 3){
-				cnt = 0;
-			}
+			if(cnt >= 3){ cnt = 0; }
 		}
 
 		function stopTimer(){
@@ -962,6 +924,7 @@
 			$(this).data('state', 'pause');
 			$('#button_pause').show();
 			$('#button_play').hide();
+			$('#pause_play').addClass('bg-warning').removeClass('bg-success');
 			nextTimer();
 		});
 		startTimer();
@@ -1019,48 +982,37 @@
 		
 		function updateChart() {
 			dataPoints.splice(0, dataPoints.length);
-			dataStandar.splice(0, dataStandar.length);
-
 			dataPoints2.splice(0, dataPoints2.length);
-			dataStandar2.splice(0, dataStandar2.length);
-
 			dataPoints3.splice(0, dataPoints3.length);
-			dataStandar3.splice(0, dataStandar3.length);
 
-			$.getJSON(`<?=site_url();?>json/m1/${datepicker.val()}`, function(data) {
+			$.getJSON(`<?=site_url();?>json/m1/${datepicker.val()}`, function(data) {  
 				$.each(data, function(key, value){
 					dataPoints.push({  
-						y: parseFloat(value.eff),
-						label: value.tanggal,
-					});
-					dataStandar.push({ 
-						label: value.tanggal,
+						label: `${value.tanggal}`,
+						x: new Date(value.y, value.m, value.d),
+						y: value.eff,
 					});
 				});
 				chart1.render();
 			});
 
-			$.getJSON(`<?=site_url();?>json/m2/${datepicker.val()}`, function(data) {
+			$.getJSON(`<?=site_url();?>json/m2/${datepicker.val()}`, function(data) {  
 				$.each(data, function(key, value){
 					dataPoints2.push({  
-						y: parseFloat(value.eff),
-						label: value.tanggal,
-					});
-					dataStandar2.push({ 
-						label: value.tanggal,
+						label: `${value.tanggal}`,
+						x: new Date(value.y, value.m, value.d),
+						y: value.eff,
 					});
 				});
 				chart2.render();
 			});
 
-			$.getJSON(`<?=site_url();?>json/m3/${datepicker.val()}`, function(data) {
+			$.getJSON(`<?=site_url();?>json/m3/${datepicker.val()}`, function(data) {  
 				$.each(data, function(key, value){
-					dataPoints3.push({  
+					dataPoints3.push({
+						label: `${value.tanggal}`,
+						x: new Date(value.y, value.m, value.d),
 						y: parseFloat(value.eff),
-						label: value.tanggal,
-					});
-					dataStandar3.push({ 
-						label: value.tanggal,
 					});
 				});
 				chart3.render();

@@ -5,6 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="<?=base_url();?>vendor/bootstrap4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="<?=base_url();?>vendor/font-awesome/css/font-awesome.min.css">
 	<title>Login</title>
 	<style>
 		body {
@@ -119,6 +120,5 @@
 	<script src="<?=base_url();?>vendor/bootstrap4/js/bootstrap.bundle.min.js"></script>
 	<script src="<?=base_url();?>vendor/momentjs/moment.js"></script>
 	<script src="<?=base_url();?>vendor/blockuijs/jquery.blockUI.js"></script>
-	<script src="https://kit.fontawesome.com/8462962064.js" crossorigin="anonymous"></script>
 </body>
 </html>
