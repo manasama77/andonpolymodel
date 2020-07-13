@@ -28,3 +28,30 @@ input:disabled { background: grey; color: white; font-weight: bold; }
 #t1 > thead > tr > th { font-size: 30px; }
 #datepicker { background: #333; color: #ffc107; }
 #yearpicker { background: #333; color: #ffc107; }
+
+.slide_1 {
+	position: absolute;
+	width: 100%;
+	height: 90vh;
+	text-align: center;
+	top: 0px;
+	right: 0px;
+}
+
+.slide_2 {
+	position: absolute;
+	width: 100%;
+	height: 90vh;
+	text-align: center;
+	top: 0px;
+	right: 0px;
+}
+
+.slide_3 {
+	position: absolute;
+	width: 100%;
+	height: 90vh;
+	text-align: center;
+	top: 0px;
+	right: 0px;
+}

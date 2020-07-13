@@ -11,15 +11,15 @@ class MachineController extends CI_Controller {
 
 	public function index($machine)
 	{
-		if($machine == 'm1'){
+		if($machine == 'kikukawa'){
 			$data['title']   = 'Kikukawa';
 			$data['content'] = 'kikukawa/index';
 			$data['vitamin'] = 'kikukawa/index_vitamin';
-		}elseif($machine == 'm2'){
+		}elseif($machine == 'ncb3'){
 			$data['title']   = 'NCB3';
 			$data['content'] = 'ncb3/index';
 			$data['vitamin'] = 'ncb3/index_vitamin';
-		}elseif($machine == 'm3'){
+		}elseif($machine == 'ncb6'){
 			$data['title']   = 'NCB6';
 			$data['content'] = 'ncb6/index';
 			$data['vitamin'] = 'ncb6/index_vitamin';

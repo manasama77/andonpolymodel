@@ -11,18 +11,18 @@ class InitController extends CI_Controller {
 		];
 
 		$data[] = [
-			'username' => 'm1',
-			'password' => password_hash('m1', PASSWORD_BCRYPT)
+			'username' => 'kikukawa',
+			'password' => password_hash('kikukawa', PASSWORD_BCRYPT)
 		];
 
 		$data[] = [
-			'username' => 'm2',
-			'password' => password_hash('m2', PASSWORD_BCRYPT)
+			'username' => 'ncb3',
+			'password' => password_hash('ncb3', PASSWORD_BCRYPT)
 		];
 
 		$data[] = [
-			'username' => 'm3',
-			'password' => password_hash('m3', PASSWORD_BCRYPT)
+			'username' => 'ncb6',
+			'password' => password_hash('ncb6', PASSWORD_BCRYPT)
 		];
 
 		$this->mcore->store_batch('admin', $data);

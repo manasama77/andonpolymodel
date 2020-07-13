@@ -1,18 +1,27 @@
 <script>
+	/*
+	GLOBAL VARIABLE DEFINE HERE
+	*/
+	let wrapper    = $("#wrapper");
+	let menuToggle = $("#menu-toggle");
+	let now        = moment();
+	let realclock  = $('.realclock');
+	let slideShow  = $("#slideshow");
+	let zInterval  = `<?=ZINTERVAL;?>`;
+	let nextSlide  = $("#next_slide");
+	let pausePlay  = $("#pause_play");
+	let kue;
+	let varInterval;
+	let kikukawaChart;
+	let ncb3Chart;
+	let ncb6Chart;
 
-	let realclock = $('.realclock');
 	let dateDynamic;
 	let month;
 	let year;
 
 	let datepicker = $('#datepicker');
 	let yearpicker = $('#yearpicker');
-
-	let slide1        = $('#section1');
-	let slide2        = $('#section2');
-	let slide3        = $('#section3');
-	let intervalSlide = <?=ZINTERVAL;?>;
-	let kue           = Cookies.get('aktifslide');
 
 	let chart1;
 	let dataPoints  = [];
@@ -43,7 +52,162 @@
 	let yearcal3;
 	let dateDynamicCal3;
 
-	$(document).ready(function(){
+	let isPaused = false;
+	let state =  pausePlay.data('state');
+
+	$(document).ready(() => {
+		menuToggle.click((e) => { e.preventDefault(); wrapper.toggleClass("toggled"); });
+
+		clockUpdate();
+		setInterval(clockUpdate, 1000);
+
+		initSlide1();
+
+		initSlideShow();
+
+		initCalendar();
+
+		initModal();
+
+		$('.triggerChart1').click(function(e){
+			if($('#kikukawa').hasClass('chartShow')){
+				$('#kikukawa').parent().hide();
+				$('#kikukawa').removeClass('chartShow');
+				$(this).addClass('kikukawa2LabelOff');
+				Cookies.set("kikukawaChart", 'off');
+			} else {
+				$('#kikukawa').parent().show();
+				$('#kikukawa').addClass('chartShow');
+				$(this).removeClass('kikukawa2LabelOff');
+				Cookies.set("kikukawaChart", 'on');
+			}
+			countChartShow();
+		});
+
+		$('.triggerChart2').click(function(e){
+			if($('#ncb3').hasClass('chartShow')){
+				$('#ncb3').parent().hide();
+				$('#ncb3').removeClass('chartShow');
+				$(this).addClass('ncb32LabelOff');
+				Cookies.set("ncb3Chart", 'off');
+			} else {
+				$('#ncb3').parent().show();
+				$('#ncb3').addClass('chartShow');
+				$(this).removeClass('ncb32LabelOff');
+				Cookies.set("ncb3Chart", 'on');
+			}
+			countChartShow();
+		});
+
+		$('.triggerChart3').click(function(e){
+			if($('#ncb6').hasClass('chartShow')){
+				$('#ncb6').parent().hide();
+				$('#ncb6').removeClass('chartShow');
+				$(this).addClass('ncb62LabelOff');
+				Cookies.set("ncb6Chart", 'off');
+			} else {
+				$('#ncb6').parent().show();
+				$('#ncb6').addClass('chartShow');
+				$(this).removeClass('ncb62LabelOff');
+				Cookies.set("ncb6Chart", 'on');
+			}
+			countChartShow();
+		});
+
+	});
+
+	document.onkeydown = function(event) {
+		if(event.keyCode == 39){
+			nextSlide.trigger('click');
+		}
+
+		if(event.keyCode == 80){
+			pausePlay.trigger('click');
+		}
+	};
+</script>
+
+<script>
+
+	function countChartShow(){
+		let count2 = $('.chartShow').length;
+
+		if(count2 == 1){
+			$('.chartShow').parent().removeClass('col-6').addClass('col-12').children().css('height', '530px');
+		}else if(count2 == 2){
+			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '530px');
+		}else{
+			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '260px');
+		}
+		chart1.render();
+		chart2.render();
+		chart3.render();
+		chart22.render();
+	}
+
+	function initModal()
+	{
+		$('#tExport').on('click', function(){
+			$('#modal-export').modal('show');
+		});
+
+		$('#tPlan').on('click', function(){
+			$('#modal-planning').modal('show');
+		});
+
+		$('#daily_export').validate({
+			debug: true,
+			rules:{
+				export_start:{
+					required:true,
+				},
+				export_end:{
+					required:true,
+				}
+			},
+			errorClass: 'help-block text-danger',
+			errorPlacement: function(error, element) {
+				error.insertAfter($(element).parent());
+			},
+			submitHandler: function( form ) {
+				let from = moment($('#export_start').val(), 'DD/MM/YYYY');
+				let to   = moment($('#export_end').val(), 'DD/MM/YYYY');
+				window.open(`<?=site_url();?>export/daily/${from.format('YYYY-MM-DD')}/${to.format('YYYY-MM-DD')}`, '_blank');
+			}
+		});
+
+		$('#monthly_export').validate({
+			debug: true,
+			rules:{
+				my:{
+					required:true,
+				}
+			},
+			errorClass: 'help-block text-danger',
+			errorPlacement: function(error, element) {
+				error.insertAfter($(element).parent());
+			},
+			submitHandler: function( form ) {
+				let my = moment($('#my').val(), 'MM/YYYY');
+				window.open(`<?=site_url();?>export/monthly/${my.format('YYYY-MM')}`, '_blank');
+			}
+		});
+	}
+
+	function initCalendar()
+	{
+		$(".datepickerexport").datepicker({
+			autoclose: true,
+			format: "dd/mm/yyyy"
+		});
+
+		$(".yearpickerexport").datepicker({
+			autoclose: true,
+			format: "mm/yyyy",
+			viewMode: "months", 
+			minViewMode: "months"
+		});
+
 		dateDynamicCal1 = moment();
 		monthcal1       = dateDynamicCal1.format('MMM');
 		yearcal1        = dateDynamicCal1.format('YYYY');
@@ -56,66 +220,14 @@
 		monthcal3       = dateDynamicCal3.format('MMM');
 		yearcal3        = dateDynamicCal3.format('YYYY');
 
-
-		clockUpdate();
-		setInterval(clockUpdate, 1000);
-
-		wsKikukawa();
-		wsNCB3();
-		wsNCB6();
-
-		$('.triggerChart1').click(function(e){
-			if($('#kikukawa').hasClass('chartShow')){
-				$('#kikukawa').parent().hide();
-				$('#kikukawa').removeClass('chartShow');
-				$(this).addClass('kikukawa2LabelOff');
-			} else {
-				$('#kikukawa').parent().show();
-				$('#kikukawa').addClass('chartShow');
-				$(this).removeClass('kikukawa2LabelOff');
-			}
-			countChartShow();
-		});
-
-		$('.triggerChart2').click(function(e){
-			if($('#ncb3').hasClass('chartShow')){
-				$('#ncb3').parent().hide();
-				$('#ncb3').removeClass('chartShow');
-				$(this).addClass('ncb32LabelOff');
-			} else {
-				$('#ncb3').parent().show();
-				$('#ncb3').addClass('chartShow');
-				$(this).removeClass('ncb32LabelOff');
-			}
-			countChartShow();
-		});
-
-		$('.triggerChart3').click(function(e){
-			if($('#ncb6').hasClass('chartShow')){
-				$('#ncb6').parent().hide();
-				$('#ncb6').removeClass('chartShow');
-				$(this).addClass('ncb62LabelOff');
-			} else {
-				$('#ncb6').parent().show();
-				$('#ncb6').addClass('chartShow');
-				$(this).removeClass('ncb62LabelOff');
-			}
-			countChartShow();
-		});
-
-		$("#menu-toggle").click(function(e) {
-			e.preventDefault();
-			$("#wrapper").toggleClass("toggled");
-		});
-
-		$('#tPlan').on('click', function(){
-			$('#modal-planning').modal('show');
-		});
-
 		initCalendar1();
 		initCalendar2();
 		initCalendar3();
+		calendarValidate();
+	}
 
+	function calendarValidate()
+	{
 		$('#form_calendar1').validate({
 			debug: true,
 			errorClass: 'help-inline text-danger',
@@ -256,98 +368,334 @@
 				});
 			}
 		});
-
-		$('#tExport').on('click', function(){
-			$('#modal-export').modal('show');
-		});
-
-		$(".datepickerexport").datepicker({
-			autoclose: true,
-			format: "dd/mm/yyyy"
-		});
-
-		$(".yearpickerexport").datepicker({
-			autoclose: true,
-			format: "mm/yyyy",
-			viewMode: "months", 
-			minViewMode: "months"
-		});
-
-		$('#daily_export').validate({
-			debug: true,
-			rules:{
-				export_start:{
-					required:true,
-				},
-				export_end:{
-					required:true,
-				}
-			},
-			errorClass: 'help-block text-danger',
-			errorPlacement: function(error, element) {
-				error.insertAfter($(element).parent());
-			},
-			submitHandler: function( form ) {
-				let from = moment($('#export_start').val(), 'DD/MM/YYYY');
-				let to   = moment($('#export_end').val(), 'DD/MM/YYYY');
-				window.open(`<?=site_url();?>export/daily/${from.format('YYYY-MM-DD')}/${to.format('YYYY-MM-DD')}`, '_blank');
-			}
-		});
-
-		$('#monthly_export').validate({
-			debug: true,
-			rules:{
-				my:{
-					required:true,
-				}
-			},
-			errorClass: 'help-block text-danger',
-			errorPlacement: function(error, element) {
-				error.insertAfter($(element).parent());
-			},
-			submitHandler: function( form ) {
-				let my = moment($('#my').val(), 'MM/YYYY');
-				window.open(`<?=site_url();?>export/monthly/${my.format('YYYY-MM')}`, '_blank');
-			}
-		});
-
-		
-	});
-
-	document.onkeydown = function(event) {
-		if(event.keyCode == 39){
-			$('#next_slide').trigger('click');
-		}
-
-		if(event.keyCode == 80){
-			$('#pause_play').trigger('click');
-		}
-    };
-
-
-</script>
-
-
-<script>
-	function countChartShow(){
-		let count2 = $('.chartShow').length;
-
-		if(count2 == 1){
-			$('.chartShow').parent().removeClass('col-6').addClass('col-12').children().css('height', '500px');
-		}else if(count2 == 2){
-			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '500px');
-		}else{
-			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '260px');
-		}
-		chart1.render();
-		chart2.render();
-		chart3.render();
-		chart22.render();
 	}
 
-	function clockUpdate() {
-		let now = moment();
-		realclock.text(now.format(`ddd, DD MMM YYYY hh:mm:ss A`));
+	function initCalendar1()
+	{
+		$.ajax({
+			url: `<?=site_url();?>planning/init_calendar1`,
+			type: 'get',
+			data: {
+				monthcal1: monthcal1,
+				yearcal1: yearcal1,
+			},
+			beforeSend: function(){
+				$('#submit1').attr('disabled', true);
+				$.blockUI();
+			},
+			statusCode: {
+				404: function(){
+					$.unblockUI();
+					alert('Page not Found');
+				},
+				500: function(){
+					$.unblockUI();
+					alert('Cannot connect to database');
+				},
+				503: function(){
+					$.unblockUI();
+					alert('Connection timeout');
+				}
+			}
+		}).done(function(res){
+			$('#vcalendar1').html(res);
+			$('#submit1').attr('disabled', false);
+			$.unblockUI();
+
+			$('.fdate').inputmask('99:99');
+			$("#datepickercal1").datepicker({
+				autoclose: true,
+				format: "M yyyy",
+				viewMode: "months", 
+				minViewMode: "months"
+			});
+
+			$('#datepickercal1').on('change', function(){
+				let xdate = $(this).val();
+				let dateExplode = xdate.split(' ');
+				monthcal1 = dateExplode[0];
+				yearcal1 = dateExplode[1];
+				dateDynamicCal1 = moment(`${monthcal1} ${yearcal1}`, 'MMM YYYY');
+				initCalendar1();
+			});
+
+			$('.prev').on('click', function(){
+				dateDynamicCal1.subtract(1, 'months');
+				monthcal1 = dateDynamicCal1.format('MMM');
+				yearcal1 = dateDynamicCal1.format('YYYY');
+				$('#datepickercal1').val(`${monthcal1} ${yearcal1}`).trigger('change');
+			});
+
+			$('.next').on('click', function(){
+				dateDynamicCal1.add(1, 'months');
+				monthcal1 = dateDynamicCal1.format('MMM');
+				yearcal1 = dateDynamicCal1.format('YYYY');
+				$('#datepickercal1').val(`${monthcal1} ${yearcal1}`).trigger('change');
+			});
+
+		});
+	}
+
+	function initCalendar2()
+	{
+		$.ajax({
+			url: `<?=site_url();?>planning/init_calendar2`,
+			type: 'get',
+			data: {
+				monthcal2: monthcal2,
+				yearcal2: yearcal2,
+			},
+			beforeSend: function(){
+				$('#submit2').attr('disabled', true);
+				$.blockUI();
+			},
+			statusCode: {
+				404: function(){
+					$.unblockUI();
+					alert('Page not Found');
+				},
+				500: function(){
+					$.unblockUI();
+					alert('Cannot connect to database');
+				},
+				503: function(){
+					$.unblockUI();
+					alert('Connection timeout');
+				}
+			}
+		}).done(function(res){
+			$('#vcalendar2').html(res);
+			$('#submit2').attr('disabled', false);
+			$.unblockUI();
+
+			$('.fdate').inputmask('99:99');
+			$("#datepickercal2").datepicker({
+				autoclose: true,
+				format: "M yyyy",
+				viewMode: "months", 
+				minViewMode: "months"
+			});
+
+			// $(".triggerDP1").click(function(){ $("#datepickercal1").datepicker("show"); });
+
+			$('#datepickercal2').on('change', function(){
+				let xdate = $(this).val();
+				let dateExplode = xdate.split(' ');
+				monthcal2 = dateExplode[0];
+				yearcal2 = dateExplode[1];
+				dateDynamicCal2 = moment(`${monthcal2} ${yearcal2}`, 'MMM YYYY');
+				initCalendar2();
+			});
+
+			$('.prev').on('click', function(){
+				dateDynamicCal2.subtract(1, 'months');
+				monthcal2 = dateDynamicCal2.format('MMM');
+				yearcal2 = dateDynamicCal2.format('YYYY');
+				$('#datepickercal2').val(`${monthcal2} ${yearcal2}`).trigger('change');
+			});
+
+			$('.next').on('click', function(){
+				dateDynamicCal2.add(1, 'months');
+				monthcal2 = dateDynamicCal2.format('MMM');
+				yearcal2 = dateDynamicCal2.format('YYYY');
+				$('#datepickercal2').val(`${monthcal2} ${yearcal2}`).trigger('change');
+			});
+
+		});
+	}
+
+	function initCalendar3()
+	{
+		$.ajax({
+			url: `<?=site_url();?>planning/init_calendar3`,
+			type: 'get',
+			data: {
+				monthcal3: monthcal3,
+				yearcal3: yearcal3,
+			},
+			beforeSend: function(){
+				$('#submit3').attr('disabled', true);
+				$.blockUI();
+			},
+			statusCode: {
+				404: function(){
+					$.unblockUI();
+					alert('Page not Found');
+				},
+				500: function(){
+					$.unblockUI();
+					alert('Cannot connect to database');
+				},
+				503: function(){
+					$.unblockUI();
+					alert('Connection timeout');
+				}
+			}
+		}).done(function(res){
+			$('#vcalendar3').html(res);
+			$('#submit3').attr('disabled', false);
+			$.unblockUI();
+
+			$('.fdate').inputmask('99:99');
+			$("#datepickercal3").datepicker({
+				autoclose: true,
+				format: "M yyyy",
+				viewMode: "months", 
+				minViewMode: "months"
+			});
+
+			$('#datepickercal3').on('change', function(){
+				let xdate = $(this).val();
+				let dateExplode = xdate.split(' ');
+				monthcal3 = dateExplode[0];
+				yearcal3 = dateExplode[1];
+				dateDynamicCal3 = moment(`${monthcal3} ${yearcal3}`, 'MMM YYYY');
+				initCalendar3();
+			});
+
+			$('.prev').on('click', function(){
+				dateDynamicCal3.subtract(1, 'months');
+				monthcal3 = dateDynamicCal3.format('MMM');
+				yearcal3 = dateDynamicCal3.format('YYYY');
+				$('#datepickercal3').val(`${monthcal3} ${yearcal3}`).trigger('change');
+			});
+
+			$('.next').on('click', function(){
+				dateDynamicCal3.add(1, 'months');
+				monthcal3 = dateDynamicCal3.format('MMM');
+				yearcal3 = dateDynamicCal3.format('YYYY');
+				$('#datepickercal3').val(`${monthcal3} ${yearcal3}`).trigger('change');
+			});
+
+		});
+	}
+
+
+	function initSlideShow()
+	{
+		// Cookies.remove("aktifSlide");
+		// Cookies.set("aktifSlide", 2);
+		kue = Cookies.get('aktifSlide');
+		if(kue){
+			logicSlideShow();
+			setTimeout(function(){
+				varInterval = setInterval(function() {
+					if(isPaused == false){
+						kue++;
+						if(kue == 3) { kue = 0; }
+						Cookies.set("aktifSlide", kue);
+						logicSlideShow();
+						console.log("lanjut cookies");
+					}
+				},  zInterval);
+			}, zInterval);
+		}else{
+			kue = 0;
+			$("#slideshow > div:gt(0)").hide();
+			varInterval = setInterval(function() {
+				if(isPaused == false){
+					$('#slideshow > div:first')
+					.fadeOut(1000)
+					.next()
+					.fadeIn(1000)
+					.end()
+					.appendTo('#slideshow');
+					kue++;
+					if(kue == 3) { kue = 0; }
+					Cookies.set("aktifSlide", kue);
+					console.log("lanjut normal");
+				}
+			},  zInterval);
+		}
+
+		setTimeout(function(){
+			kikukawaChart = Cookies.get("kikukawaChart");
+			if(kikukawaChart){
+				console.log(kikukawaChart);
+				if(kikukawaChart == 'off'){
+					$('.triggerChart1').trigger('click');
+				}
+			}
+
+			ncb3Chart = Cookies.get("ncb3Chart");
+			if(ncb3Chart){
+				console.log(ncb3Chart);
+				if(ncb3Chart == 'off'){
+					$('.triggerChart2').trigger('click');
+				}
+			}
+
+			ncb6Chart = Cookies.get("ncb6Chart");
+			if(ncb6Chart){
+				console.log(ncb6Chart);
+				if(ncb6Chart == 'off'){
+					$('.triggerChart3').trigger('click');
+				}
+			}
+		}, 1000);
+
+		nextSlide.on('click', () => {
+			// $(this).data('state', 'pause');
+			isPaused = true;
+			$('#button_pause').show();
+			$('#button_play').hide();
+			pausePlay.addClass('bg-warning').removeClass('bg-success');
+			// clearInterval(varInterval);
+			kue++;
+			if(kue == 3) { kue = 0; }
+			Cookies.set("aktifSlide", kue);
+			logicSlideShow();
+		});
+
+		$('#pause_play').on('click', () => {
+			// console.log(state)
+			if(state == 'play'){
+				console.log(state);
+				isPaused = true;
+				// pausePlay.data('state', 'pause');
+				state = 'pause';
+				$('#button_pause').show();
+				$('#button_play').hide();
+				pausePlay.addClass('bg-warning').removeClass('bg-success');
+			}else{
+				console.log(state);
+				isPaused = false;
+				// pausePlay.data('state', 'play');
+				state = 'play';
+				$('#button_pause').hide();
+				$('#button_play').show();
+				pausePlay.addClass('bg-success').removeClass('bg-warning');
+			}
+		});
+	}
+
+	function logicSlideShow()
+	{
+		if(kue == 0){
+			$('.slide_1').fadeIn(1000);
+			$('.slide_2').fadeOut(1000);
+			$('.slide_3').fadeOut(1000);
+		}else if(kue == 1){
+			$('.slide_1').fadeOut(1000);
+			$('.slide_2').fadeIn(1000);
+			$('.slide_3').fadeOut(1000);
+		}else if(kue == 2){
+			$('.slide_1').fadeOut(1000);
+			$('.slide_2').fadeOut(1000);
+			$('.slide_3').fadeIn(1000);
+		}else{
+			$('.slide_1').fadeOut(1000);
+			$('.slide_2').fadeOut(1000);
+			$('.slide_3').fadeOut(1000);
+		}
+	}
+
+
+	function initSlide1()
+	{
+		wsKikukawa();
+		wsNCB3();
+		wsNCB6();
 	}
 
 	function wsKikukawa()
@@ -415,7 +763,7 @@
 		}
 		wstest.onmessage = (e) => {
 			data = $.parseJSON(e.data);
-			
+
 			let trigger = data.trigger;
 			let values = data.values;
 
@@ -473,7 +821,7 @@
 		}
 		wstest.onmessage = (e) => {
 			data = $.parseJSON(e.data);
-			
+
 			let trigger = data.trigger;
 			let values = data.values;
 
@@ -518,10 +866,11 @@
 		}
 	}
 
-
-	function pad(num) {
-		return ("0"+num).slice(-2);
+	function clockUpdate() {
+		now = moment();
+		realclock.text(now.format(`ddd, DD MMM YYYY hh:mm:ss A`));
 	}
+
 
 	function hhmm(secs) {
 		var minutes = Math.floor(parseInt(secs) / 60);
@@ -529,6 +878,11 @@
 		var hours = Math.floor(minutes/60)
 		minutes = minutes%60;
 		return `${pad(hours)}:${pad(minutes)}`;
+	}
+
+
+	function pad(num) {
+		return ("0"+num).slice(-2);
 	}
 
 	$.getJSON(`<?=site_url();?>json/m1/${datepicker.val()}`, function(data) {  
@@ -876,76 +1230,6 @@
 		chart3.render();
 		chart22.render();
 
-		var cnt     = 0;
-		var go      = false;
-		function timer() {
-			if(!go){ return; }
-
-			changeSlide(cnt);
-			setTimeout(timer, intervalSlide);
-		}
-		
-		function changeSlide(slide){
-			if(slide == '0'){
-				slide1.show();
-				slide2.hide();
-				slide3.hide();
-			}else if(slide == '1'){
-				slide1.hide();
-				slide2.show();
-				slide3.hide();
-			}else if(slide == '2'){
-				slide1.hide();
-				slide2.hide();
-				slide3.show();
-			}
-			chart1.render();
-			chart2.render();
-			chart3.render();
-			chart22.render();
-			cnt++;
-			if(cnt >= 3){ cnt = 0; }
-		}
-
-		function stopTimer(){
-			go = false;
-		} 
-		function startTimer(){
-			go = true;
-			timer();
-		}
-		function nextTimer()
-		{
-			go = false;
-			changeSlide(cnt);
-		}
-
-		$('#next_slide').on('click', function(){
-			$(this).data('state', 'pause');
-			$('#button_pause').show();
-			$('#button_play').hide();
-			$('#pause_play').addClass('bg-warning').removeClass('bg-success');
-			nextTimer();
-		});
-		startTimer();
-
-		$('#pause_play').on('click', function(){
-			state =  $(this).data('state');
-			if(state == 'play'){
-				$(this).data('state', 'pause');
-				stopTimer();
-				$('#button_pause').show();
-				$('#button_play').hide();
-				$(this).addClass('bg-warning').removeClass('bg-success');
-			}else{
-				$(this).data('state', 'play');
-				startTimer();
-				$('#button_pause').hide();
-				$('#button_play').show();
-				$(this).addClass('bg-success').removeClass('bg-warning');
-			}
-		});
-
 		
 		$("#datepicker").datepicker({
 			autoclose: true,
@@ -1169,207 +1453,5 @@
 
 			chart22.render();
 		}
-	}
-
-	function initCalendar1()
-	{
-		$.ajax({
-			url: `<?=site_url();?>planning/init_calendar1`,
-			type: 'get',
-			data: {
-				monthcal1: monthcal1,
-				yearcal1: yearcal1,
-			},
-			beforeSend: function(){
-				$('#submit1').attr('disabled', true);
-				$.blockUI();
-			},
-			statusCode: {
-				404: function(){
-					$.unblockUI();
-					alert('Page not Found');
-				},
-				500: function(){
-					$.unblockUI();
-					alert('Cannot connect to database');
-				},
-				503: function(){
-					$.unblockUI();
-					alert('Connection timeout');
-				}
-			}
-		}).done(function(res){
-			$('#vcalendar1').html(res);
-			$('#submit1').attr('disabled', false);
-			$.unblockUI();
-
-			$('.fdate').inputmask('99:99');
-			$("#datepickercal1").datepicker({
-				autoclose: true,
-				format: "M yyyy",
-				viewMode: "months", 
-				minViewMode: "months"
-			});
-
-			// $(".triggerDP1").click(function(){ $("#datepickercal1").datepicker("show"); });
-
-			$('#datepickercal1').on('change', function(){
-				let xdate = $(this).val();
-				let dateExplode = xdate.split(' ');
-				monthcal1 = dateExplode[0];
-				yearcal1 = dateExplode[1];
-				dateDynamicCal1 = moment(`${monthcal1} ${yearcal1}`, 'MMM YYYY');
-				initCalendar1();
-			});
-
-			$('.prev').on('click', function(){
-				dateDynamicCal1.subtract(1, 'months');
-				monthcal1 = dateDynamicCal1.format('MMM');
-				yearcal1 = dateDynamicCal1.format('YYYY');
-				$('#datepickercal1').val(`${monthcal1} ${yearcal1}`).trigger('change');
-			});
-
-			$('.next').on('click', function(){
-				dateDynamicCal1.add(1, 'months');
-				monthcal1 = dateDynamicCal1.format('MMM');
-				yearcal1 = dateDynamicCal1.format('YYYY');
-				$('#datepickercal1').val(`${monthcal1} ${yearcal1}`).trigger('change');
-			});
-
-		});
-	}
-
-	function initCalendar2()
-	{
-		$.ajax({
-			url: `<?=site_url();?>planning/init_calendar2`,
-			type: 'get',
-			data: {
-				monthcal2: monthcal2,
-				yearcal2: yearcal2,
-			},
-			beforeSend: function(){
-				$('#submit2').attr('disabled', true);
-				$.blockUI();
-			},
-			statusCode: {
-				404: function(){
-					$.unblockUI();
-					alert('Page not Found');
-				},
-				500: function(){
-					$.unblockUI();
-					alert('Cannot connect to database');
-				},
-				503: function(){
-					$.unblockUI();
-					alert('Connection timeout');
-				}
-			}
-		}).done(function(res){
-			$('#vcalendar2').html(res);
-			$('#submit2').attr('disabled', false);
-			$.unblockUI();
-
-			$('.fdate').inputmask('99:99');
-			$("#datepickercal2").datepicker({
-				autoclose: true,
-				format: "M yyyy",
-				viewMode: "months", 
-				minViewMode: "months"
-			});
-
-			// $(".triggerDP1").click(function(){ $("#datepickercal1").datepicker("show"); });
-
-			$('#datepickercal2').on('change', function(){
-				let xdate = $(this).val();
-				let dateExplode = xdate.split(' ');
-				monthcal2 = dateExplode[0];
-				yearcal2 = dateExplode[1];
-				dateDynamicCal2 = moment(`${monthcal2} ${yearcal2}`, 'MMM YYYY');
-				initCalendar2();
-			});
-
-			$('.prev').on('click', function(){
-				dateDynamicCal2.subtract(1, 'months');
-				monthcal2 = dateDynamicCal2.format('MMM');
-				yearcal2 = dateDynamicCal2.format('YYYY');
-				$('#datepickercal2').val(`${monthcal2} ${yearcal2}`).trigger('change');
-			});
-
-			$('.next').on('click', function(){
-				dateDynamicCal2.add(1, 'months');
-				monthcal2 = dateDynamicCal2.format('MMM');
-				yearcal2 = dateDynamicCal2.format('YYYY');
-				$('#datepickercal2').val(`${monthcal2} ${yearcal2}`).trigger('change');
-			});
-
-		});
-	}
-
-	function initCalendar3()
-	{
-		$.ajax({
-			url: `<?=site_url();?>planning/init_calendar3`,
-			type: 'get',
-			data: {
-				monthcal3: monthcal3,
-				yearcal3: yearcal3,
-			},
-			beforeSend: function(){
-				$('#submit3').attr('disabled', true);
-				$.blockUI();
-			},
-			statusCode: {
-				404: function(){
-					$.unblockUI();
-					alert('Page not Found');
-				},
-				500: function(){
-					$.unblockUI();
-					alert('Cannot connect to database');
-				},
-				503: function(){
-					$.unblockUI();
-					alert('Connection timeout');
-				}
-			}
-		}).done(function(res){
-			$('#vcalendar3').html(res);
-			$('#submit3').attr('disabled', false);
-			$.unblockUI();
-
-			$('.fdate').inputmask('99:99');
-			$("#datepickercal3").datepicker({
-				autoclose: true,
-				format: "M yyyy",
-				viewMode: "months", 
-				minViewMode: "months"
-			});
-
-			$('#datepickercal3').on('change', function(){
-				let xdate = $(this).val();
-				let dateExplode = xdate.split(' ');
-				monthcal3 = dateExplode[0];
-				yearcal3 = dateExplode[1];
-				dateDynamicCal3 = moment(`${monthcal3} ${yearcal3}`, 'MMM YYYY');
-				initCalendar3();
-			});
-
-			$('.prev').on('click', function(){
-				dateDynamicCal3.subtract(1, 'months');
-				monthcal3 = dateDynamicCal3.format('MMM');
-				yearcal3 = dateDynamicCal3.format('YYYY');
-				$('#datepickercal3').val(`${monthcal3} ${yearcal3}`).trigger('change');
-			});
-
-			$('.next').on('click', function(){
-				dateDynamicCal3.add(1, 'months');
-				monthcal3 = dateDynamicCal3.format('MMM');
-				yearcal3 = dateDynamicCal3.format('YYYY');
-				$('#datepickercal3').val(`${monthcal3} ${yearcal3}`).trigger('change');
-			});
-
-		});
 	}
 </script>
