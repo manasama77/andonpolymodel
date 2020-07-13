@@ -18,6 +18,15 @@ class OfficeController extends CI_Controller {
 		$this->template->template($data);
 	}
 
+	public function index2()
+	{
+		$data['title']   = 'Office 2';
+		$data['content'] = 'main2/index';
+		$data['vitamin'] = 'main2/index_vitamin';
+		$data['tgl_obj'] = new DateTime('now');
+		$this->template->template($data);
+	}
+
 	public function json_m1($tgl)
 	{
 		$tgl           = urldecode($tgl);

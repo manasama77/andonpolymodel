@@ -11,6 +11,7 @@ $route['init']                = 'InitController/index';
 $route['check/(:any)/(:any)'] = 'InitController/check/$1/$2';
 
 $route['office/dashboard'] = 'OfficeController/index';
+$route['office/dashboard2'] = 'OfficeController/index2';
 
 $route['machine/dashboard/(:any)'] = 'MachineController/index/$1';
 
