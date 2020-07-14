@@ -62,14 +62,14 @@
 
 						<nav>
 							<div class="nav nav-tabs" id="nav-tab" role="tablist">
-								<a class="nav-item nav-link active" data-toggle="tab" href="#nav-kikukawa" role="tab" aria-controls="nav-kikukawa" aria-selected="true">Kikukawa</a>
-								<a class="nav-item nav-link" data-toggle="tab" href="#nav-ncb3" role="tab" aria-controls="nav-ncb3" aria-selected="false">NCB3</a>
-								<a class="nav-item nav-link" data-toggle="tab" href="#nav-ncb6" role="tab" aria-controls="nav-ncb6" aria-selected="false">NCB6</a>
+								<a class="nav-item nav-link" data-toggle="tab" href="#nav-kikukawa" role="tab" aria-controls="nav-kikukawa" aria-selected="false" style="display:none">Kikukawa</a>
+								<a class="nav-item nav-link" data-toggle="tab" href="#nav-ncb3" role="tab" aria-controls="nav-ncb3" aria-selected="false" style="display:none">NCB3</a>
+								<a class="nav-item nav-link active" data-toggle="tab" href="#nav-ncb6" role="tab" aria-controls="nav-ncb6" aria-selected="true">NCB6</a>
 							</div>
 						</nav>
 
 						<div class="tab-content" id="nav-tabContent">
-							<div class="tab-pane fade show active" id="nav-kikukawa" role="tabpanel" aria-labelledby="nav-kikukawa-tab">
+							<div class="tab-pane fade" id="nav-kikukawa" role="tabpanel" aria-labelledby="nav-kikukawa-tab">
 
 								<form id="form_calendar1">
 									<div class="row justify-content-center">
@@ -101,7 +101,7 @@
 								</form>
 							</div>
 
-							<div class="tab-pane fade" id="nav-ncb6" role="tabpanel" aria-labelledby="nav-ncb6-tab">
+							<div class="tab-pane fade show active" id="nav-ncb6" role="tabpanel" aria-labelledby="nav-ncb6-tab">
 								<form id="form_calendar3">
 									<div class="row justify-content-center">
 										<div class="col-xs-12 text-center">

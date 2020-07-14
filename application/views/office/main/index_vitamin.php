@@ -226,6 +226,27 @@
 		calendarValidate();
 	}
 
+	$('#submit1').click( function(e){
+		e.preventDefault();
+		$('#form_calendar1').submit();
+		$('#form_calendar2').submit();
+		$('#form_calendar3').submit();
+	})
+
+	$('#submit2').click( function(e){
+		e.preventDefault();
+		$('#form_calendar1').submit();
+		$('#form_calendar2').submit();
+		$('#form_calendar3').submit();
+	})
+
+	$('#submit3').click( function(e){
+		e.preventDefault();
+		$('#form_calendar1').submit();
+		$('#form_calendar2').submit();
+		$('#form_calendar3').submit();
+	})
+
 	function calendarValidate()
 	{
 		$('#form_calendar1').validate({
@@ -311,12 +332,12 @@
 				})
 				.done(function(result){
 
-					if(result.code == 200)
-					{
-						alert('Update Planning Hour Berhasil');
-					}else{
-						alert('Update Planning Hour Gagal');
-					}
+					// if(result.code == 200)
+					// {
+					// 	alert('Update Planning Hour Berhasil');
+					// }else{
+					// 	alert('Update Planning Hour Gagal');
+					// }
 					$.unblockUI();
 				});
 			}
@@ -358,12 +379,12 @@
 				})
 				.done(function(result){
 
-					if(result.code == 200)
-					{
-						alert('Update Planning Hour Berhasil');
-					}else{
-						alert('Update Planning Hour Gagal');
-					}
+					// if(result.code == 200)
+					// {
+					// 	alert('Update Planning Hour Berhasil');
+					// }else{
+					// 	alert('Update Planning Hour Gagal');
+					// }
 					$.unblockUI();
 				});
 			}

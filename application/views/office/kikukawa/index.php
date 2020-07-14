@@ -63,8 +63,8 @@
 						<nav>
 							<div class="nav nav-tabs" id="nav-tab" role="tablist">
 								<a class="nav-item nav-link active" data-toggle="tab" href="#nav-kikukawa" role="tab" aria-controls="nav-kikukawa" aria-selected="true">Kikukawa</a>
-								<a class="nav-item nav-link" data-toggle="tab" href="#nav-ncb3" role="tab" aria-controls="nav-ncb3" aria-selected="false">NCB3</a>
-								<a class="nav-item nav-link" data-toggle="tab" href="#nav-ncb6" role="tab" aria-controls="nav-ncb6" aria-selected="false">NCB6</a>
+								<a class="nav-item nav-link" data-toggle="tab" href="#nav-ncb3" role="tab" aria-controls="nav-ncb3" aria-selected="false" style="display:none">NCB3</a>
+								<a class="nav-item nav-link" data-toggle="tab" href="#nav-ncb6" role="tab" aria-controls="nav-ncb6" aria-selected="false" style="display:none">NCB6</a>
 							</div>
 						</nav>
 
