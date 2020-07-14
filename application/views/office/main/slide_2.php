@@ -19,7 +19,7 @@
 	</div>
 	<div class="col-auto mt-2 text-warning">NCB6</div>
 </div>
-<div class="row">
+<div class="row p-2">
 	<div class="col-6 p-2 text-center" id="kikukawaParent">
 		<div id="kikukawa" class="chartShow" style="width: 100%; height: 240px;"></div>
 	</div>
