@@ -133,11 +133,11 @@
 		let count2 = $('.chartShow').length;
 
 		if(count2 == 1){
-			$('.chartShow').parent().removeClass('col-6').addClass('col-12').children().css('height', '530px');
+			$('.chartShow').parent().removeClass('col-6').addClass('col-12').children().css('height', '520px');
 		}else if(count2 == 2){
-			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '530px');
+			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '520px');
 		}else{
-			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '260px');
+			$('.chartShow').parent().removeClass('col-12').addClass('col-6').children().css('height', '240px');
 		}
 		chart1.render();
 		chart2.render();
