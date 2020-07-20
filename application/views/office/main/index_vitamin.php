@@ -721,7 +721,7 @@
 
 	function wsKikukawa()
 	{
-		wstest = new WebSocket("ws://localhost:1880/ws/trigger/kikukawa");
+		wstest = new WebSocket("<?=NODERED?>/ws/trigger/kikukawa");
 		wstest.onerror = (e) => console.log(e)
 		wstest.onopen = () => console.log('connect');
 		wstest.onclose = () => {
@@ -773,7 +773,7 @@
 
 	function wsNCB3()
 	{
-		wstest = new WebSocket("ws://localhost:1880/ws/trigger/ncb3");
+		wstest = new WebSocket("<?=NODERED?>/ws/trigger/ncb3");
 		wstest.onerror = (e) => { console.log(e) }
 		wstest.onopen = () => { console.log('connect') }
 		wstest.onclose = () => {
@@ -831,7 +831,7 @@
 
 	function wsNCB6()
 	{
-		wstest = new WebSocket("ws://localhost:1880/ws/trigger/ncb6");
+		wstest = new WebSocket("<?=NODERED?>/ws/trigger/ncb6");
 		wstest.onerror = (e) => { console.log(e) }
 		wstest.onopen = () => { console.log('connect') }
 		wstest.onclose = () => {
@@ -1358,7 +1358,7 @@
 
 	function wsKikukawa1()
 	{
-		wstest = new WebSocket("ws://localhost:1880/ws/trigger/kikukawa");
+		wstest = new WebSocket("<?=NODERED?>/ws/trigger/kikukawa");
 		wstest.onerror = (e) => console.log(e);
 		wstest.onopen = () => console.log('connect');
 		wstest.onclose = () => {
@@ -1381,7 +1381,7 @@
 
 	function wsNCB31()
 	{
-		wstest2 = new WebSocket("ws://localhost:1880/ws/trigger/ncb3");
+		wstest2 = new WebSocket("<?=NODERED?>/ws/trigger/ncb3");
 		wstest2.onerror = (e) => { console.log(e) }
 		wstest2.onopen  = () => { console.log('connect') }
 		wstest2.onclose = () => {
@@ -1406,7 +1406,7 @@
 
 	function wsNCB61()
 	{
-		wstest3 = new WebSocket("ws://localhost:1880/ws/trigger/ncb6");
+		wstest3 = new WebSocket("<?=NODERED?>/ws/trigger/ncb6");
 		wstest3.onerror = (e) => { console.log(e) }
 		wstest3.onopen  = () => { console.log('connect') }
 		wstest3.onclose = () => {
@@ -1431,7 +1431,7 @@
 
 	function wsMonthly()
 	{
-		wsBulanan = new WebSocket("ws://localhost:1880/ws/monthly");
+		wsBulanan = new WebSocket("<?=NODERED?>/ws/monthly");
 		wsBulanan.onerror = (e) => console.log(e);
 		wsBulanan.onopen  = () => console.log('connect');
 		wsBulanan.onclose = () => {
