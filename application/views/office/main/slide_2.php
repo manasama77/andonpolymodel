@@ -20,13 +20,13 @@
 	<div class="col-auto mt-2 text-warning">NCB6</div>
 </div>
 <div class="row p-2">
-	<div class="col-6 text-center" id="kikukawaParent">
-		<div id="kikukawa" class="chartShow" style="width: 100%; height: 250px;"></div>
+	<div class="col-6 p-2 text-center" id="kikukawaParent">
+		<div id="kikukawa" class="chartShow" style="width: 100%; height: 240px;"></div>
 	</div>
 	<div class="col-6 p-2" id="ncb3Parent">
-		<div id="ncb3" class="chartShow" style="width: 100%; height: 250px;"></div>
+		<div id="ncb3" class="chartShow" style="width: 100%; height: 240px;"></div>
 	</div>
 	<div class="col-6 p-2" id="ncb6Parent">
-		<div id="ncb6" class="chartShow" style="width: 100%; height: 250px;"></div>
+		<div id="ncb6" class="chartShow" style="width: 100%; height: 240px;"></div>
 	</div>
 </div>

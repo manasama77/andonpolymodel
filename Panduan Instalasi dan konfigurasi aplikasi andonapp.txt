@@ -1,0 +1,72 @@
+////////////////////////////////////////
+//Installation Guide - Andon Polymodel//
+////////////////////////////////////////
+-Install XAMPP Ver. 7.3.10 (install versi yang tertera, untuk mengindari miss compability dengan aplikasi andonapp)
+	-Link download (https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.3.10/xampp-windows-x64-7.3.10-0-VC15-installer.exe/download)
+	-Copy source code ke "c:/xampp/htdocs"
+	-Buka (127.0.0.1/phpmyadmin)
+	-Buat database baru dengan nama "andon_polymodel"
+	-Import (*.sql) file (dalam folder source code ../andonapp/db) ke "andon_polymodel" database
+-Install node-red terbaru
+	-Ikuti instuksi dari web (https://nodered.org/docs/getting-started/windows)
+		-Install Node.js for windows, link download (https://nodejs.org/en/download)
+		-Buka node.js command prompt / npm
+		-Install node-red dengan script "npm install -g --unsafe-perm node-red"
+	-Buka node.js command prompt / npm
+	-Buka (127.0.0.1:1880) on browser
+	-Install palette yang di butuhkan
+		-Setting>Manage palette>Install
+		-Install palette "node-red-contrib-jquerify"
+		-Install palette "node-red-node-mysql"
+		-Install palette "node-red-contrib-bigsplitter"
+	-Import nodes (*.json) file (dalam folder source code ../andonapp/nodered) ke node-red flows
+	-Setup mysql node (orange node)
+		-Double klik mysql node
+		-pada kolom username masukkan "root"
+		-kosongkan kolom password
+		
+		
+///////////////////////		
+//Konfigurasi Startup//
+///////////////////////
+1. Akses Windows 10 dengan akun Administrator
+2. Buka Task Scheduler
+3. Buat Task
+4. Pada Tab General, pastikan 'use the following user account' mengarah ke administrator, dan pilih 'Run whether user logged on or not'
+5. Kemudian klik tab Trigger, dan klik new
+	-pada kolom begin the task pilih "At startup"
+	-biarkan yang lain secara default
+	-klik ok
+6. Klik new lagi
+	-pada kolom begin the task pilih "At startup"
+	-biarkan yang lain secara default
+	-klik ok
+7. Kemudian klik tab Action, lalu klik new
+    -pada kolom Action pilih "Start a program"
+    -pada kolom Program/Action masukkan " C:\xampp\xampp-control.exe"
+    -Klik OK
+8. Klik new lagi
+    -pada kolom Action pilih "Start a program"
+    -pada kolom Program/Action masukkan "C:\Users\[USER]\AppData\Roaming\npm\node-red.cmd"
+    -Klik OK
+9. Klik Tab Condition, lalu uncheck semua pilihan
+10. Klik Tab Setting
+	-check "Allow task to be run on demand"
+	-check "Run task as soon.."
+	-check "If task fail, retart every:"
+	-pada kolom "Attemp to restart up to" isi 99
+	-uncheck 3 pilihan di bawahnya
+	-pada kolom "If the task already running, then.." pilih "Do not start a new intance"
+11. Klik OK
+12. Uji coba dengan restart computer
+
+
+///////////////////////////////////
+//Konfigurasi interval slide show//
+///////////////////////////////////
+Langkah-langkah merubah interval slide show:
+1. Buka folder c:\xampp\htdocs\andonapp\application\config\
+2. Buka file constant.php, dengan notepad atau editor text lain
+2. Cari line pada bagian bawah : define('ZINTERVAL', '5000');
+3. Ubah angka 5000 (ms) dengan interval waktu yang diinginkan dalam (ms).
+4. Save file.
