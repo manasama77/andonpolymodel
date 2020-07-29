@@ -149,8 +149,8 @@ class PlanningController extends CI_Controller {
 
 	public function init_calendar1()
 	{
-		$bulan = $this->input->get('monthcal1');
-		$tahun = $this->input->get('yearcal1');
+		$bulan = $this->input->get('monthcal');
+		$tahun = $this->input->get('yearcal');
 		
 		$data['calendar'] = $this->cale1->show();
 		
@@ -164,8 +164,8 @@ class PlanningController extends CI_Controller {
 
 	public function init_calendar2()
 	{
-		$bulan = $this->input->get('monthcal2');
-		$tahun = $this->input->get('yearcal2');
+		$bulan = $this->input->get('monthcal');
+		$tahun = $this->input->get('yearcal');
 		
 		$data['calendar'] = $this->cale2->show();
 		
@@ -179,8 +179,8 @@ class PlanningController extends CI_Controller {
 
 	public function init_calendar3()
 	{
-		$bulan = $this->input->get('monthcal3');
-		$tahun = $this->input->get('yearcal3');
+		$bulan = $this->input->get('monthcal');
+		$tahun = $this->input->get('yearcal');
 		
 		$data['calendar'] = $this->cale3->show();
 		

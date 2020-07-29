@@ -26,7 +26,7 @@
 		text-align:center;
 	}
 
-	div#calendar3 div.header a.prev, div#calendar3 div.header a.next{ 
+	div#calendar3 div.header a.prev3, div#calendar3 div.header a.next3{ 
 		position:absolute;
 		top:0px;   
 		height: 17px;
@@ -42,11 +42,11 @@
 	}
 
 
-	div#calendar3 div.header a.prev{
+	div#calendar3 div.header a.prev3{
 		left:0px;
 	}
 
-	div#calendar3 div.header a.next{
+	div#calendar3 div.header a.next3{
 		right:0px;
 	}
 	

@@ -27,14 +27,14 @@ class Cale3
 		$year  = null;
 		$month = null;
 
-		if(null==$year&&isset($_GET['yearcal3'])){
-			$year = $_GET['yearcal3'];
+		if(null==$year&&isset($_GET['yearcal'])){
+			$year = $_GET['yearcal'];
 		}elseif(null==$year){
 			$year = date("Y",time());
 		}          
 
-		if(null==$month&&isset($_GET['monthcal3'])){
-			$month = $_GET['monthcal3'];
+		if(null==$month&&isset($_GET['monthcal'])){
+			$month = $_GET['monthcal'];
 		}else if(null==$month){
 			$month = date("m",time());
 		}                  
@@ -141,9 +141,9 @@ class Cale3
 
   	return
   	'<div class="header">'.
-  	'<a class="prev"><i class="fa fa-backward"></i> Prev</a>'.
+  	'<a class="prev3"><i class="fa fa-backward"></i> Prev</a>'.
   	'<input type="text" class="input-sm text-center" id="datepickercal3" name="active_date1" value="'.date('M Y',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'" style="width:100px; font-weight: bold; height: 38px;" readonly>'.
-  	'<a class="next">Next <i class="fa fa-forward"></i></a>'.
+  	'<a class="next3">Next <i class="fa fa-forward"></i></a>'.
   	'</div>';
   }
 
