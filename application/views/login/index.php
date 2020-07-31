@@ -90,6 +90,7 @@
 		<div class="login-main-text">
 			<h2>Andon<br> Login Page</h2>
 			<p>Login from here to access.</p>
+			<p><small>Version <?=VERSION_APP;?></small></p>
 		</div>
 	</div>
 	<div class="main">

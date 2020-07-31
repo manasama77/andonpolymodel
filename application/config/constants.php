@@ -85,6 +85,7 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 
+define('VERSION_APP', '1.0.1');
 define('SESS', 'TYT');
 define('UYAH', 'asin');
 define('GA_KONEK', 'Tidak terhubung dengan database, silahkan coba kembali');

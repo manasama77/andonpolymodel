@@ -1,5 +1,5 @@
 ###################
-Andon APP v.1.0.0
+Andon APP v.1.0.1
 2020-07-13
 Created By:
 - RezzaAnwary
@@ -22,15 +22,19 @@ First release version.
 
 V.1.0.1
 ========
-Release Date: Not Released
+Release Date: 2020-08-01
 
-Not Released.
+Bug Fixed.
+
+- Refactor JS
+- Perbaikan ChartJS tidak stretch dengan div col
+- Perbaikan Chart JS Label bulan dari format Y-m-d menjadi F d, Y
 
 *******************
 Server Requirements
 *******************
 
-- PHP (7.3^)
+- PHP (7.3)
 - MySql Database (5.1^)
 - Codeigniter Framework (3.1.10)
 - jQuery (3.5.1^)
