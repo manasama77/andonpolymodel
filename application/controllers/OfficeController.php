@@ -43,7 +43,7 @@ class OfficeController extends CI_Controller {
 		    $data[] = [
 				'tanggal' => $dt->format('Y-m-d'),
 				'y'       => $dt->format('Y'),
-				'm'       => $dt->format('m'),
+				'F'       => $dt->format('F'),
 				'd'       => $dt->format('d'),
 				'eff'     => (float)$eff,
 			];
@@ -77,7 +77,7 @@ class OfficeController extends CI_Controller {
 		    $data[] = [
 				'tanggal' => $dt->format('Y-m-d'),
 				'y'       => $dt->format('Y'),
-				'm'       => $dt->format('m'),
+				'F'       => $dt->format('F'),
 				'd'       => $dt->format('d'),
 				'eff'     => (float)$eff,
 			];
@@ -111,7 +111,7 @@ class OfficeController extends CI_Controller {
 		    $data[] = [
 				'tanggal' => $dt->format('Y-m-d'),
 				'y'       => $dt->format('Y'),
-				'm'       => $dt->format('m'),
+				'F'       => $dt->format('F'),
 				'd'       => $dt->format('d'),
 				'eff'     => (float)$eff,
 			];

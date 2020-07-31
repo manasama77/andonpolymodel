@@ -77,7 +77,7 @@
 			$.each(data, function(key, value){
 				dataPoints.push({  
 					label: `${value.tanggal}`,
-					x: new Date(value.y, value.m, value.d),
+					x: new Date(`${value.F} ${value.d},  ${value.y}`),
 					y: value.eff,
 				});
 			});
@@ -87,7 +87,7 @@
 			$.each(data, function(key, value){
 				dataPoints2.push({  
 					label: `${value.tanggal}`,
-					x: new Date(value.y, value.m, value.d),
+					x: new Date(`${value.F} ${value.d},  ${value.y}`),
 					y: value.eff,
 				});
 			});
@@ -97,7 +97,7 @@
 			$.each(data, function(key, value){
 				dataPoints3.push({
 					label: `${value.tanggal}`,
-					x: new Date(value.y, value.m, value.d),
+					x: new Date(`${value.F} ${value.d},  ${value.y}`),
 					y: parseFloat(value.eff),
 				});
 			});
@@ -634,18 +634,18 @@
 				interval: 20,
 			},
 			toolTip: {
-				shared: true
+				shared: true,
 			},
 
 			data: [
 			{
+				name: "Eff",
 				type: 'column',
+				indexLabel: '{y}%',
+				dataPoints: dataPoints,
 				color: "#f7caac",
 				showInLegend: false,
-				name: "Eff",
 				fillOpacity: .5,
-				dataPoints: dataPoints,
-				indexLabel: '{y}%',
 				indexLabelOrientation: 'vertical',
 				indexLabelPlacement: 'outside',
 				indexLabelFontColor: "#fff",
@@ -872,8 +872,7 @@
 		function toggleDataSeries22(e) {
 			if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
 				e.dataSeries.visible = false;
-			}
-			else {
+			} else {
 				e.dataSeries.visible = true;
 			}
 			chart22.render();
@@ -883,12 +882,13 @@
 			dataPoints.splice(0, dataPoints.length);
 			dataPoints2.splice(0, dataPoints2.length);
 			dataPoints3.splice(0, dataPoints3.length);
+			console.log(datepicker.val())
 
 			$.getJSON(`<?=site_url();?>json/m1/${datepicker.val()}`, function(data) {  
 				$.each(data, function(key, value){
 					dataPoints.push({  
 						label: `${value.tanggal}`,
-						x: new Date(value.y, value.m, value.d),
+						x: new Date(`${value.F} ${value.d},  ${value.y}`),
 						y: value.eff,
 					});
 				});
@@ -899,7 +899,7 @@
 				$.each(data, function(key, value){
 					dataPoints2.push({  
 						label: `${value.tanggal}`,
-						x: new Date(value.y, value.m, value.d),
+						x: new Date(`${value.F} ${value.d},  ${value.y}`),
 						y: value.eff,
 					});
 				});
@@ -910,7 +910,7 @@
 				$.each(data, function(key, value){
 					dataPoints3.push({
 						label: `${value.tanggal}`,
-						x: new Date(value.y, value.m, value.d),
+						x: new Date(`${value.F} ${value.d},  ${value.y}`),
 						y: parseFloat(value.eff),
 					});
 				});
