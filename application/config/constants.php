@@ -91,4 +91,4 @@ define('UYAH', 'asin');
 define('GA_KONEK', 'Tidak terhubung dengan database, silahkan coba kembali');
 define('GA_KETEMU', 'File / Data tidak ditemukan, silahkan coba kembali');
 define('ZINTERVAL', '5000');
-define('NODERED', 'ws://192.168.1.100:1880');
+define('NODERED', 'ws://localhost:1880');

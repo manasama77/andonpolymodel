@@ -488,8 +488,8 @@
 
 	function initDailyEfficiency()
 	{
-		// renderDailyEfficiency('kikukawa');
-		// renderDailyEfficiency('ncb3');
+		renderDailyEfficiency('kikukawa');
+		renderDailyEfficiency('ncb3');
 		renderDailyEfficiency('ncb6');
 
 		function renderDailyEfficiency(type)
@@ -506,7 +506,7 @@
 				let trigger = res.trigger;
 				let values  = res.values;
 				let mType   = '';
-
+				console.log(trigger);
 				if(type == "kikukawa"){
 					mType = "m1";
 					checkTriggerDailyEfficiency(trigger, mType);
@@ -518,11 +518,11 @@
 					checkTriggerDailyEfficiency(trigger, mType);
 				}
 
-				$(`#${mType}cutting`).removeClass('cuttingBG').removeClass('text-dark');
-				$(`#${mType}dandori`).removeClass('dandoriBG').removeClass('text-dark');
-				$(`#${mType}man`).removeClass('manBG').removeClass('text-dark');
-				$(`#${mType}idle`).removeClass('idleBG').removeClass('text-dark');
-				$(`#${mType}alarm`).removeClass('alarmBG').removeClass('text-dark');				
+				// $(`#${mType}cutting`).removeClass('cuttingBG').removeClass('text-dark');
+				// $(`#${mType}dandori`).removeClass('dandoriBG').removeClass('text-dark');
+				// $(`#${mType}man`).removeClass('manBG').removeClass('text-dark');
+				// $(`#${mType}idle`).removeClass('idleBG').removeClass('text-dark');
+				// $(`#${mType}alarm`).removeClass('alarmBG').removeClass('text-dark');				
 
 				$(`#${mType}cutting`).text( hhmm(values.cutting) );
 				$(`#${mType}dandori`).text( hhmm(values.dandori) );
@@ -533,29 +533,35 @@
 
 				function checkTriggerDailyEfficiency(trigger, mType)
 				{
-					if(trigger.length > 1){
+					// if(trigger.length > 1){
 						$.each(trigger, (i, k) => {
 							if(k == "cutting"){ $(`#${mType}cutting`).addClass('cuttingBG text-dark'); }
+							else{$(`#${mType}cutting`).removeClass('cuttingBG').removeClass('text-dark'); }
 							if(k == "dandori"){ $(`#${mType}dandori`).addClass('dandoriBG text-dark'); }
+							else{$(`#${mType}dandori`).removeClass('dandoriBG').removeClass('text-dark'); }
 							if(k == "man"){ $(`#${mType}man`).addClass('manBG text-dark'); }
+							else{$(`#${mType}man`).removeClass('manBG').removeClass('text-dark'); }
 							if(k == "idle"){ $(`#${mType}idle`).addClass('idleBG text-dark'); }
+							else{$(`#${mType}idle`).removeClass('idleBG').removeClass('text-dark'); }
 							if(k == "alarm"){ $(`#${mType}alarm`).addClass('alarmBG text-dark'); }
+							else{$(`#${mType}alarm`).removeClass('alarmBG').removeClass('text-dark');}
 						});
-					}else{
-						$.each(trigger, (i, k) => {
-							if(k == "cutting"){
-								$(`#${mType}cutting`).addClass('cuttingBG text-dark');
-							}else if(k == "dandori"){
-								$(`#${mType}dandori`).addClass('dandoriBG text-dark');
-							}else if(k == "man"){
-								$(`#${mType}man`).addClass('manBG text-dark');
-							}else if(k == "idle"){
-								$(`#${mType}idle`).addClass('idleBG text-dark');
-							}else if(k == "alarm"){
-								$(`#${mType}alarm`).addClass('alarmBG text-dark');
-							}
-						});
-					}
+					// }else{
+					// 	$.each(trigger, (i, k) => {
+					// 		$(`#${mType}cutting`).addClass('cuttingBG text-dark');
+					// 		if(k == "cutting"){
+					// 			$(`#${mType}cutting`).addClass('cuttingBG text-dark');
+					// 		}else if(k == "dandori"){
+					// 			$(`#${mType}dandori`).addClass('dandoriBG text-dark');
+					// 		}else if(k == "man"){
+					// 			$(`#${mType}man`).addClass('manBG text-dark');
+					// 		}else if(k == "idle"){
+					// 			$(`#${mType}idle`).addClass('idleBG text-dark');
+					// 		}else if(k == "alarm"){
+					// 			$(`#${mType}alarm`).addClass('alarmBG text-dark');
+					// 		}
+					// 	});
+					// }
 				}
 
 				function hhmm(secs) {
@@ -816,20 +822,20 @@
 			},
 
 			data: [
-			{
-				type: 'column',
-				name: "Kikukawa",
-				legendText: "Kikukawa",
-				showInLegend: true,
-				color: "#f7caac",
-				fillOpacity: .5,
-				dataPoints: dataPoints22Kikukawa,
-				indexLabel: '{y}%',
-				indexLabelOrientation: 'vertical',
-				indexLabelPlacement: 'outside',
-				indexLabelFontColor: "#fff",
-				indexLabelFontWeight: "bold",
-			},
+			// {
+			// 	type: 'column',
+			// 	name: "Kikukawa",
+			// 	legendText: "Kikukawa",
+			// 	showInLegend: true,
+			// 	color: "#f7caac",
+			// 	fillOpacity: .5,
+			// 	dataPoints: dataPoints22Kikukawa,
+			// 	indexLabel: '{y}%',
+			// 	indexLabelOrientation: 'vertical',
+			// 	indexLabelPlacement: 'outside',
+			// 	indexLabelFontColor: "#fff",
+			// 	indexLabelFontWeight: "bold",
+			// },
 			{ 
 				type: 'column',
 				name: "NCB3",
@@ -844,20 +850,20 @@
 				indexLabelFontColor: "#fff",
 				indexLabelFontWeight: "bold",
 			},
-			{ 
-				type: 'column',
-				name: "NCB6",
-				legendText: "NCB6",
-				showInLegend: true,
-				color: "#92d050",
-				fillOpacity: .5,
-				dataPoints: dataPoints22NCB6,
-				indexLabel: '{y}%',
-				indexLabelOrientation: 'vertical',
-				indexLabelPlacement: 'outside',
-				indexLabelFontColor: "#fff",
-				indexLabelFontWeight: "bold",
-			}
+			// { 
+			// 	type: 'column',
+			// 	name: "NCB6",
+			// 	legendText: "NCB6",
+			// 	showInLegend: true,
+			// 	color: "#92d050",
+			// 	fillOpacity: .5,
+			// 	dataPoints: dataPoints22NCB6,
+			// 	indexLabel: '{y}%',
+			// 	indexLabelOrientation: 'vertical',
+			// 	indexLabelPlacement: 'outside',
+			// 	indexLabelFontColor: "#fff",
+			// 	indexLabelFontWeight: "bold",
+			// }
 			]
 		});
 
