@@ -1,13 +1,14 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class InitController extends CI_Controller {
+class InitController extends CI_Controller
+{
 
 	public function index()
 	{
 		$data[] = [
-			'username' => 'office',
-			'password' => password_hash('office', PASSWORD_BCRYPT)
+			'username' => 'Oasis',
+			'password' => password_hash('oasis', PASSWORD_BCRYPT)
 		];
 
 		$data[] = [
@@ -26,25 +27,22 @@ class InitController extends CI_Controller {
 		];
 
 		$this->mcore->store_batch('admin', $data);
-		
 	}
 
 	public function check($username, $password)
 	{
 		$where = ['username' => $username];
 		$arr = $this->mcore->get('admin', '*', $where, NULL, 'ASC');
-		if($arr->num_rows() == 1){
-			if(password_verify($password, $arr->row()->password)){
+		if ($arr->num_rows() == 1) {
+			if (password_verify($password, $arr->row()->password)) {
 				echo "benar";
-			}else{
+			} else {
 				echo "salah";
 			}
-		}else{
+		} else {
 			echo "username tidak ditemukan";
 		}
-
 	}
-
 }
 
 /* End of file InitController.php */

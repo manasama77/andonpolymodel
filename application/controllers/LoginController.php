@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class LoginController extends CI_Controller {
+class LoginController extends CI_Controller
+{
 
 	public $cookie_name = 'andon';
 
@@ -15,29 +16,29 @@ class LoginController extends CI_Controller {
 	{
 		$cookies = get_cookie($this->cookie_name);
 
-		if($cookies != NULL){
+		if ($cookies != NULL) {
 			$check_cookies = $this->mcore->get('admin', '*', ['cookies' => $cookies], NULL, 'ASC', NULL, NULL);
 
-			if($check_cookies->num_rows() == 1){
+			if ($check_cookies->num_rows() == 1) {
 				$id       = $check_cookies->row()->id;
 				$username = $check_cookies->row()->username;
 				$this->_set_session($id, $username);
-				if($username == 'office'){
-					redirect(base_url().'office/dashboard','refresh');
-				}else{
-					redirect(base_url().'machine/dashboard/'.$username,'refresh');
+				if ($username == 'Oasis') {
+					redirect(base_url() . 'office/dashboard', 'refresh');
+				} else {
+					redirect(base_url() . 'machine/dashboard/' . $username, 'refresh');
 				}
-			}else{
+			} else {
 				delete_cookie($this->cookie_name);
-				redirect(base_url(),'refresh');
+				redirect(base_url(), 'refresh');
 			}
-		}else{
+		} else {
 			$this->form_validation->set_rules('username', 'Username', 'callback_username_check');
 			$this->form_validation->set_rules('password', 'Password', 'callback_password_check');
 
 			if ($this->form_validation->run() === FALSE) {
 				$this->load->view('login/index');
-			}else{
+			} else {
 				$username = $this->input->post('username');
 				$where    = ['username'   => $username];
 				$arr      = $this->mcore->get('admin', '*', $where, NULL, 'ASC');
@@ -46,17 +47,17 @@ class LoginController extends CI_Controller {
 				$this->_set_session($id, $username);
 
 				$remember = $this->input->post('remember');
-				if($remember == 'on'){
+				if ($remember == 'on') {
 					$key_cookies = random_string('alnum', 64);
-					set_cookie($this->cookie_name, $key_cookies, 3600*24*30);
+					set_cookie($this->cookie_name, $key_cookies, 3600 * 24 * 30);
 					$data = ['cookies' => $key_cookies, 'remember' => '1'];
-					$this->mcore->update('admin', $data, ['id' => $id]);	
+					$this->mcore->update('admin', $data, ['id' => $id]);
 				}
-				
-				if($username == 'office'){
-					redirect(base_url().'office/dashboard','refresh');
-				}else{
-					redirect(base_url().'machine/dashboard/'.$username,'refresh');
+
+				if ($username == 'office') {
+					redirect(base_url() . 'office/dashboard', 'refresh');
+				} else {
+					redirect(base_url() . 'machine/dashboard/' . $username, 'refresh');
 				}
 			}
 		}
@@ -97,18 +98,17 @@ class LoginController extends CI_Controller {
 
 	public function _set_session($id, $username)
 	{
-		$this->session->set_userdata(SESS.'id', $id);
-		$this->session->set_userdata(SESS.'username', $username);
+		$this->session->set_userdata(SESS . 'id', $id);
+		$this->session->set_userdata(SESS . 'username', $username);
 	}
 
 	public function logout()
 	{
 		delete_cookie($this->cookie_name);
-		$this->session->unset_userdata(SESS.'id');
-		$this->session->unset_userdata(SESS.'username');
-		redirect(site_url().'','refresh');
+		$this->session->unset_userdata(SESS . 'id');
+		$this->session->unset_userdata(SESS . 'username');
+		redirect(site_url() . '', 'refresh');
 	}
-
 }
 
 /* End of file LoginController.php */
