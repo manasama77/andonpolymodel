@@ -111,6 +111,7 @@
 		});
 
 		$.getJSON(`<?= site_url(); ?>json/monthly/${yearpicker.val()}`, function(data) {
+			console.log(data);
 			$.each(data.kikukawa_array, function(key, value) {
 				dataPoints22Kikukawa.push({
 					label: `${value.month} ${value.year}`,
@@ -950,6 +951,7 @@
 						label: `${value.month} ${value.year}`,
 						y: value.eff,
 					});
+					chart22.render();
 				});
 
 				$.each(data.ncb3_array, function(key, value) {
@@ -957,6 +959,7 @@
 						label: `${value.month} ${value.year}`,
 						y: value.eff,
 					});
+					chart22.render();
 				});
 
 				$.each(data.ncb6_array, function(key, value) {
@@ -964,51 +967,11 @@
 						label: `${value.month} ${value.year}`,
 						y: value.eff,
 					});
+					chart22.render();
 				});
 
 				chart22.render();
 			});
-		}
-
-		function wsMonthly() {
-			wsBulanan = new WebSocket("<?= NODERED ?>/ws/monthly");
-			wsBulanan.onerror = (e) => console.log(e);
-			wsBulanan.onopen = () => console.log('connect');
-			wsBulanan.onclose = () => {
-				console.log('disconnect');
-				setTimeout(() => wsMonthly(), 1000);
-			}
-			wsBulanan.onmessage = (e) => {
-				let data = $.parseJSON(e.data);
-
-				month = data.month;
-				kikukawa = data.kikukawa;
-				ncb3 = data.ncb3;
-				ncb6 = data.ncb6;
-
-				for (var z = 0; z < dataPoints22Kikukawa.length; z++) {
-					let xlabel = dataPoints22Kikukawa[z].label;
-					if (xlabel == dateDynamicCal1.format('MMM YYYY')) {
-						dataPoints22Kikukawa[z].y = parseFloat(kikukawa.toFixed(2));
-					}
-				}
-
-				for (var z = 0; z < dataPoints22NCB3.length; z++) {
-					let xlabel = dataPoints22NCB3[z].label;
-					if (xlabel == dateDynamicCal2.format('MMM YYYY')) {
-						dataPoints22NCB3[z].y = parseFloat(ncb3.toFixed(2));
-					}
-				}
-
-				for (var z = 0; z < dataPoints22NCB6.length; z++) {
-					let xlabel = dataPoints22NCB6[z].label;
-					if (xlabel == dateDynamicCal3.format('MMM YYYY')) {
-						dataPoints22NCB6[z].y = parseFloat(ncb6.toFixed(2));
-					}
-				}
-
-				chart22.render();
-			}
 		}
 
 		function wsKikukawa1() {
@@ -1110,6 +1073,7 @@
 					if (xlabel == dateDynamicCal1.format('MMM YYYY')) {
 						dataPoints22Kikukawa[z].y = parseFloat(kikukawa.toFixed(2));
 					}
+					chart22.render();
 				}
 
 				for (var z = 0; z < dataPoints22NCB3.length; z++) {
@@ -1117,6 +1081,7 @@
 					if (xlabel == dateDynamicCal2.format('MMM YYYY')) {
 						dataPoints22NCB3[z].y = parseFloat(ncb3.toFixed(2));
 					}
+					chart22.render();
 				}
 
 				for (var z = 0; z < dataPoints22NCB6.length; z++) {
@@ -1124,6 +1089,7 @@
 					if (xlabel == dateDynamicCal3.format('MMM YYYY')) {
 						dataPoints22NCB6[z].y = parseFloat(ncb6.toFixed(2));
 					}
+					chart22.render();
 				}
 
 				chart22.render();
@@ -1266,24 +1232,6 @@
 		});
 
 		function logicSlideShow(tipe) {
-			// if (kue == 0) {
-			// 	$('.slide_1').fadeIn(1000);
-			// 	$('.slide_2').fadeOut(1000);
-			// 	$('.slide_3').fadeOut(1000);
-			// } else if (kue == 1) {
-			// 	$('.slide_1').fadeOut(1000);
-			// 	$('.slide_2').fadeIn(1000);
-			// 	$('.slide_3').fadeOut(1000);
-			// } else if (kue == 2) {
-			// 	$('.slide_1').fadeOut(1000);
-			// 	$('.slide_2').fadeOut(1000);
-			// 	$('.slide_3').fadeIn(1000);
-			// } else {
-			// 	$('.slide_1').fadeOut(1000);
-			// 	$('.slide_2').fadeOut(1000);
-			// 	$('.slide_3').fadeOut(1000);
-			// }
-
 			if (kue == 0) {
 				$('.slide_1').show();
 				$('.slide_2').hide();
@@ -1302,10 +1250,13 @@
 				$('.slide_3').hide();
 			}
 
-			chart1.render();
-			chart2.render();
-			chart3.render();
-			chart22.render();
+			setTimeout(function() {
+				chart1.render();
+				chart2.render();
+				chart3.render();
+				chart22.render();
+			}, 500);
+
 		}
 
 		function countChartShow() {

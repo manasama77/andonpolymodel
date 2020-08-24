@@ -1270,27 +1270,29 @@
 
 			function logicSlideShow() {
 				if (kue == 0) {
-					$('.slide_1').fadeIn(1000);
-					$('.slide_2').fadeOut(1000);
-					$('.slide_3').fadeOut(1000);
+					$('.slide_1').show();
+					$('.slide_2').hide();
+					$('.slide_3').hide();
 				} else if (kue == 1) {
-					$('.slide_1').fadeOut(1000);
-					$('.slide_2').fadeIn(1000);
-					$('.slide_3').fadeOut(1000);
+					$('.slide_1').hide();
+					$('.slide_2').show();
+					$('.slide_3').hide();
 				} else if (kue == 2) {
-					$('.slide_1').fadeOut(1000);
-					$('.slide_2').fadeOut(1000);
-					$('.slide_3').fadeIn(1000);
+					$('.slide_1').hide();
+					$('.slide_2').hide();
+					$('.slide_3').show();
 				} else {
-					$('.slide_1').fadeOut(1000);
-					$('.slide_2').fadeOut(1000);
-					$('.slide_3').fadeOut(1000);
+					$('.slide_1').hide();
+					$('.slide_2').hide();
+					$('.slide_3').hide();
 				}
 
-				// chart1.render();
-				// chart2.render();
-				chart3.render();
-				chart22.render();
+				setTimeout(function() {
+					// chart1.render();
+					// chart2.render();
+					chart3.render();
+					chart22.render();
+				}, 500);
 			}
 
 			function countChartShow() {

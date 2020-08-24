@@ -54,7 +54,7 @@ class LoginController extends CI_Controller
 					$this->mcore->update('admin', $data, ['id' => $id]);
 				}
 
-				if ($username == 'office') {
+				if ($username == 'office' || $username == 'Oasis') {
 					redirect(base_url() . 'office/dashboard', 'refresh');
 				} else {
 					redirect(base_url() . 'machine/dashboard/' . $username, 'refresh');
