@@ -1270,21 +1270,21 @@
 
 			function logicSlideShow() {
 				if (kue == 0) {
-					$('.slide_1').show();
-					$('.slide_2').hide();
-					$('.slide_3').hide();
+					$('.slide_1').show(500);
+					$('.slide_2').hide(500);
+					$('.slide_3').hide(500);
 				} else if (kue == 1) {
-					$('.slide_1').hide();
-					$('.slide_2').show();
-					$('.slide_3').hide();
+					$('.slide_1').hide(500);
+					$('.slide_2').show(500);
+					$('.slide_3').hide(500);
 				} else if (kue == 2) {
-					$('.slide_1').hide();
-					$('.slide_2').hide();
-					$('.slide_3').show();
+					$('.slide_1').hide(500);
+					$('.slide_2').hide(500);
+					$('.slide_3').show(500);
 				} else {
-					$('.slide_1').hide();
-					$('.slide_2').hide();
-					$('.slide_3').hide();
+					$('.slide_1').hide(500);
+					$('.slide_2').hide(500);
+					$('.slide_3').hide(500);
 				}
 
 				setTimeout(function() {
