@@ -23,7 +23,7 @@ class LoginController extends CI_Controller
 				$id       = $check_cookies->row()->id;
 				$username = $check_cookies->row()->username;
 				$this->_set_session($id, $username);
-				if ($username == 'Oasis') {
+				if ($username == 'Oasis' || $username == 'office') {
 					redirect(base_url() . 'office/dashboard', 'refresh');
 				} else {
 					redirect(base_url() . 'machine/dashboard/' . $username, 'refresh');
