@@ -974,46 +974,46 @@
 			});
 		}
 
-		function wsMonthly() {
-			wsBulanan = new WebSocket("<?= NODERED ?>/ws/monthly");
-			wsBulanan.onerror = (e) => console.log(e);
-			wsBulanan.onopen = () => console.log('connect');
-			wsBulanan.onclose = () => {
-				console.log('disconnect');
-				setTimeout(() => wsMonthly(), 1000);
-			}
-			wsBulanan.onmessage = (e) => {
-				let data = $.parseJSON(e.data);
+		// function wsMonthly() {
+		// 	wsBulanan = new WebSocket("<?= NODERED ?>/ws/monthly");
+		// 	wsBulanan.onerror = (e) => console.log(e);
+		// 	wsBulanan.onopen = () => console.log('connect');
+		// 	wsBulanan.onclose = () => {
+		// 		console.log('disconnect');
+		// 		setTimeout(() => wsMonthly(), 1000);
+		// 	}
+		// 	wsBulanan.onmessage = (e) => {
+		// 		let data = $.parseJSON(e.data);
 
-				month = data.month;
-				kikukawa = data.kikukawa;
-				ncb3 = data.ncb3;
-				ncb6 = data.ncb6;
+		// 		month = data.month;
+		// 		kikukawa = data.kikukawa;
+		// 		ncb3 = data.ncb3;
+		// 		ncb6 = data.ncb6;
 
-				for (var z = 0; z < dataPoints22Kikukawa.length; z++) {
-					let xlabel = dataPoints22Kikukawa[z].label;
-					if (xlabel == dateDynamicCal1.format('MMM YYYY')) {
-						dataPoints22Kikukawa[z].y = parseFloat(kikukawa.toFixed(2));
-					}
-				}
+		// 		for (var z = 0; z < dataPoints22Kikukawa.length; z++) {
+		// 			let xlabel = dataPoints22Kikukawa[z].label;
+		// 			if (xlabel == dateDynamicCal1.format('MMM YYYY')) {
+		// 				dataPoints22Kikukawa[z].y = parseFloat(kikukawa.toFixed(2));
+		// 			}
+		// 		}
 
-				for (var z = 0; z < dataPoints22NCB3.length; z++) {
-					let xlabel = dataPoints22NCB3[z].label;
-					if (xlabel == dateDynamicCal2.format('MMM YYYY')) {
-						dataPoints22NCB3[z].y = parseFloat(ncb3.toFixed(2));
-					}
-				}
+		// 		for (var z = 0; z < dataPoints22NCB3.length; z++) {
+		// 			let xlabel = dataPoints22NCB3[z].label;
+		// 			if (xlabel == dateDynamicCal2.format('MMM YYYY')) {
+		// 				dataPoints22NCB3[z].y = parseFloat(ncb3.toFixed(2));
+		// 			}
+		// 		}
 
-				for (var z = 0; z < dataPoints22NCB6.length; z++) {
-					let xlabel = dataPoints22NCB6[z].label;
-					if (xlabel == dateDynamicCal3.format('MMM YYYY')) {
-						dataPoints22NCB6[z].y = parseFloat(ncb6.toFixed(2));
-					}
-				}
+		// 		for (var z = 0; z < dataPoints22NCB6.length; z++) {
+		// 			let xlabel = dataPoints22NCB6[z].label;
+		// 			if (xlabel == dateDynamicCal3.format('MMM YYYY')) {
+		// 				dataPoints22NCB6[z].y = parseFloat(ncb6.toFixed(2));
+		// 			}
+		// 		}
 
-				chart22.render();
-			}
-		}
+		// 		chart22.render();
+		// 	}
+		// }
 
 		function wsKikukawa1() {
 			wstest = new WebSocket("<?= NODERED ?>/ws/trigger/kikukawa");
