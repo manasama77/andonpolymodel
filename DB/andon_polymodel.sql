@@ -11,7 +11,7 @@
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 14/07/2020 02:01:58
+ Date: 01/09/2020 01:13:23
 */
 
 SET NAMES utf8mb4;
@@ -33,10 +33,10 @@ CREATE TABLE `admin`  (
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES (1, 'office', '$2y$10$6QJENwdDm5zRJRLYz4N/heOXM9oWCeUM.Oeq5wKDgn7zinbV4CS.6', '1', 'haDBETQ78K16cxWyGlVuvZXKrMF32ALXbHqYVTF3yvfdb8eJOHSldRIsCz5wDoi2');
-INSERT INTO `admin` VALUES (2, 'kikukawa', '$2y$10$UPQ8i7cmucqC61yt/YRji.gqYnT1/U5L.1gWWCTnEnwxzBS3M32bC', '1', 'SCljJp0nzZPgxKbIvCtO7EXLXNa5DYNobcTQW1p2TArahw35Rd4DMsxJ8Pv0fdoY');
-INSERT INTO `admin` VALUES (3, 'ncb3', '$2y$10$rYgcwQZHNq8nLHp2WGqw4uubEcFU48UvQfYom4NgK4EfcPWNOhVD2', '1', 'ZS5XuKy6RsFLIdzA0I4c9jnhaEktqOJNp1GWDlT8i2ea06fsxyhnJAg83UbEmObU');
-INSERT INTO `admin` VALUES (4, 'ncb6', '$2y$10$81Lbk3TqNU9AuBkRxBMOJO1B6sEU88A6f/iLePIeDvzoPG5ha5NiS', '1', 'yyzdd2OYDVatrh8GuW0r1xs2vgTFXq9H3hRutf9wgDPm5M7oBFkCA4iJ7LvsNjXq');
+INSERT INTO `admin` VALUES (1, 'Oasis', '$2y$10$X/5Cxy86eBNig0ik5DetHO9lRMceGSIDKGKrPTjVrQM/L6IjTTBr2', '1', '617fhtEjyZRb4MDpqM5N32Q2gIiShYf0Ha8qY0VxOxJPBC8QwZc9CvsdKvAkLFnE');
+INSERT INTO `admin` VALUES (2, 'kikukawa', '$2y$10$ho3LpsPLKFLy4tXK3LV4COvC7cznO68MOCsEaJ7vy4AeBlocSlVey', NULL, NULL);
+INSERT INTO `admin` VALUES (3, 'ncb3', '$2y$10$yvp1kweawuGlmy0OcIxjwOusnEXQykN6s1XDdFpWbFYFfFudTztdq', NULL, NULL);
+INSERT INTO `admin` VALUES (4, 'ncb6', '$2y$10$3naEhi.C2Q/XrPxQKRtpuOkJunvFzZeKaSCx8YIeafOtgFTk0agsO', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for kikukawa
@@ -64,6 +64,8 @@ INSERT INTO `kikukawa` VALUES ('2020-07-06', 4478, 4472, 4469, 4466, 4476, 16.59
 INSERT INTO `kikukawa` VALUES ('2020-07-07', 4525, 4528, 4527, 4526, 4524, 16.76);
 INSERT INTO `kikukawa` VALUES ('2020-07-10', 559, 558, 570, 562, 566, 100.00);
 INSERT INTO `kikukawa` VALUES ('2020-07-13', 4509, 4514, 4508, 4507, 4505, 16.70);
+INSERT INTO `kikukawa` VALUES ('2020-08-30', 1331, 1343, 1342, 1340, 1340, 100.00);
+INSERT INTO `kikukawa` VALUES ('2020-08-31', 152, 148, 148, 150, 149, 100.00);
 
 -- ----------------------------
 -- Table structure for monthly
@@ -83,6 +85,7 @@ CREATE TABLE `monthly`  (
 -- ----------------------------
 INSERT INTO `monthly` VALUES ('2020-06-01', 0.00, 0.00, 0.00);
 INSERT INTO `monthly` VALUES ('2020-07-01', 14.33, 15.07, 14.68);
+INSERT INTO `monthly` VALUES ('2020-08-01', 0.00, 0.00, 0.00);
 
 -- ----------------------------
 -- Table structure for ncb3
@@ -110,6 +113,8 @@ INSERT INTO `ncb3` VALUES ('2020-07-06', 4478, 4471, 4469, 4465, 4476, 16.6);
 INSERT INTO `ncb3` VALUES ('2020-07-07', 4525, 4528, 4528, 4525, 4524, 16.8);
 INSERT INTO `ncb3` VALUES ('2020-07-10', 559, 559, 570, 562, 566, 100.0);
 INSERT INTO `ncb3` VALUES ('2020-07-13', 4509, 4515, 4506, 4507, 4506, 14.7);
+INSERT INTO `ncb3` VALUES ('2020-08-30', 1331, 1343, 1342, 1340, 1339, 100.0);
+INSERT INTO `ncb3` VALUES ('2020-08-31', 152, 148, 148, 150, 149, 100.0);
 
 -- ----------------------------
 -- Table structure for ncb6
@@ -137,6 +142,8 @@ INSERT INTO `ncb6` VALUES ('2020-07-06', 4478, 4471, 4470, 4464, 4476, 16.6);
 INSERT INTO `ncb6` VALUES ('2020-07-07', 4525, 4527, 4528, 4524, 4524, 16.8);
 INSERT INTO `ncb6` VALUES ('2020-07-10', 560, 559, 569, 562, 566, 100.0);
 INSERT INTO `ncb6` VALUES ('2020-07-13', 4508, 4515, 4508, 4507, 4505, 13.2);
+INSERT INTO `ncb6` VALUES ('2020-08-30', 1331, 1342, 1342, 1340, 1339, 100.0);
+INSERT INTO `ncb6` VALUES ('2020-08-31', 152, 148, 148, 150, 149, 100.0);
 
 -- ----------------------------
 -- Table structure for planning_kikukawa
@@ -219,5 +226,21 @@ INSERT INTO `planning_ncb6` VALUES (9, '2020-07-14', '09:30:00');
 INSERT INTO `planning_ncb6` VALUES (10, '2020-06-30', '07:30:00');
 INSERT INTO `planning_ncb6` VALUES (11, '2020-07-15', '09:30:00');
 INSERT INTO `planning_ncb6` VALUES (12, '2020-07-16', '09:30:00');
+
+-- ----------------------------
+-- Table structure for slide_ext
+-- ----------------------------
+DROP TABLE IF EXISTS `slide_ext`;
+CREATE TABLE `slide_ext`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of slide_ext
+-- ----------------------------
+INSERT INTO `slide_ext` VALUES (3, '557ea73fabcf758c21ea2cef099a6086.jpg');
+INSERT INTO `slide_ext` VALUES (4, '20e3089c57fbaec2cf3e09b9058b75d5.jpg');
 
 SET FOREIGN_KEY_CHECKS = 1;

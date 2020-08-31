@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
 $route['default_controller']   = 'LoginController/index';
@@ -31,3 +31,6 @@ $route['json/m1/(:any)']      = 'OfficeController/json_m1/$1';
 $route['json/m2/(:any)']      = 'OfficeController/json_m2/$1';
 $route['json/m3/(:any)']      = 'OfficeController/json_m3/$1';
 $route['json/monthly/(:any)'] = 'OfficeController/json_montly/$1';
+
+$route['image_upload'] = 'UploadController/index';
+$route['image_delete'] = 'UploadController/destroy';

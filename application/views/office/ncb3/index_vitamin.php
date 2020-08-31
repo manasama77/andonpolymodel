@@ -44,7 +44,9 @@
 		yearcal3,
 		dateDynamicCal3,
 		isPaused = false,
-		state = pausePlay.data('state');
+		state = pausePlay.data('state'),
+		totalExtSlide = $('#total_slides').val(),
+		maxSlide = parseInt(2) + parseInt(totalExtSlide) + parseInt(1);
 
 	$(document).ready(() => {
 		menuToggle.click((e) => {
@@ -176,6 +178,44 @@
 			submitHandler: function(form) {
 				let my = moment($('#my').val(), 'MM/YYYY');
 				window.open(`<?= site_url(); ?>export/monthly/${my.format('YYYY-MM')}`, '_blank');
+			}
+		});
+
+		$('#tSlideManagement').on('click', function() {
+			$('#modal-slide-management').modal('show');
+		});
+
+		$('#slide_upload').validate({
+			debug: true,
+			rules: {
+				image: {
+					required: true,
+				}
+			},
+			errorClass: 'help-block text-danger',
+			errorPlacement: function(error, element) {
+				error.insertAfter($(element).parent());
+			},
+			submitHandler: function(form) {
+				$.ajax({
+					url: `<?= site_url('image_upload'); ?>`,
+					method: 'post',
+					dataType: 'json',
+					data: new FormData(form),
+					processData: false,
+					contentType: false,
+					cache: false,
+					async: true,
+					beforeSend: function() {
+						$.blockUI();
+					}
+				}).done(function(res) {
+					$.unblockUI();
+					alert(res.msg);
+					if (res.code == 200) {
+						window.location.reload();
+					}
+				});
 			}
 		});
 	}
@@ -1144,7 +1184,7 @@
 					varInterval = setInterval(function() {
 						if (isPaused == false) {
 							kue++;
-							if (kue == 3) {
+							if (kue == maxSlide) {
 								kue = 0;
 							}
 							Cookies.set("aktifSlide", kue);
@@ -1160,7 +1200,7 @@
 					if (isPaused == false) {
 						$('#slideshow > div:first').fadeOut(1000).next().fadeIn(1000).end().appendTo('#slideshow');
 						kue++;
-						if (kue == 3) {
+						if (kue == maxSlide) {
 							kue = 0;
 						}
 						Cookies.set("aktifSlide", kue);
@@ -1198,7 +1238,7 @@
 				$('#button_play').hide();
 				pausePlay.addClass('bg-warning').removeClass('bg-success');
 				kue++;
-				if (kue == 3) {
+				if (kue == maxSlide) {
 					kue = 0;
 				}
 				Cookies.set("aktifSlide", kue);
@@ -1269,30 +1309,17 @@
 			});
 
 			function logicSlideShow() {
-				if (kue == 0) {
-					$('.slide_1').show(500);
-					$('.slide_2').hide(500);
-					$('.slide_3').hide(500);
-				} else if (kue == 1) {
-					$('.slide_1').hide(500);
-					$('.slide_2').show(500);
-					$('.slide_3').hide(500);
-				} else if (kue == 2) {
-					$('.slide_1').hide(500);
-					$('.slide_2').hide(500);
-					$('.slide_3').show(500);
-				} else {
-					$('.slide_1').hide(500);
-					$('.slide_2').hide(500);
-					$('.slide_3').hide(500);
+				for (i = 0; i < maxSlide; i++) {
+					$(`.slide_${i}`).hide();
+					if (kue == i) {
+						$(`.slide_${i}`).show();
+					}
 				}
 
-				setTimeout(function() {
-					// chart1.render();
-					chart2.render();
-					// chart3.render();
-					chart22.render();
-				}, 500);
+				// chart1.render();
+				chart2.render();
+				// chart3.render();
+				chart22.render();
 			}
 
 			function countChartShow() {

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class TemplateOffice
 {
@@ -8,7 +8,7 @@ class TemplateOffice
 
 	public function __construct()
 	{
-		$this->ci =& get_instance();
+		$this->ci = &get_instance();
 		$this->ci->load->model('M_core', 'mcore');
 		$this->ci->load->helper(['cookie', 'string']);
 	}
@@ -17,15 +17,15 @@ class TemplateOffice
 	{
 		$ck = $this->check_cookies();
 
-		if($ck == TRUE){
+		if ($ck == TRUE) {
 			$this->render_view($data);
-		}else{
+		} else {
 			delete_cookie('andon');
 			$cs = $this->check_session();
 
-			if($cs == TRUE){
+			if ($cs == TRUE) {
 				$this->render_view($data);
-			}else{
+			} else {
 				$this->reject();
 			}
 		}
@@ -35,12 +35,12 @@ class TemplateOffice
 	{
 		$cookies = get_cookie($this->cookie_name);
 
-		if($cookies == NULL){
+		if ($cookies == NULL) {
 			return FALSE;
-		}else{
+		} else {
 			$arr     = $this->ci->mcore->get('admin', '*', ['cookies' => $cookies], NULL, 'ASC', NULL, NULL);
 
-			if($arr->num_rows() == 0){
+			if ($arr->num_rows() == 0) {
 				return FALSE;
 			}
 
@@ -49,14 +49,14 @@ class TemplateOffice
 			$remember   = $arr->row()->remember;
 			$cookies_db = $arr->row()->cookies;
 
-			if($remember == '1'){
-				if($cookies == $cookies_db){
+			if ($remember == '1') {
+				if ($cookies == $cookies_db) {
 					$this->reset_session($id, $username);
 					return TRUE;
-				}else{
+				} else {
 					return FALSE;
 				}
-			}else{
+			} else {
 				return FALSE;
 			}
 		}
@@ -64,27 +64,27 @@ class TemplateOffice
 
 	public function check_session()
 	{
-		$id       = $this->ci->session->userdata(SESS.'id');
-		$username = $this->ci->session->userdata(SESS.'username');
+		$id       = $this->ci->session->userdata(SESS . 'id');
+		$username = $this->ci->session->userdata(SESS . 'username');
 
 		$arr     = $this->ci->mcore->get('admin', '*', ['id' => $id], NULL, 'ASC', NULL, NULL);
 
-		if($arr->num_rows() == 0){
+		if ($arr->num_rows() == 0) {
 			return FALSE;
 		}
 
-		if($id && $username){
+		if ($id && $username) {
 			return TRUE;
-		}else{
+		} else {
 			return FALSE;
 		}
 	}
 
 	public function render_view($data)
 	{
-		if(file_exists(APPPATH.'views/office/'.$data['content'].'.php')){
+		if (file_exists(APPPATH . 'views/office/' . $data['content'] . '.php')) {
 			$this->ci->load->view('layouts/office/template', $data, FALSE);
-		}else{
+		} else {
 			show_404();
 		}
 	}
@@ -97,10 +97,9 @@ class TemplateOffice
 
 	public function reset_session($id, $username)
 	{
-		$this->ci->session->set_userdata(SESS.'id', $id);
-		$this->ci->session->set_userdata(SESS.'username', $username);
+		$this->ci->session->set_userdata(SESS . 'id', $id);
+		$this->ci->session->set_userdata(SESS . 'username', $username);
 	}
-
 }
 
 /* End of file TemplateAdmin.php */

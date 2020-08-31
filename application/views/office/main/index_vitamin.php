@@ -44,7 +44,9 @@
 		yearcal3,
 		dateDynamicCal3,
 		isPaused = false,
-		state = pausePlay.data('state');
+		state = pausePlay.data('state'),
+		totalExtSlide = $('#total_slides').val(),
+		maxSlide = parseInt(2) + parseInt(totalExtSlide) + parseInt(1);
 
 	$(document).ready(() => {
 		menuToggle.click((e) => {
@@ -134,12 +136,12 @@
 	}
 
 	function initModal() {
-		$('#tExport').on('click', function() {
-			$('#modal-export').modal('show');
-		});
-
 		$('#tPlan').on('click', function() {
 			$('#modal-planning').modal('show');
+		});
+
+		$('#tExport').on('click', function() {
+			$('#modal-export').modal('show');
 		});
 
 		$('#daily_export').validate({
@@ -177,6 +179,64 @@
 			submitHandler: function(form) {
 				let my = moment($('#my').val(), 'MM/YYYY');
 				window.open(`<?= site_url(); ?>export/monthly/${my.format('YYYY-MM')}`, '_blank');
+			}
+		});
+
+		$('#tSlideManagement').on('click', function() {
+			$('#modal-slide-management').modal('show');
+		});
+
+		$('#slide_upload').validate({
+			debug: true,
+			rules: {
+				image: {
+					required: true,
+				}
+			},
+			errorClass: 'help-block text-danger',
+			errorPlacement: function(error, element) {
+				error.insertAfter($(element).parent());
+			},
+			submitHandler: function(form) {
+				$.ajax({
+					url: `<?= site_url('image_upload'); ?>`,
+					method: 'post',
+					dataType: 'json',
+					data: new FormData(form),
+					processData: false,
+					contentType: false,
+					cache: false,
+					async: true,
+					beforeSend: function() {
+						$.blockUI();
+					}
+				}).done(function(res) {
+					$.unblockUI();
+					alert(res.msg);
+					if (res.code == 200) {
+						window.location.reload();
+					}
+				});
+			}
+		});
+	}
+
+	function deleteImage(id) {
+		$.ajax({
+			url: `<?= site_url('image_delete'); ?>`,
+			method: 'post',
+			dataType: 'json',
+			data: {
+				id: id
+			},
+			beforeSend: function() {
+				$.blockUI();
+			}
+		}).done(function(res) {
+			$.unblockUI();
+			alert(res.msg);
+			if (res.code == 200 || res.code == 404) {
+				window.location.reload();
 			}
 		});
 	}
@@ -525,12 +585,6 @@
 					checkTriggerDailyEfficiency(trigger, mType);
 				}
 
-				// $(`#${mType}cutting`).removeClass('cuttingBG').removeClass('text-dark');
-				// $(`#${mType}dandori`).removeClass('dandoriBG').removeClass('text-dark');
-				// $(`#${mType}man`).removeClass('manBG').removeClass('text-dark');
-				// $(`#${mType}idle`).removeClass('idleBG').removeClass('text-dark');
-				// $(`#${mType}alarm`).removeClass('alarmBG').removeClass('text-dark');				
-
 				$(`#${mType}cutting`).text(hhmm(values.cutting));
 				$(`#${mType}dandori`).text(hhmm(values.dandori));
 				$(`#${mType}man`).text(hhmm(values.man));
@@ -539,7 +593,6 @@
 				$(`#${mType}eff`).text(`${parseFloat(values.eff).toFixed(2)}%`);
 
 				function checkTriggerDailyEfficiency(trigger, mType) {
-					// if(trigger.length > 1){
 					$.each(trigger, (i, k) => {
 						if (k == "cutting") {
 							$(`#${mType}cutting`).addClass('cuttingBG text-dark');
@@ -567,22 +620,7 @@
 							$(`#${mType}alarm`).removeClass('alarmBG').removeClass('text-dark');
 						}
 					});
-					// }else{
-					// 	$.each(trigger, (i, k) => {
-					// 		$(`#${mType}cutting`).addClass('cuttingBG text-dark');
-					// 		if(k == "cutting"){
-					// 			$(`#${mType}cutting`).addClass('cuttingBG text-dark');
-					// 		}else if(k == "dandori"){
-					// 			$(`#${mType}dandori`).addClass('dandoriBG text-dark');
-					// 		}else if(k == "man"){
-					// 			$(`#${mType}man`).addClass('manBG text-dark');
-					// 		}else if(k == "idle"){
-					// 			$(`#${mType}idle`).addClass('idleBG text-dark');
-					// 		}else if(k == "alarm"){
-					// 			$(`#${mType}alarm`).addClass('alarmBG text-dark');
-					// 		}
-					// 	});
-					// }
+
 				}
 
 				function hhmm(secs) {
@@ -883,10 +921,10 @@
 			]
 		});
 
-		chart1.render();
-		chart2.render();
-		chart3.render();
-		chart22.render();
+		// chart1.render();
+		// chart2.render();
+		// chart3.render();
+		// chart22.render();
 
 		$('#datepicker').on('change', () => updateChart());
 		$('#yearpicker').on('change', () => updateChart2());
@@ -1106,7 +1144,7 @@
 					varInterval = setInterval(function() {
 						if (isPaused == false) {
 							kue++;
-							if (kue == 3) {
+							if (kue == maxSlide) {
 								kue = 0;
 							}
 							Cookies.set("aktifSlide", kue);
@@ -1122,7 +1160,7 @@
 					if (isPaused == false) {
 						$('#slideshow > div:first').fadeOut(1000).next().fadeIn(1000).end().appendTo('#slideshow');
 						kue++;
-						if (kue == 3) {
+						if (kue == maxSlide) {
 							kue = 0;
 						}
 						Cookies.set("aktifSlide", kue);
@@ -1161,7 +1199,7 @@
 			$('#button_play').hide();
 			pausePlay.addClass('bg-warning').removeClass('bg-success');
 			kue++;
-			if (kue == 3) {
+			if (kue == maxSlide) {
 				kue = 0;
 			}
 			Cookies.set("aktifSlide", kue);
@@ -1232,31 +1270,17 @@
 		});
 
 		function logicSlideShow(tipe) {
-			if (kue == 0) {
-				$('.slide_1').show(500);
-				$('.slide_2').hide(500);
-				$('.slide_3').hide(500);
-			} else if (kue == 1) {
-				$('.slide_1').hide(500);
-				$('.slide_2').show(500);
-				$('.slide_3').hide(500);
-			} else if (kue == 2) {
-				$('.slide_1').hide(500);
-				$('.slide_2').hide(500);
-				$('.slide_3').show(500);
-			} else {
-				$('.slide_1').hide(500);
-				$('.slide_2').hide(500);
-				$('.slide_3').hide(500);
+			for (i = 0; i < maxSlide; i++) {
+				$(`.slide_${i}`).hide();
+				if (kue == i) {
+					$(`.slide_${i}`).show();
+				}
 			}
 
-			setTimeout(function() {
-				chart1.render();
-				chart2.render();
-				chart3.render();
-				chart22.render();
-			}, 500);
-
+			chart1.render();
+			chart2.render();
+			chart3.render();
+			chart22.render();
 		}
 
 		function countChartShow() {

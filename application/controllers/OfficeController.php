@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class OfficeController extends CI_Controller {
+class OfficeController extends CI_Controller
+{
 
 	public function __construct()
 	{
@@ -15,6 +16,11 @@ class OfficeController extends CI_Controller {
 		$data['content'] = 'main/index';
 		$data['vitamin'] = 'main/index_vitamin';
 		$data['tgl_obj'] = new DateTime('now');
+
+		$arr_slide_ext = $this->mcore->get('slide_ext', '*');
+
+		$data['total_slides'] = $arr_slide_ext->num_rows();
+		$data['data_slides']  = $arr_slide_ext->result();
 		$this->template->template($data);
 	}
 
@@ -22,9 +28,9 @@ class OfficeController extends CI_Controller {
 	{
 		$tgl           = urldecode($tgl);
 		$explode       = explode(' ', $tgl);
-		$tgl_obj       = new DateTime($explode[1].'-'.$explode[0].'-01');
-		$tgl_obj_start = new DateTime($explode[1].'-'.$explode[0].'-01');
-		$tgl_obj_end   = new DateTime($explode[1].'-'.$explode[0].'-01');
+		$tgl_obj       = new DateTime($explode[1] . '-' . $explode[0] . '-01');
+		$tgl_obj_start = new DateTime($explode[1] . '-' . $explode[0] . '-01');
+		$tgl_obj_end   = new DateTime($explode[1] . '-' . $explode[0] . '-01');
 
 		$start    = $tgl_obj_start->modify('first day of this month');
 		$end      = $tgl_obj_end->modify('last day of this month');
@@ -35,12 +41,12 @@ class OfficeController extends CI_Controller {
 		foreach ($period as $dt) {
 			$where = ['date' => $dt->format('Y-m-d')];
 			$arr   = $this->mcore->get('kikukawa', 'date, eff', $where, 'date', 'ASC');
-			if($arr->num_rows() == 0){
+			if ($arr->num_rows() == 0) {
 				$eff = 0;
-			}else{
+			} else {
 				$eff = $arr->row()->eff;
 			}
-		    $data[] = [
+			$data[] = [
 				'tanggal' => $dt->format('Y-m-d'),
 				'y'       => $dt->format('Y'),
 				'F'       => $dt->format('F'),
@@ -56,9 +62,9 @@ class OfficeController extends CI_Controller {
 	{
 		$tgl           = urldecode($tgl);
 		$explode       = explode(' ', $tgl);
-		$tgl_obj       = new DateTime($explode[1].'-'.$explode[0].'-01');
-		$tgl_obj_start = new DateTime($explode[1].'-'.$explode[0].'-01');
-		$tgl_obj_end   = new DateTime($explode[1].'-'.$explode[0].'-01');
+		$tgl_obj       = new DateTime($explode[1] . '-' . $explode[0] . '-01');
+		$tgl_obj_start = new DateTime($explode[1] . '-' . $explode[0] . '-01');
+		$tgl_obj_end   = new DateTime($explode[1] . '-' . $explode[0] . '-01');
 
 		$start    = $tgl_obj_start->modify('first day of this month');
 		$end      = $tgl_obj_end->modify('last day of this month');
@@ -69,12 +75,12 @@ class OfficeController extends CI_Controller {
 		foreach ($period as $dt) {
 			$where = ['date' => $dt->format('Y-m-d')];
 			$arr   = $this->mcore->get('ncb3', 'date, eff', $where, 'date', 'ASC');
-			if($arr->num_rows() == 0){
+			if ($arr->num_rows() == 0) {
 				$eff = 0;
-			}else{
+			} else {
 				$eff = $arr->row()->eff;
 			}
-		    $data[] = [
+			$data[] = [
 				'tanggal' => $dt->format('Y-m-d'),
 				'y'       => $dt->format('Y'),
 				'F'       => $dt->format('F'),
@@ -90,9 +96,9 @@ class OfficeController extends CI_Controller {
 	{
 		$tgl           = urldecode($tgl);
 		$explode       = explode(' ', $tgl);
-		$tgl_obj       = new DateTime($explode[1].'-'.$explode[0].'-01');
-		$tgl_obj_start = new DateTime($explode[1].'-'.$explode[0].'-01');
-		$tgl_obj_end   = new DateTime($explode[1].'-'.$explode[0].'-01');
+		$tgl_obj       = new DateTime($explode[1] . '-' . $explode[0] . '-01');
+		$tgl_obj_start = new DateTime($explode[1] . '-' . $explode[0] . '-01');
+		$tgl_obj_end   = new DateTime($explode[1] . '-' . $explode[0] . '-01');
 
 		$start    = $tgl_obj_start->modify('first day of this month');
 		$end      = $tgl_obj_end->modify('last day of this month');
@@ -103,12 +109,12 @@ class OfficeController extends CI_Controller {
 		foreach ($period as $dt) {
 			$where = ['date' => $dt->format('Y-m-d')];
 			$arr   = $this->mcore->get('ncb6', 'date, eff', $where, 'date', 'ASC');
-			if($arr->num_rows() == 0){
+			if ($arr->num_rows() == 0) {
 				$eff = 0;
-			}else{
+			} else {
 				$eff = $arr->row()->eff;
 			}
-		    $data[] = [
+			$data[] = [
 				'tanggal' => $dt->format('Y-m-d'),
 				'y'       => $dt->format('Y'),
 				'F'       => $dt->format('F'),
@@ -123,9 +129,9 @@ class OfficeController extends CI_Controller {
 	public function json_montly($tahun)
 	{
 		$tahun         = urldecode($tahun);
-		$tgl_obj       = new DateTime($tahun.'-01-01');
-		$tgl_obj_start = new DateTime($tahun.'-01-01');
-		$tgl_obj_end   = new DateTime($tahun.'-12-31');
+		$tgl_obj       = new DateTime($tahun . '-01-01');
+		$tgl_obj_start = new DateTime($tahun . '-01-01');
+		$tgl_obj_end   = new DateTime($tahun . '-12-31');
 
 		$interval = new DateInterval('P1M');
 		$period   = new DatePeriod($tgl_obj_start, $interval, $tgl_obj_end);
@@ -137,22 +143,28 @@ class OfficeController extends CI_Controller {
 		foreach ($period as $dt) {
 			$where = ['MONTH(date)' => $dt->format('m'), 'YEAR(date)' => $dt->format('Y')];
 			$arr   = $this->mcore->get('monthly', 'kikukawa, ncb3, ncb6', $where, 'MONTH(date)', 'ASC');
-			
-			if($arr->num_rows() == 0){
+
+			if ($arr->num_rows() == 0) {
 				$kikukawa = 0;
 				$ncb3 = 0;
 				$ncb6 = 0;
-			}else{
+			} else {
 				$kikukawa = $arr->row()->kikukawa;
 				$ncb3     = $arr->row()->ncb3;
 				$ncb6     = $arr->row()->ncb3;
 
-				if($kikukawa == 0){ $kikukawa = 0; }
-				if($ncb3 == 0){ $ncb3 = 0; }
-				if($ncb6 == 0){ $ncb6 = 0; }
+				if ($kikukawa == 0) {
+					$kikukawa = 0;
+				}
+				if ($ncb3 == 0) {
+					$ncb3 = 0;
+				}
+				if ($ncb6 == 0) {
+					$ncb6 = 0;
+				}
 			}
 
-		    $nested_kikukawa = [
+			$nested_kikukawa = [
 				'month' => $dt->format('M'),
 				'year'  => $dt->format('Y'),
 				'eff'   => (float)$kikukawa,
@@ -179,7 +191,6 @@ class OfficeController extends CI_Controller {
 
 		echo json_encode($data);
 	}
-
 }
 
 /* End of file OfficeController.php */

@@ -4,7 +4,8 @@
 		<div class="list-group list-group-flush">
 			<button type="button" id="tPlan" class="list-group-item list-group-item-action bg-dark text-white">Production Hour Planning</button>
 			<button type="button" id="tExport" class="list-group-item list-group-item-action bg-dark text-white">Export Excel</button>
-			<a href="<?=site_url();?>logout" class="list-group-item list-group-item-action bg-dark text-white">Logout</a>
+			<button type="button" id="tSlideManagement" class="list-group-item list-group-item-action bg-dark text-white">Slide Image Management</button>
+			<a href="<?= site_url(); ?>logout" class="list-group-item list-group-item-action bg-dark text-white">Logout</a>
 		</div>
 	</div>
 	<div id="page-content-wrapper">
@@ -32,20 +33,22 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div id="slideshow" class="col-12">
-					<div class="slide_1">
+					<div class="slide_0">
 						<?php $this->load->view('office/kikukawa/slide_1'); ?>
 					</div>
-					<div class="slide_2">
+					<div class="slide_1">
 						<?php $this->load->view('office/kikukawa/slide_2'); ?>
 					</div>
-					<div class="slide_3">
+					<div class="slide_2">
 						<?php $this->load->view('office/kikukawa/slide_3'); ?>
 					</div>
+					<?php $this->load->view('office/main/slide_ext'); ?>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<input type="hidden" id="total_slides" value="<?= $total_slides; ?>">
 
 <div id="modal-planning" class="modal fade" tabindex="-1" role="dialog">
 	<div class="modal-dialog modal-lg" role="document">
@@ -136,7 +139,7 @@
 			<div class="modal-body">
 				<div class="main-wrapper">
 					<div class="section col-xs-12">
-						
+
 						<form id="daily_export">
 							<table class="table bg-light">
 								<thead>
@@ -205,6 +208,64 @@
 							</table>
 						</form>
 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="modal-slide-management" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content bg-dark">
+			<div class="modal-header">
+				<h6 class="modal-title">Slide Image Management</h6>
+				<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true"><i class="fa fa-times"></i></span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="main-wrapper">
+					<div class="section col-xs-12">
+
+						<form id="slide_upload" enctype="multipart/form-data">
+							<div class="form-group">
+								<label for="image">Image File</label>
+								<input type="file" id="image" name="image" class="form-control" accept="image/*" required>
+							</div>
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary">Upload</button>
+							</div>
+						</form>
+
+					</div>
+					<div class="section col-xs-12">
+						<table class="table table-bordered bg-light">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Image</th>
+									<th><i class="fa fa-cog"></i></th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+								foreach ($data_slides as $data) {
+								?>
+									<tr>
+										<td><?= $data->id; ?></td>
+										<td>
+											<img src="<?= base_url('public/img/' . $data->image); ?>" alt="image slide from upload" style="width: 200px;">
+										</td>
+										<td>
+											<button type="button" class="btn btn-danger" onclick="deleteImage(<?= $data->id; ?>);"><i class="fa fa-trash"></i></button>
+										</td>
+									</tr>
+								<?php
+								}
+								?>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
